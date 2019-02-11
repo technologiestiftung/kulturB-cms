@@ -58,7 +58,18 @@ module.exports = {
         }
       },
       {
+        test: /\.svg?$/,
+        include: /node_modules/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]'
+          }
+        }
+      },
+      {
         test: /\.svg$/,
+        exclude: /node_modules/,
         use: [
           'babel-loader',
           {
