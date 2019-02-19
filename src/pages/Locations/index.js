@@ -17,10 +17,12 @@ const StyledButton = styled(Button)`
 
 class Organisations extends PureComponent {
   render() {
+    const { url, table } = config;
+    const apiUrl = `${url.base}${url.organisation}`;
     return (
       <Container>
         <h1>Standorte Übersicht</h1>
-        <Table url="http://localhost:8000/api/v1/organisations" />
+        <Table url={apiUrl} columns={table.columns} />
         <ButtonWrapper>
           <StyledButton
             type="primary"

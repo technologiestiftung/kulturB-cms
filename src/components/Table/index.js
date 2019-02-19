@@ -1,30 +1,37 @@
 import React, { PureComponent } from 'react';
-import { Table, Tag } from 'antd';
+import { Table, Tag, Divider, Button } from 'antd';
 import fetch from 'unfetch';
 import styled from 'styled-components';
+
+const { Column } = Table;
 
 const TableWrapper = styled.div`
   position: relative;
 `;
 
-const headerData = [
-  { key: 'name', title: 'Name', dataIndex: 'name', sorter: true },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: tags => (
+const renderColumns = columns => columns.map((column) => {
+  if (column.key === 'tags') {
+    column.render = tags => (
       <span>
         {tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)}
       </span>
-    )
-  },
-  { key: 'address', title: 'Adresse', dataIndex: 'address', sorter: true },
-  { key: 'city', title: 'Stadt', dataIndex: 'city', sorter: true },
-  { key: 'zipcode', title: 'PLZ', dataIndex: 'zipcode', sorter: true },
-  { key: 'website', title: 'Website', dataIndex: 'website', sorter: true, render: text => <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a> },
-  { key: 'type', title: 'Typ', dataIndex: 'type', sorter: true, filters: [{ text: 'Organisation', value: 'organisation' }, { text: 'Venue', value: 'venue' }, { text: 'Organisation and venue', value: 'organisation and venue' }], filterMultiple: false }
-];
+    );
+  }
+
+  if (column.key === 'website') {
+    column.render = text => <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
+  }
+
+  return (
+    <Column
+      key={column.key}
+      title={column.title}
+      dataIndex={column.key}
+      filters={column.filters}
+      render={column.render}
+    />
+   );
+});
 
 class PaginationTable extends PureComponent {
   state = {
@@ -40,29 +47,30 @@ class PaginationTable extends PureComponent {
   fetch = async (params = { limit: 10 }) => {
     this.setState({ loading: true });
 
+    console.log(params);
     const url = new URL(this.props.url);
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
     const res = await fetch(url);
     const { data, count } = await res.json();
 
-    const pagination = { ...this.state.pagination };
+    this.setState((prevState) => {
+      const { pagination } = prevState;
+      pagination.total = count;
 
-    pagination.total = count;
-
-    this.setState({
-      loading: false,
-      data,
-      pagination
+      return {
+        loading: false,
+        data,
+        pagination
+      }
     });
   }
 
   handleTableChange = (pagination, filters, sorter) => {
-    console.log(filters);
-    const pager = { ...this.state.pagination };
-    pager.current = pagination.current;
-    this.setState({
-      pagination: pager
+    this.setState((prevState) => {
+      const pager = prevState.pagination;
+      pager.current = pagination.current;
+      return { pagination: pager };
     });
 
     this.fetch({
@@ -74,11 +82,33 @@ class PaginationTable extends PureComponent {
     });
   }
 
-
   render() {
     return (
       <TableWrapper>
-        <Table dataSource={this.state.data} columns={headerData} pagination={this.state.pagination} onChange={this.handleTableChange} loading={this.state.loading} />
+        <Table rowKey="uid" dataSource={this.state.data} pagination={this.state.pagination} onChange={this.handleTableChange} loading={this.state.loading}>
+          {renderColumns(this.props.columns)}
+          <Column
+            title="Action"
+            key="action"
+            render={() => (
+              <span>
+                <Button
+                  type="primary"
+                  size="small"
+                  icon="edit"
+                  content="Edit"
+                />
+                <Divider type="vertical" />
+                <Button
+                  type="primary"
+                  size="small"
+                  icon="delete"
+                  content="Delete"
+                />
+              </span>
+            )}
+          />
+        </Table>
       </TableWrapper>
     );
   }
