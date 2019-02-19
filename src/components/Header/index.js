@@ -8,7 +8,7 @@ const { Header } = Layout;
 class HeaderMenu extends PureComponent {
   render() {
     const { pathname } = this.props.location;
-    console.log(pathname);
+
     return (
       <Header>
         <Menu
