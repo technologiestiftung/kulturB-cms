@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Spin, Table } from 'antd';
+import { Table, Tag } from 'antd';
+import fetch from 'unfetch';
 import styled from 'styled-components';
 
 const TableWrapper = styled.div`
@@ -7,31 +8,77 @@ const TableWrapper = styled.div`
 `;
 
 const headerData = [
-  { key: 'name', title: 'Name', dataIndex: 'name', sorter: (a, b) => a.name.localeCompare(b.name) },
-  { key: 'age', title: 'Alter', dataIndex: 'age', sorter: (a, b) => a.age > b.age },
-  { key: 'gender', title: 'Geschlecht', dataIndex: 'gender' }
+  { key: 'name', title: 'Name', dataIndex: 'name', sorter: true },
+  {
+    title: 'Tags',
+    key: 'tags',
+    dataIndex: 'tags',
+    render: tags => (
+      <span>
+        {tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)}
+      </span>
+    )
+  },
+  { key: 'address', title: 'Adresse', dataIndex: 'address', sorter: true },
+  { key: 'city', title: 'Stadt', dataIndex: 'city', sorter: true },
+  { key: 'zipcode', title: 'PLZ', dataIndex: 'zipcode', sorter: true },
+  { key: 'website', title: 'Website', dataIndex: 'website', sorter: true, render: text => <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a> },
+  { key: 'type', title: 'Typ', dataIndex: 'type', sorter: true, filters: [{ text: 'Organisation', value: 'organisation' }, { text: 'Venue', value: 'venue' }, { text: 'Organisation and venue', value: 'organisation and venue' }], filterMultiple: false }
 ];
-
-const tableData = [
-  { name: 'John', age: 15, gender: 'Male', key: 1 },
-  { name: 'Amber', age: 40, gender: 'Female', key: 2 },
-  { name: 'Leslie', age: 25, gender: 'Female', key: 3 },
-  { name: 'Ben', age: 70, gender: 'Male', key: 4 }
-];
-
-function onChange(pagination, filters, sorter) {
-  console.log('params', pagination, filters, sorter);
-}
 
 class PaginationTable extends PureComponent {
-  render() {
-    const isLoading = false;
+  state = {
+    data: [],
+    pagination: {},
+    loading: false
+  }
 
+  componentDidMount() {
+    this.fetch();
+  }
+
+  fetch = async (params = { limit: 10 }) => {
+    this.setState({ loading: true });
+
+    const url = new URL(this.props.url);
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+
+    const res = await fetch(url);
+    const { data, count } = await res.json();
+
+    const pagination = { ...this.state.pagination };
+
+    pagination.total = count;
+
+    this.setState({
+      loading: false,
+      data,
+      pagination
+    });
+  }
+
+  handleTableChange = (pagination, filters, sorter) => {
+    console.log(filters);
+    const pager = { ...this.state.pagination };
+    pager.current = pagination.current;
+    this.setState({
+      pagination: pager
+    });
+
+    this.fetch({
+      limit: pagination.pageSize,
+      skip: (pagination.pageSize * pagination.current) - pagination.pageSize,
+      sortField: sorter.field,
+      sortOrder: sorter.order,
+      ...filters
+    });
+  }
+
+
+  render() {
     return (
       <TableWrapper>
-        <Spin tip="Lade Daten" spinning={isLoading}>
-          <Table dataSource={tableData} columns={headerData} onChange={onChange} />
-        </Spin>
+        <Table dataSource={this.state.data} columns={headerData} pagination={this.state.pagination} onChange={this.handleTableChange} loading={this.state.loading} />
       </TableWrapper>
     );
   }

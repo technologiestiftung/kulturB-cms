@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
+import { Button } from 'antd';
 import styled from 'styled-components';
 import Table from '~/components/Table';
-import { Layout, Button } from 'antd';
-
-const { Content } = Layout;
-
+import Container from '~/components/Container';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -20,21 +18,18 @@ const StyledButton = styled(Button)`
 class Organisations extends PureComponent {
   render() {
     return (
-      <Content>
+      <Container>
         <h1>Standorte Übersicht</h1>
-        <Table
-          handleSort={(a, b) => console.log(a, b)}
-        />
+        <Table url="http://localhost:8000/api/v1/organisations" />
         <ButtonWrapper>
           <StyledButton
-            primary
+            type="primary"
             size="small"
             icon="plus"
-            labelPosition="left"
             content="Hinzufügen"
           />
         </ButtonWrapper>
-      </Content>
+      </Container>
     );
   }
 }
