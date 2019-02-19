@@ -1,13 +1,24 @@
 import React, { PureComponent } from 'react';
-import { Table, Tag, Divider, Button } from 'antd';
 import fetch from 'unfetch';
 import styled from 'styled-components';
+import {
+  Table,
+  Tag,
+  Divider,
+  Button
+} from 'antd';
 
 const { Column } = Table;
 
 const TableWrapper = styled.div`
   position: relative;
 `;
+
+const parseQuery = (url, params) => {
+  const urlObject = new URL(url);
+  Object.keys(params).forEach(key => urlObject.searchParams.append(key, params[key]));
+  return urlObject;
+};
 
 const renderColumns = columns => columns.map((column) => {
   if (column.key === 'tags') {
@@ -47,10 +58,7 @@ class PaginationTable extends PureComponent {
   fetch = async (params = { limit: 10 }) => {
     this.setState({ loading: true });
 
-    console.log(params);
-    const url = new URL(this.props.url);
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
+    const url = parseQuery(this.props.url, params);
     const res = await fetch(url);
     const { data, count } = await res.json();
 
@@ -62,7 +70,7 @@ class PaginationTable extends PureComponent {
         loading: false,
         data,
         pagination
-      }
+      };
     });
   }
 
