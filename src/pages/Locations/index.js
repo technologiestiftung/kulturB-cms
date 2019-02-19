@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Segment, Button, Container, Header } from 'semantic-ui-react';
-
 import Table from '~/components/Table';
+import { Layout, Button } from 'antd';
+
+const { Content } = Layout;
+
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -18,23 +20,21 @@ const StyledButton = styled(Button)`
 class Organisations extends PureComponent {
   render() {
     return (
-      <Container>
-        <Segment>
-          <Header as="h1">Standorte Übersicht</Header>
-          <Table
-            handleSort={(a, b) => console.log(a, b)}
+      <Content>
+        <h1>Standorte Übersicht</h1>
+        <Table
+          handleSort={(a, b) => console.log(a, b)}
+        />
+        <ButtonWrapper>
+          <StyledButton
+            primary
+            size="small"
+            icon="plus"
+            labelPosition="left"
+            content="Hinzufügen"
           />
-          <ButtonWrapper>
-            <StyledButton
-              primary
-              size="small"
-              icon="plus"
-              labelPosition="left"
-              content="Hinzufügen"
-            />
-          </ButtonWrapper>
-        </Segment>
-      </Container>
+        </ButtonWrapper>
+      </Content>
     );
   }
 }
