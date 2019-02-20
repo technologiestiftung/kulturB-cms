@@ -34,13 +34,13 @@ const formItems = [{
   }],
   getInitialValue: component => component.state.item.name
 }, {
-  name: 'type',
+  name: 'types',
   label: 'Typ',
   rules: [{
     required: true, message: 'Bitte einen Typen auswählen angeben'
   }],
   type: 'types',
-  getInitialValue: component => component.state.item.type
+  getInitialValue: component => component.state.item.types
 }, {
   name: 'website',
   label: 'Webseite',
