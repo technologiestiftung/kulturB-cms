@@ -37,7 +37,7 @@ export function login(values) {
 
 function logoutCompleted() {
   history.push('/login');
-  return { type: LOGOUT_COMPLETED };
+  return { type: LOGOUT_COMPLETED, payload: { token: null } };
 }
 
 export function logout() {
@@ -51,6 +51,8 @@ export function logout() {
 
 export default function AppStateReducer(state = initialState, action = {}) {
   switch (action.type) {
+    case LOGOUT:
+    case LOGOUT_COMPLETED:
     case LOGIN:
     case LOGIN_COMPLETED:
     case LOGIN_FAILED:
