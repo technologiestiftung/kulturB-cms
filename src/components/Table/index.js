@@ -23,9 +23,7 @@ const parseQuery = (url, params) => {
 const renderColumns = columns => columns.map((column) => {
   if (column.key === 'tags') {
     column.render = tags => (
-      <span>
-        {tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)}
-      </span>
+      tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)
     );
   }
 

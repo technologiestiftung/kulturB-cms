@@ -5,7 +5,7 @@ module.exports = {
     robots: 'noindex,nofollow'
   },
   url: {
-    base: 'http://localhost:8000/api/v1',
+    base: 'https://tsb-metadata-generator.herokuapp.com/api/v1',
     organisation: '/organisations'
   },
   table: {

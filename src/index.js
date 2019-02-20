@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'unistore/react';
+import { Provider } from 'react-redux';
 
-import Store from '~/state/Store';
+import Store from '~/store';
 import App from '~/App';
 import GlobalStyles from '~/styles/Global';
 
