@@ -13,24 +13,6 @@
         "dataIndex": "tags"
       },
       {
-        "key": "address",
-        "title": "Adresse",
-        "dataIndex": "address",
-        "sorter": true
-      },
-      {
-        "key": "city",
-        "title": "Stadt",
-        "dataIndex": "city",
-        "sorter": true
-      },
-      {
-        "key": "zipcode",
-        "title": "PLZ",
-        "dataIndex": "zipcode",
-        "sorter": true
-      },
-      {
         "key": "website",
         "title": "Website",
         "dataIndex": "website",

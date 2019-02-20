@@ -108,7 +108,7 @@ class PaginationTable extends PureComponent {
     return (
       <TableWrapper>
         <Table
-          rowKey="uid"
+          rowKey="id"
           dataSource={this.state.data}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
