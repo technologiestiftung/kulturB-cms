@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import fetch from 'unfetch';
 import styled from 'styled-components';
 import {
   Table,
@@ -8,6 +7,7 @@ import {
 } from 'antd';
 
 import history from '~/history';
+import locationApi from '~/services/locationApi';
 
 const { Column } = Table;
 
@@ -25,12 +25,6 @@ const TableWrapper = styled.div`
     }
   }
 `;
-
-const parseQuery = (url, params) => {
-  const urlObject = new URL(url);
-  Object.keys(params).forEach(key => urlObject.searchParams.append(key, params[key]));
-  return urlObject;
-};
 
 const renderColumn = (column) => {
   if (column.key === 'tags') {
@@ -75,9 +69,7 @@ class PaginationTable extends PureComponent {
   fetch = async (params = { limit: 10 }) => {
     this.setState({ loading: true });
 
-    const url = parseQuery(this.props.url, params);
-    const res = await fetch(url);
-    const { data, count } = await res.json();
+    const { data, count } = await locationApi.get(params);
 
     this.setState((prevState) => {
       const { pagination } = prevState;

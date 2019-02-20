@@ -11,5 +11,6 @@
       "base": "/users",
       "login": "/login"
     }
-  }
+  },
+  "localStoragePrefix": "tsb"
 }
