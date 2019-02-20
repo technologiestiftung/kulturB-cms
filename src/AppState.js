@@ -6,16 +6,17 @@ const LOGIN_COMPLETED = 'App/AppState/LOGIN_COMPLETED';
 const LOGIN_FAILED = 'App/AppState/LOGIN_FAILED';
 
 const initialState = {
-  token: 123
+  token: null
 };
-
-function loginCompleted(response) {
-  const { token } = response;
-  return { type: LOGIN_COMPLETED, payload: { token } };
-}
 
 function loginFailed() {
   return { type: LOGIN_FAILED };
+}
+
+function loginCompleted(response) {
+  const { token } = response;
+  if (!token) loginFailed();
+  return { type: LOGIN_COMPLETED, payload: { token } };
 }
 
 export function login(values) {
@@ -26,7 +27,6 @@ export function login(values) {
       .then(res => dispatch(loginCompleted(res)));
   };
 }
-
 
 export default function AppStateReducer(state = initialState, action = {}) {
   switch (action.type) {
