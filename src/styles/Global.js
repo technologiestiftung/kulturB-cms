@@ -13,4 +13,22 @@ export default createGlobalStyle`
     margin: 0;
     position: relative;
   }
+
+  html {
+    overflow-y: scroll;
+  }
+
+  #app {
+    display: flex;
+  }
+
+  .ant-layout {
+    flex-grow: 1;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100%;
+  }
 `;

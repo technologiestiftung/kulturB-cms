@@ -7,6 +7,7 @@ import App from '~/App';
 import GlobalStyles from '~/styles/Global';
 
 const root = document.createElement('div');
+root.id = 'app';
 
 ReactDOM.render(
   <Provider store={Store}>
