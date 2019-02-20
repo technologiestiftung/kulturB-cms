@@ -6,7 +6,8 @@
   },
   "url": {
     "base": "https://tsb-metadata-generator.herokuapp.com/api/v1",
-    "organisation": "/organisations",
+    "locations": "/locations",
+    "tags": "/tags",
     "user": {
       "base": "/users",
       "login": "/login"

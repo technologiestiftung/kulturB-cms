@@ -26,7 +26,7 @@ const HeaderArea = styled.div`
 class Organisations extends PureComponent {
   render() {
     const { url } = config;
-    const apiUrl = `${url.base}${url.organisation}`;
+    const apiUrl = `${url.base}${url.locations}`;
     const { columns } = tableConfig.table;
     return (
       <Container>

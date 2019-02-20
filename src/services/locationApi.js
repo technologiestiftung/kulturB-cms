@@ -8,13 +8,13 @@ const parseQuery = (url, params) => {
 };
 
 export async function get(params) {
-  const url = parseQuery(`${config.url.base}${config.url.organisation}`, params);
+  const url = parseQuery(`${config.url.base}${config.url.locations}`, params);
   const res = await fetch(url);
   return res.json();
 }
 
 export async function createLocation(values) {
-  const url = `${config.url.base}${config.url.organisation}`;
+  const url = `${config.url.base}${config.url.locations}`;
   const { AppState } = Store.getState();
 
   try {
@@ -34,7 +34,7 @@ export async function createLocation(values) {
 }
 
 export async function updateLocation(id, values) {
-  const url = `${config.url.base}${config.url.organisation}/${id}`;
+  const url = `${config.url.base}${config.url.locations}/${id}`;
   const { AppState } = Store.getState();
 
   try {
@@ -53,8 +53,14 @@ export async function updateLocation(id, values) {
   }
 }
 
+export async function getTags() {
+  const res = await fetch(`${config.url.base}${config.url.tags}`);
+  return res.json();
+}
+
 export default {
   get,
   createLocation,
-  updateLocation
+  updateLocation,
+  getTags
 };
