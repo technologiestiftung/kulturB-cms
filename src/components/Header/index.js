@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { Layout, Menu } from 'antd';
 
+import { logout } from '~/AppState';
+
 const { Header } = Layout;
 
 const Logo = styled.div`
@@ -39,6 +41,13 @@ class HeaderMenu extends PureComponent {
           </Menu.Item>
           <Menu.Item key="/standorte">
             <NavLink to="/standorte">Standorte</NavLink>
+          </Menu.Item>
+          <Menu.Item style={{ float: 'right' }}>
+            <div
+              onClick={() => this.props.dispatch(logout())}
+            >
+              Logout
+            </div>
           </Menu.Item>
         </Menu>
       </Header>

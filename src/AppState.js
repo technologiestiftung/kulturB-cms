@@ -6,7 +6,7 @@ const LOGIN_COMPLETED = 'App/AppState/LOGIN_COMPLETED';
 const LOGIN_FAILED = 'App/AppState/LOGIN_FAILED';
 
 const initialState = {
-  token: 123
+  token: false
 };
 
 function loginCompleted(response) {
