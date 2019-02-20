@@ -45,7 +45,6 @@ export function logout() {
     dispatch({ type: LOGOUT });
 
     storage.remove(tokenStorageKey);
-    console.log(storage.get(tokenStorageKey));
     dispatch(logoutCompleted());
   };
 }
