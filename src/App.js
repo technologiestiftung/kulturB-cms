@@ -41,7 +41,7 @@ class App extends PureComponent {
             <PrivateRoute token={this.props.token} path="/standort-anlegen" exact isCreateMode component={Location} />
             <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
             <Route path="/login" component={Login} />
-            <Route component={NoMatch} />
+            <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
           </Switch>
         </Layout>
       </Router>

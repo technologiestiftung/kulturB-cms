@@ -16,17 +16,16 @@ const Logo = styled.div`
 
 class HeaderMenu extends PureComponent {
   render() {
-    const { pathname } = this.props.location;
+    const { location, token, dispatch } = this.props;
 
     return (
       <Header
         style={{ padding: '0 20px' }}
       >
-
         <Menu
           theme="dark"
           mode="horizontal"
-          selectedKeys={[pathname]}
+          selectedKeys={[location.pathname]}
           style={{
             lineHeight: '64px',
             maxWidth: '1100px',
@@ -36,19 +35,25 @@ class HeaderMenu extends PureComponent {
           }}
         >
           <Logo>TSB Logo</Logo>
-          <Menu.Item key="/">
-            <NavLink to="/">Home</NavLink>
-          </Menu.Item>
-          <Menu.Item key="/standorte">
-            <NavLink to="/standorte">Standorte</NavLink>
-          </Menu.Item>
-          <Menu.Item style={{ float: 'right' }}>
-            <div
-              onClick={() => this.props.dispatch(logout())}
-            >
-              Logout
-            </div>
-          </Menu.Item>
+          {token && (
+            <Menu.Item key="/">
+              <NavLink to="/">Home</NavLink>
+            </Menu.Item>
+          )}
+          {token && (
+            <Menu.Item key="/standorte">
+              <NavLink to="/standorte">Standorte</NavLink>
+            </Menu.Item>
+          )}
+          {token && (
+            <Menu.Item style={{ float: 'right' }}>
+              <div
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </div>
+            </Menu.Item>
+          )}
         </Menu>
       </Header>
     );
