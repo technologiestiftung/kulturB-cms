@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const Config = require('../config.js');
+const Config = require('../config.json');
 
 module.exports = {
   entry: {
@@ -27,7 +27,7 @@ module.exports = {
       { from: Path.resolve(__dirname, '../public'), to: 'public' }
     ]),
     new Webpack.ProvidePlugin({
-      config: '~/../config.js'
+      config: '~/../config.json'
     }),
     new HtmlWebpackPlugin({
       inject: true,
