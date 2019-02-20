@@ -38,7 +38,7 @@ class App extends PureComponent {
           <Switch>
             <PrivateRoute token={this.props.token} path="/" exact component={Home} />
             <PrivateRoute token={this.props.token} path="/standorte" exact component={LocationsOverview} />
-            <PrivateRoute token={this.props.token} path="/standort-anlegen" exact isCreateMode component={Location} />
+            <PrivateRoute token={this.props.token} path="/standorte/neu" exact isCreateMode component={Location} />
             <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
             <Route path="/login" component={Login} />
             <PrivateRoute token={this.props.token} path="*" component={NoMatch} />

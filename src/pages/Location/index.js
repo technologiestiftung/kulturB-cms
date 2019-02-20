@@ -13,7 +13,7 @@ const formItemLayout = {
 
 class Location extends PureComponent {
   state = {
-    data: null,
+    data: {},
     isLoading: true
   }
 

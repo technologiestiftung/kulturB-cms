@@ -114,7 +114,6 @@ class PaginationTable extends PureComponent {
         >
           {this.props.columns.map(item => renderColumn(item))}
           <Column
-            title="Action"
             key="action"
             render={() => (
               <Button
