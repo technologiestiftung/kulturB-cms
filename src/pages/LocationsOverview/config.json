@@ -19,9 +19,9 @@
         "sorter": true
       },
       {
-        "key": "type",
+        "key": "types",
         "title": "Typ",
-        "dataIndex": "type",
+        "dataIndex": "types",
         "sorter": true,
         "filters": [
           { "text": "Organisation", "value": "organisation" },
