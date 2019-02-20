@@ -1,5 +1,5 @@
 import history from '~/history';
-import api from '~/services/api';
+import userApi from '~/services/userApi';
 import storage from '~/services/storage';
 
 const LOGIN = 'App/AppState/LOGIN';
@@ -30,7 +30,7 @@ export function login(values) {
   return (dispatch) => {
     dispatch({ type: LOGIN });
 
-    api.login(values)
+    userApi.login(values)
       .then(res => dispatch(loginCompleted(res)));
   };
 }
