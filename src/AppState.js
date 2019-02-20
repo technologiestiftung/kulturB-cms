@@ -1,12 +1,13 @@
 import history from '~/history';
 import api from '~/services/api';
+import storage from '~/services/storage';
 
 const LOGIN = 'App/AppState/LOGIN';
 const LOGIN_COMPLETED = 'App/AppState/LOGIN_COMPLETED';
 const LOGIN_FAILED = 'App/AppState/LOGIN_FAILED';
 
 const initialState = {
-  token: null
+  token: storage.get('jwt')
 };
 
 function loginFailed() {
@@ -15,7 +16,8 @@ function loginFailed() {
 
 function loginCompleted(response) {
   const { token } = response;
-  if (!token) loginFailed();
+  if (!token) return loginFailed();
+  storage.set('jwt', token);
   return { type: LOGIN_COMPLETED, payload: { token } };
 }
 
