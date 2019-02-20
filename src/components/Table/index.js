@@ -4,14 +4,26 @@ import styled from 'styled-components';
 import {
   Table,
   Tag,
-  Divider,
   Button
 } from 'antd';
+
+import history from '~/history';
 
 const { Column } = Table;
 
 const TableWrapper = styled.div`
   position: relative;
+  background: white;
+
+  .ant-table-wrapper {
+    .ant-table-pagination {
+      margin: 16px;
+    }
+
+    .ant-table-row {
+      cursor: pointer;
+    }
+  }
 `;
 
 const parseQuery = (url, params) => {
@@ -53,6 +65,10 @@ class PaginationTable extends PureComponent {
     this.fetch();
   }
 
+  onRowClick(evt, item) {
+    history.push(`/${this.props.itemIdentifier}/${item.id}`);
+  }
+
   fetch = async (params = { limit: 10 }) => {
     this.setState({ loading: true });
 
@@ -91,27 +107,27 @@ class PaginationTable extends PureComponent {
   render() {
     return (
       <TableWrapper>
-        <Table rowKey="uid" dataSource={this.state.data} pagination={this.state.pagination} onChange={this.handleTableChange} loading={this.state.loading}>
+        <Table
+          rowKey="uid"
+          dataSource={this.state.data}
+          pagination={this.state.pagination}
+          onChange={this.handleTableChange}
+          loading={this.state.loading}
+          onRow={item => ({
+            onClick: evt => this.onRowClick(evt, item)
+          })}
+        >
           {renderColumns(this.props.columns)}
           <Column
             title="Action"
             key="action"
             render={() => (
-              <span>
-                <Button
-                  type="primary"
-                  size="small"
-                  icon="edit"
-                  content="Edit"
-                />
-                <Divider type="vertical" />
-                <Button
-                  type="primary"
-                  size="small"
-                  icon="delete"
-                  content="Delete"
-                />
-              </span>
+              <Button
+                type="primary"
+                size="small"
+                icon="delete"
+                content="Delete"
+              />
             )}
           />
         </Table>
