@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "description": "webkid react starterkit",
+    "viewport": "width=device-width, initial-scale=1",
+    "robots": "noindex,nofollow"
+  },
+  "url": {
+    "base": "http://localhost:8000/api/v1",
+    "organisation": "/organisations"
+  }
+}

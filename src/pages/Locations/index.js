@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Table from '~/components/Table';
 import Container from '~/components/Container';
 
+import tableConfig from './config';
+
 const ButtonWrapper = styled.div`
   display: flex;
   margin-top: 1rem;
@@ -17,12 +19,13 @@ const StyledButton = styled(Button)`
 
 class Organisations extends PureComponent {
   render() {
-    const { url, table } = config;
+    const { url } = config;
     const apiUrl = `${url.base}${url.organisation}`;
+    const { columns } = tableConfig.table;
     return (
       <Container>
         <h1>Standorte Übersicht</h1>
-        <Table url={apiUrl} columns={table.columns} />
+        <Table url={apiUrl} columns={columns} />
         <ButtonWrapper>
           <StyledButton
             type="primary"
