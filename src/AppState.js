@@ -9,8 +9,9 @@ const initialState = {
   token: null
 };
 
-function loginCompleted() {
-  return { type: LOGIN_COMPLETED, payload: { token: 123456 } };
+function loginCompleted(response) {
+  const { token } = response;
+  return { type: LOGIN_COMPLETED, payload: { token } };
 }
 
 function loginFailed() {
@@ -22,7 +23,7 @@ export function login(values) {
     dispatch({ type: LOGIN });
 
     api.login(values)
-      .then(dispatch(loginCompleted()));
+      .then(res => dispatch(loginCompleted(res)));
   };
 }
 

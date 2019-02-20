@@ -1,7 +1,6 @@
 import fetch from 'unfetch';
 
 async function login(values) {
-  console.log(values);
   const url = `${config.url.base}${config.url.user.base}${config.url.user.login}`;
   try {
     const res = await fetch(url, {
