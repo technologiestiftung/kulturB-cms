@@ -35,7 +35,7 @@ class Organisations extends PureComponent {
           <StyledButton
             type="primary"
             icon="plus"
-            onClick={() => history.push('/standorte/neu')}
+            onClick={() => history.push('/standort-anlegen')}
           >
             Neuen Standort anlegen
           </StyledButton>
