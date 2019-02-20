@@ -32,7 +32,7 @@ const parseQuery = (url, params) => {
   return urlObject;
 };
 
-const renderColumns = columns => columns.map((column) => {
+const renderColumn = (column) => {
   if (column.key === 'tags') {
     column.render = tags => (
       tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)
@@ -50,9 +50,12 @@ const renderColumns = columns => columns.map((column) => {
       dataIndex={column.key}
       filters={column.filters}
       render={column.render}
+      sorter={column.sorter}
+      filterMultiple={column.filterMultiple}
+      width={column.width}
     />
    );
-});
+};
 
 class PaginationTable extends PureComponent {
   state = {
@@ -117,7 +120,7 @@ class PaginationTable extends PureComponent {
             onClick: evt => this.onRowClick(evt, item)
           })}
         >
-          {renderColumns(this.props.columns)}
+          {this.props.columns.map(item => renderColumn(item))}
           <Column
             title="Action"
             key="action"
