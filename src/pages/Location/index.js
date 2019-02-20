@@ -4,7 +4,7 @@ import {
   Form, Input, Button, Spin
 } from 'antd';
 
-import { createLocation, updateLocation } from '~/services/api';
+import { createLocation, updateLocation } from '~/services/locationApi';
 
 const formItemLayout = {
   labelCol: { span: 2 },
