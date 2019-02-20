@@ -1,11 +1,25 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import Container from '~/components/Container';
 import {
   Form, Input, Button, Spin, Select
 } from 'antd';
+import {
+  Map, CircleMarker, TileLayer
+} from 'react-leaflet';
+
+import 'leaflet/dist/leaflet.css';
 
 import { createLocation, updateLocation, getTags } from '~/services/locationApi';
 
+const MapWrapper = styled.div`
+  width: 100%;
+  height: 250px;
+
+  .leaflet-container {
+    height: 100%;
+  }
+`;
 
 const formItemLayout = {
   labelCol: { span: 2 },
@@ -18,15 +32,21 @@ const formItems = [{
   rules: [{
     required: true, message: 'Bitte einen Namen angeben'
   }],
-  type: 'input',
   getInitialValue: component => component.state.item.name
+}, {
+  name: 'type',
+  label: 'Typ',
+  rules: [{
+    required: true, message: 'Bitte einen Typen auswählen angeben'
+  }],
+  type: 'types',
+  getInitialValue: component => component.state.item.type
 }, {
   name: 'website',
   label: 'Webseite',
   rules: [{
     type: 'string', message: 'Bitten eine gültige URL angeben'
   }],
-  type: 'input',
   getInitialValue: component => component.state.item.website
 }, {
   name: 'address',
@@ -34,7 +54,6 @@ const formItems = [{
   rules: [{
     type: 'string', message: 'Bitten eine Adresse ein'
   }],
-  type: 'input',
   getInitialValue: component => component.state.item.address
 }, {
   name: 'zipcode',
@@ -42,7 +61,6 @@ const formItems = [{
   rules: [{
     type: 'string', message: 'Bitten eine gültige PLZ ein', len: 5
   }],
-  type: 'input',
   getInitialValue: component => component.state.item.zipcode
 }, {
   name: 'city',
@@ -50,15 +68,50 @@ const formItems = [{
   rules: [{
     type: 'string', message: 'Bitten eine gültige URL angeben'
   }],
-  type: 'input',
   getInitialValue: component => component.state.item.city
 }, {
   name: 'tags',
   label: 'Tags',
   rules: [],
   type: 'tags',
-  getInitialValue: component => component.state.item.tags
+  getInitialValue: component => component.state.item.tags.map(t => t._id)
 }];
+
+function getTagInput(tags) {
+  const options = tags.map(tag => (
+    <Select.Option key={tag._id}>
+      {tag.name}
+    </Select.Option>
+  ));
+
+  return (
+    <Select
+      mode="tags"
+      style={{ width: '100%' }}
+      placeholder="Tags"
+    >
+      {options}
+    </Select>
+  );
+}
+
+function getTypeInput(types) {
+  const options = types.map(type => (
+    <Select.Option key={type}>
+      {type}
+    </Select.Option>
+  ));
+
+  return (
+    <Select
+      mode="tags"
+      style={{ width: '100%' }}
+      placeholder="Tags"
+    >
+      {options}
+    </Select>
+  );
+}
 
 class Location extends PureComponent {
   state = {
@@ -90,25 +143,10 @@ class Location extends PureComponent {
     });
   }
 
-  getTagInput() {
-    const tags = this.state.tags.map(tag => (
-      <Select.Option key={tag._id}>{tag.name}</Select.Option>
-    ));
-
-    return (
-      <Select
-        mode="tags"
-        style={{ width: '100%' }}
-        placeholder="Tags"
-      >
-        {tags}
-      </Select>
-    )
-  }
-
   getInputComponent(type) {
     switch (type) {
-      case 'tags': return this.getTagInput();
+      case 'tags': return getTagInput(this.state.tags);
+      case 'types': return getTypeInput(config.types);
       default: return <Input />;
     }
   }
@@ -119,6 +157,24 @@ class Location extends PureComponent {
     const item = await res.json();
 
     this.setState({ item, tags, isLoading: false });
+  }
+
+  renderMap() {
+    if (!this.state.item.location) {
+      return null;
+    }
+
+    return (
+      <MapWrapper>
+        <Map center={this.state.item.location.coordinates} zoom={12}>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          />
+          <CircleMarker center={this.state.item.location.coordinates} radius={10} />
+        </Map>
+      </MapWrapper>
+    );
   }
 
   renderItem(item) {
@@ -144,6 +200,7 @@ class Location extends PureComponent {
     return (
       <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
         {formItems.map(item => this.renderItem(item))}
+        {this.renderMap()}
         <Form.Item
           wrapperCol={{ span: 12, offset: 2 }}
         >

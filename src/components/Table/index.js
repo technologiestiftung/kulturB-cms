@@ -33,6 +33,12 @@ const renderColumn = (column) => {
     );
   }
 
+  if (column.key === 'type') {
+    column.render = tags => (
+      tags.map(tag => <Tag key={tag}>{tag}</Tag>)
+    );
+  }
+
   if (column.key === 'website') {
     column.render = text => <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
   }

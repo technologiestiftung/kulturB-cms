@@ -13,5 +13,6 @@
       "login": "/login"
     }
   },
-  "localStoragePrefix": "tsb"
+  "localStoragePrefix": "tsb",
+  "types": ["organisation", "venue"]
 }
