@@ -6,7 +6,8 @@ import {
 
 import Header from '~/components/Header';
 import Home from '~/pages/Home';
-import Locations from '~/pages/Locations';
+import Location from '~/pages/Location';
+import LocationsOverview from '~/pages/LocationsOverview';
 import Login from '~/pages/Login';
 import NoMatch from '~/pages/NoMatch';
 import { Layout } from 'antd';
@@ -36,7 +37,8 @@ class App extends PureComponent {
           <Header token={this.props.token} />
           <Switch>
             <PrivateRoute token={this.props.token} path="/" exact component={Home} />
-            <PrivateRoute token={this.props.token} path="/standorte" component={Locations} />
+            <PrivateRoute token={this.props.token} path="/standorte" exact component={LocationsOverview} />
+            <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
             <Route path="/login" component={Login} />
             <Route component={NoMatch} />
           </Switch>

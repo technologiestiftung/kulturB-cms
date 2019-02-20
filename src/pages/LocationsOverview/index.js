@@ -25,7 +25,7 @@ class Organisations extends PureComponent {
     return (
       <Container>
         <h1>Standorte Übersicht</h1>
-        <Table url={apiUrl} columns={columns} />
+        <Table url={apiUrl} columns={columns} itemIdentifier="standorte" />
         <ButtonWrapper>
           <StyledButton
             type="primary"
