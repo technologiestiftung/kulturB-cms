@@ -6,6 +6,10 @@
   },
   "url": {
     "base": "http://localhost:8000/api/v1",
-    "organisation": "/organisations"
+    "organisation": "/organisations",
+    "user": {
+      "base": "/users",
+      "login": "/login"
+    }
   }
 }

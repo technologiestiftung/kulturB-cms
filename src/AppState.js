@@ -1,4 +1,5 @@
 import history from '~/history';
+import api from '~/services/api';
 
 const LOGIN = 'App/AppState/LOGIN';
 const LOGIN_COMPLETED = 'App/AppState/LOGIN_COMPLETED';
@@ -16,11 +17,12 @@ function loginFailed() {
   return { type: LOGIN_FAILED };
 }
 
-export function login() {
+export function login(values) {
   return (dispatch) => {
     dispatch({ type: LOGIN });
 
-    setTimeout(() => dispatch(loginCompleted()), 500);
+    api.login(values)
+      .then(dispatch(loginCompleted()));
   };
 }
 

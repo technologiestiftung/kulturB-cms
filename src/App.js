@@ -7,7 +7,7 @@ import {
 import Header from '~/components/Header';
 import Home from '~/pages/Home';
 import Locations from '~/pages/Locations';
-import Login from '~/pages/Login-Example';
+import Login from '~/pages/Login';
 import NoMatch from '~/pages/NoMatch';
 import { Layout } from 'antd';
 import history from '~/history';
