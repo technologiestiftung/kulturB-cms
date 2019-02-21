@@ -91,8 +91,8 @@ class PaginationTable extends PureComponent {
     this.fetch({
       limit: pagination.pageSize,
       skip: (pagination.pageSize * pagination.current) - pagination.pageSize,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
+      sort: sorter.field,
+      order: sorter.order,
       ...filters
     });
   }
