@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import styled from 'styled-components';
 
 import history from '~/history';
@@ -24,10 +24,37 @@ const HeaderArea = styled.div`
 `;
 
 class Organisations extends PureComponent {
+  state = {
+    isDeleteModalVisible: false,
+    locationToDelete: null
+  }
+
+  onOpenModal(evt, item) {
+    this.setState({
+      isDeleteModalVisible: true,
+      locationToDelete: item.name
+    });
+  }
+
+  onOk() {
+    this.closeModal();
+  }
+
+  onCancel() {
+    this.closeModal();
+  }
+
+  closeModal() {
+    this.setState({
+      isDeleteModalVisible: false,
+      locationToDelete: null
+    });
+  }
+
   render() {
-    const { url } = config;
-    const apiUrl = `${url.base}${url.locations}`;
+    const apiUrl = `${config.url.base}${config.url.locations}`;
     const { columns } = tableConfig.table;
+
     return (
       <Container>
         <HeaderArea>
@@ -40,7 +67,22 @@ class Organisations extends PureComponent {
             Neuen Standort anlegen
           </StyledButton>
         </HeaderArea>
-        <Table url={apiUrl} columns={columns} itemIdentifier="standorte" />
+        <Table
+          url={apiUrl}
+          columns={columns}
+          itemIdentifier="standorte"
+          onDelete={(evt, item) => this.onOpenModal(evt, item)}
+        />
+        <Modal
+          title="Standort löschen"
+          visible={this.state.isDeleteModalVisible}
+          onOk={() => this.onOk()}
+          onCancel={() => this.onCancel()}
+        >
+          <p>
+            Sind Sie sicher, dass sie den Standort <strong>{this.state.locationToDelete}</strong> löschen wollen
+          </p>
+        </Modal>
       </Container>
     );
   }

@@ -10,6 +10,7 @@ import {
 
 import 'leaflet/dist/leaflet.css';
 
+import history from '~/history';
 import { createLocation, updateLocation, getTags } from '~/services/locationApi';
 
 const MapWrapper = styled.div`
@@ -71,10 +72,10 @@ const formItems = [{
   getInitialValue: component => component.state.item.city
 }, {
   name: 'tags',
-  label: 'Tags',
+  label: 'Kategorien',
   rules: [],
   type: 'tags',
-  getInitialValue: component => component.state.item.tags.map(t => t._id)
+  getInitialValue: component => (component.state.item.tags ? component.state.item.tags.map(t => t._id) : undefined)
 }];
 
 function getTagInput(tags) {
@@ -88,7 +89,7 @@ function getTagInput(tags) {
     <Select
       mode="tags"
       style={{ width: '100%' }}
-      placeholder="Tags"
+      placeholder="Kategorien angeben"
     >
       {options}
     </Select>
@@ -106,7 +107,7 @@ function getTypeInput(types) {
     <Select
       mode="tags"
       style={{ width: '100%' }}
-      placeholder="Tags"
+      placeholder="Typen festlegen"
     >
       {options}
     </Select>
@@ -118,6 +119,12 @@ class Location extends PureComponent {
     item: {},
     isLoading: true,
     tags: []
+  }
+
+  constructor(props) {
+    super();
+
+    this.isCreateMode = props.isCreateMode;
   }
 
   async componentDidMount() {
@@ -134,8 +141,9 @@ class Location extends PureComponent {
     evt.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        if (this.props.isCreateMode) {
-          return createLocation(values);
+        if (this.isCreateMode) {
+          this.isCreateMode = false;
+          return createLocation(values).then(res => history.push(`/standorte/${res.id}`));
         }
 
         updateLocation(this.props.match.params.id, values);
@@ -205,7 +213,7 @@ class Location extends PureComponent {
           wrapperCol={{ span: 12, offset: 2 }}
         >
           <Button type="primary" htmlType="submit">
-            Abschicken
+            Speichern
           </Button>
         </Form.Item>
       </Form>

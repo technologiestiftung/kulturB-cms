@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import {
   Table,
   Tag,
-  Button
+  Button,
+  Modal
 } from 'antd';
 
 import history from '~/history';
@@ -33,14 +34,14 @@ const renderColumn = (column) => {
     );
   }
 
-  if (column.key === 'type') {
-    column.render = tags => (
-      tags.map(tag => <Tag key={tag}>{tag}</Tag>)
+  if (column.key === 'types') {
+    column.render = types => (
+      types.map(tag => <Tag key={tag}>{tag}</Tag>)
     );
   }
 
   if (column.key === 'website') {
-    column.render = text => <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
+    column.render = text => text ? <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a> : null;
   }
 
   return (
@@ -105,6 +106,13 @@ class PaginationTable extends PureComponent {
     });
   }
 
+  onDelete(evt, item) {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    this.props.onDelete && this.props.onDelete(evt, item);
+  }
+
   render() {
     return (
       <TableWrapper>
@@ -121,12 +129,13 @@ class PaginationTable extends PureComponent {
           {this.props.columns.map(item => renderColumn(item))}
           <Column
             key="action"
-            render={() => (
+            render={item => (
               <Button
                 type="primary"
                 size="small"
                 icon="delete"
                 content="Delete"
+                onClick={evt => this.onDelete(evt, item)}
               />
             )}
           />
