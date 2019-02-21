@@ -41,7 +41,13 @@ const renderColumn = (column) => {
   }
 
   if (column.key === 'website') {
-    column.render = text => text ? <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a> : null;
+    column.render = (text) => {
+      if (typeof text === 'undefined') {
+        return null;
+      }
+
+      return <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
+    };
   }
 
   return (
