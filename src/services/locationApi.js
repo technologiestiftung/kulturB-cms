@@ -13,7 +13,7 @@ export async function get(params) {
   return res.json();
 }
 
-export async function createLocation(values) {
+export async function create(values) {
   const url = `${config.url.base}${config.url.locations}`;
   const { AppState } = Store.getState();
 
@@ -33,7 +33,7 @@ export async function createLocation(values) {
   }
 }
 
-export async function updateLocation(id, values) {
+export async function update(id, values) {
   const url = `${config.url.base}${config.url.locations}/${id}`;
   const { AppState } = Store.getState();
 
@@ -53,6 +53,25 @@ export async function updateLocation(id, values) {
   }
 }
 
+export async function remove(id) {
+  const url = `${config.url.base}${config.url.locations}/${id}`;
+  const { AppState } = Store.getState();
+
+  try {
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: AppState.token
+      }
+    }).then(r => r.json());
+
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function getTags() {
   const res = await fetch(`${config.url.base}${config.url.tags}`);
   return res.json();
@@ -60,7 +79,8 @@ export async function getTags() {
 
 export default {
   get,
-  createLocation,
-  updateLocation,
+  create,
+  update,
+  remove,
   getTags
 };

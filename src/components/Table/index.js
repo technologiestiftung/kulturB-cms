@@ -8,7 +8,7 @@ import {
 } from 'antd';
 
 import history from '~/history';
-import locationApi from '~/services/locationApi';
+import { remove, get } from '~/services/locationApi';
 
 const { Column } = Table;
 
@@ -62,7 +62,9 @@ class PaginationTable extends PureComponent {
   state = {
     data: [],
     pagination: {},
-    loading: false
+    loading: false,
+    isDeleteModalVisible: false,
+    itemToDelete: {}
   }
 
   componentDidMount() {
@@ -73,24 +75,7 @@ class PaginationTable extends PureComponent {
     history.push(`/${this.props.itemIdentifier}/${item.id}`);
   }
 
-  fetch = async (params = { limit: 10 }) => {
-    this.setState({ loading: true });
-
-    const { data, count } = await locationApi.get(params);
-
-    this.setState((prevState) => {
-      const { pagination } = prevState;
-      pagination.total = count;
-
-      return {
-        loading: false,
-        data,
-        pagination
-      };
-    });
-  }
-
-  handleTableChange = (pagination, filters, sorter) => {
+  onTableChange = (pagination, filters, sorter) => {
     this.setState((prevState) => {
       const pager = prevState.pagination;
       pager.current = pagination.current;
@@ -106,11 +91,49 @@ class PaginationTable extends PureComponent {
     });
   }
 
-  onDelete(evt, item) {
+  onOpenModal(evt, item) {
     evt.preventDefault();
     evt.stopPropagation();
 
-    this.props.onDelete && this.props.onDelete(evt, item);
+    this.setState({
+      isDeleteModalVisible: true,
+      itemToDelete: item
+    });
+  }
+
+  async onOk() {
+    await remove(this.state.itemToDelete.id);
+    await this.fetch(this.lastParams);
+    this.closeModal();
+  }
+
+  onCancel() {
+    this.closeModal();
+  }
+
+  closeModal() {
+    this.setState({
+      isDeleteModalVisible: false,
+      itemToDelete: {}
+    });
+  }
+
+  fetch = async (params = { limit: 10 }) => {
+    this.setState({ loading: true });
+    this.lastParams = params;
+
+    const { data, count } = await get(params);
+
+    this.setState((prevState) => {
+      const { pagination } = prevState;
+      pagination.total = count;
+
+      return {
+        loading: false,
+        data,
+        pagination
+      };
+    });
   }
 
   render() {
@@ -120,7 +143,7 @@ class PaginationTable extends PureComponent {
           rowKey="id"
           dataSource={this.state.data}
           pagination={this.state.pagination}
-          onChange={this.handleTableChange}
+          onChange={this.onTableChange}
           loading={this.state.loading}
           onRow={item => ({
             onClick: evt => this.onRowClick(evt, item)
@@ -135,11 +158,21 @@ class PaginationTable extends PureComponent {
                 size="small"
                 icon="delete"
                 content="Delete"
-                onClick={evt => this.onDelete(evt, item)}
+                onClick={evt => this.onOpenModal(evt, item)}
               />
             )}
           />
         </Table>
+        <Modal
+          title="Eintrag löschen"
+          visible={this.state.isDeleteModalVisible}
+          onOk={() => this.onOk()}
+          onCancel={() => this.onCancel()}
+        >
+          <p>
+            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen
+          </p>
+        </Modal>
       </TableWrapper>
     );
   }

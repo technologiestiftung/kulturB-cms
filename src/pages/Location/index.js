@@ -11,7 +11,7 @@ import {
 import 'leaflet/dist/leaflet.css';
 
 import history from '~/history';
-import { createLocation, updateLocation, getTags } from '~/services/locationApi';
+import { create, update, getTags } from '~/services/locationApi';
 
 const MapWrapper = styled.div`
   width: 100%;
@@ -143,10 +143,10 @@ class Location extends PureComponent {
       if (!err) {
         if (this.isCreateMode) {
           this.isCreateMode = false;
-          return createLocation(values).then(res => history.push(`/standorte/${res.id}`));
+          return create(values).then(res => history.push(`/standorte/${res.id}`));
         }
 
-        updateLocation(this.props.match.params.id, values);
+        update(this.props.match.params.id, values);
       }
     });
   }
