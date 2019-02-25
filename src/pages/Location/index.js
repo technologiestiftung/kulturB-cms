@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import Container from '~/components/Container';
 import {
-  Form, Input, Button, Spin, Select, Modal, Col, Row
+  Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon
 } from 'antd';
 import {
   Map, CircleMarker, TileLayer
@@ -10,8 +9,12 @@ import {
 
 import 'leaflet/dist/leaflet.css';
 
+import { Link } from 'react-router-dom';
+import Container from '~/components/Container';
 import history from '~/history';
-import { create, update, getTags, remove } from '~/services/locationApi';
+import {
+  create, update, getTags, remove
+} from '~/services/locationApi';
 
 const MapWrapper = styled(Row)`
   &&& {
@@ -134,12 +137,28 @@ function getTypeInput(types) {
   );
 }
 
+function renderError() {
+  return (
+    <Container>
+      <h1>Standort Fehler</h1>
+      Der gesuchte Standort konnte nicht gefunden werden.
+
+      <div style={{ marginTop: '15px' }}>
+        <Button>
+          <Link to="/standorte">Zurück zur Übersicht</Link>
+        </Button>
+      </div>
+    </Container>
+  );
+}
+
 class Location extends PureComponent {
   state = {
     item: {},
     isLoading: true,
     tags: [],
-    isDeleteModalVisible: false
+    isDeleteModalVisible: false,
+    isError: false
   }
 
   constructor(props) {
@@ -170,6 +189,10 @@ class Location extends PureComponent {
         update(this.props.match.params.id, values);
       }
     });
+  }
+
+  onUploadChange(info) {
+    console.log(info)
   }
 
   onOpenModal(evt) {
@@ -207,11 +230,19 @@ class Location extends PureComponent {
   }
 
   async loadLocation(tags) {
-    const { id } = this.props.match.params;
-    const res = await fetch(`${config.url.base}${config.url.locations}/${id}`);
-    const item = await res.json();
+    try {
+      const { id } = this.props.match.params;
+      const res = await fetch(`${config.url.base}${config.url.locations}/${id}`);
 
-    this.setState({ item, tags, isLoading: false });
+      if (res.status !== 200) {
+        return this.setState({ isError: true, isLoading: false });
+      }
+
+      const item = await res.json();
+      this.setState({ item, tags, isLoading: false });
+    } catch (e) {
+      this.setState({ isError: true, isLoading: false });
+    }
   }
 
   renderMap() {
@@ -256,6 +287,26 @@ class Location extends PureComponent {
   renderForm() {
     return (
       <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
+        <Upload
+          data={{
+            relation: 'location',
+            relId: this.state.item.id,
+            type: 'logo'
+          }}
+          name="file"
+          action={`${config.url.base}${config.url.upload}`}
+          headers={{
+            Authorization: this.props.token,
+            'Content-Type': 'multipart/form-data'
+          }}
+          multiple
+          withCredentials
+          onChange={evt => this.onUploadChange(evt)}
+        >
+          <Button>
+            <Icon type="upload" /> Bild hochladen
+          </Button>
+        </Upload>
         {formItems.map(item => this.renderItem(item))}
         {this.renderMap()}
         <Row style={{ marginTop: '15px' }}>
@@ -282,6 +333,10 @@ class Location extends PureComponent {
   render() {
     const { isCreateMode } = this.props;
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
+
+    if (this.state.isError) {
+      return renderError();
+    }
 
     return (
       <Container>

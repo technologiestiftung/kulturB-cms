@@ -11,7 +11,8 @@
     "user": {
       "base": "/users",
       "login": "/login"
-    }
+    },
+    "upload": "/files"
   },
   "localStoragePrefix": "tsb",
   "types": ["organisation", "venue"]
