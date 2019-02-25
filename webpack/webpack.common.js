@@ -60,7 +60,7 @@ module.exports = {
       },
       {
         test: /\.svg?$/,
-        include: /node_modules/,
+        include: [/node_modules/, /tsb-logo\.svg/],
         use: {
           loader: 'file-loader',
           options: {
@@ -70,7 +70,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /tsb-logo\.svg/],
         use: [
           'babel-loader',
           {

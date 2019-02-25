@@ -91,6 +91,12 @@ export async function removeImage(id) {
   }
 }
 
+export async function locationSearch(name) {
+  const url = parseQuery(`${config.url.base}${config.url.locations}/search`, { name });
+  const res = await fetch(url);
+  return res.json();
+}
+
 export async function getTags() {
   const res = await fetch(`${config.url.base}${config.url.tags}`);
   return res.json();
@@ -102,5 +108,6 @@ export default {
   update,
   remove,
   getTags,
-  removeImage
+  removeImage,
+  locationSearch
 };

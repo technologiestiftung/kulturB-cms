@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import {
-  Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon
+  Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon, AutoComplete, List
 } from 'antd';
 import {
   Map, CircleMarker, TileLayer
@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import history from '~/history';
 import {
-  create, update, getTags, remove, removeImage
+  create, update, getTags, remove, removeImage, locationSearch
 } from '~/services/locationApi';
 import formItems from './form-items-config';
 
@@ -106,7 +106,9 @@ class Location extends PureComponent {
     isDeleteModalVisible: false,
     isError: false,
     isUploading: false,
-    fileList: []
+    venueAutoCompleteList: [],
+    venuesAutoCompleteValue: '',
+    venueList: []
   }
 
   constructor(props) {
@@ -134,17 +136,11 @@ class Location extends PureComponent {
           return create(values).then(res => history.push(`/standorte/${res.id}`));
         }
 
+        console.log(values)
+
         update(this.props.match.params.id, values);
       }
     });
-  }
-
-  onBeforeUpload() {
-    if (this.state.item.logo) {
-      return removeImage(this.state.item.logo.id);
-    }
-
-    return true;
   }
 
   onUploadChange({ file }) {
@@ -180,6 +176,29 @@ class Location extends PureComponent {
 
     this.setState({
       isDeleteModalVisible: true
+    });
+  }
+
+  async onSearchVenue(search) {
+    this.setState({
+      venuesAutoCompleteValue: search
+    });
+    if (search.length < 3) {
+      return null;
+    }
+
+    const venueAutoCompleteList = await locationSearch(search);
+
+    this.setState({ venueAutoCompleteList });
+  }
+
+  onSelectItem(id, option) {
+    const name = option.props.children;
+
+    this.setState({
+      venueAutoCompleteList: [],
+      venuesAutoCompleteValue: '',
+      venueList: [...this.state.venueList, { id, name }]
     });
   }
 
@@ -244,8 +263,65 @@ class Location extends PureComponent {
     );
   }
 
+  getVenuesInput(item) {
+    const hasVenuList = this.state.venueList && this.state.venueList.length > 0;
+    const renderVenueList = (
+      (this.state.item.venues && this.state.item.venues.length > 0) || 
+      hasVenuList
+    );
+
+    const venueList = hasVenuList ? this.state.venueList : this.state.item.venues;
+
+    return [
+      <Form.Item
+        key={item.name}
+        label={item.label}
+        {...formItemLayout}
+      >
+        <AutoComplete
+          onSearch={search => this.onSearchVenue(search)}
+          onSelect={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
+          value={this.state.venuesAutoCompleteValue}
+        >
+          {this.state.venueAutoCompleteList.map(v => (
+            <AutoComplete.Option key={v.id}>{v.name}</AutoComplete.Option>
+          ))}
+        </AutoComplete>
+      </Form.Item>,
+      renderVenueList && (
+        <Row gutter={16} style={{ marginBottom: '15px' }}>
+          <Col span={16}>
+            <List
+              key="venuelist"
+              bordered
+              dataSource={venueList}
+              renderItem={listItem => (
+                <List.Item key={listItem.id}>
+                  {listItem.name}
+                  XXX
+                </List.Item>
+              )}
+            />
+          </Col>
+        </Row>
+      )
+    ];
+  }
+
   renderItem(item) {
     const { getFieldDecorator } = this.props.form;
+    const fieldDecoratorOptions = {
+      rules: item.rules || []
+    };
+
+    if (item.getInitialValue) {
+      fieldDecoratorOptions.initialValue = item.getInitialValue(this);
+    }
+
+    if (item.type === 'venues') {
+      return null;
+      // return this.getVenuesInput(item);
+    }
 
     return (
       <Form.Item
@@ -253,10 +329,7 @@ class Location extends PureComponent {
         label={item.label}
         {...formItemLayout}
       >
-        {getFieldDecorator(item.name, {
-          rules: item.rules || [],
-          initialValue: item.getInitialValue(this)
-        })(
+        {getFieldDecorator(item.name, fieldDecoratorOptions)(
           this.getInputComponent(item.type)
         )}
       </Form.Item>
@@ -301,7 +374,6 @@ class Location extends PureComponent {
             multiple
             onChange={evt => this.onUploadChange(evt)}
             onRemove={evt => this.onImageRemove(evt)}
-            beforeUpload={evt => this.onBeforeUpload(evt)}
           >
             {!hasImage && (
               <Button>

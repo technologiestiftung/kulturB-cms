@@ -47,4 +47,9 @@ export default [{
   rules: [],
   type: 'tags',
   getInitialValue: component => (component.state.item.tags ? component.state.item.tags.map(t => t._id) : undefined)
+}, {
+  name: 'venues',
+  label: 'Spielstätten',
+  rules: [],
+  type: 'venues'
 }];

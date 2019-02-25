@@ -5,13 +5,15 @@ import { withRouter } from 'react-router';
 import { Layout, Menu } from 'antd';
 
 import { logout } from '~/AppState';
+import logoSrc from '../../../public/images/tsb-logo.svg';
+
+console.log(logoSrc)
 
 const { Header } = Layout;
 
-const Logo = styled.div`
-  float: left;
-  margin-right: 10px;
+const Logo = styled.img`
   color: white;
+  width: 50px;
 `;
 
 class HeaderMenu extends PureComponent {
@@ -34,7 +36,9 @@ class HeaderMenu extends PureComponent {
             padding: '0 20px'
           }}
         >
-          <Logo>TSB Logo</Logo>
+          <Menu.Item>
+            <Logo src={logoSrc} />
+          </Menu.Item>
           {token && (
             <Menu.Item key="/">
               <NavLink to="/">Home</NavLink>
