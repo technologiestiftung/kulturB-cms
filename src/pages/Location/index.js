@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Container from '~/components/Container';
 import {
-  Form, Input, Button, Spin, Select, Modal
+  Form, Input, Button, Spin, Select, Modal, Col, Row
 } from 'antd';
 import {
   Map, CircleMarker, TileLayer
@@ -13,9 +13,15 @@ import 'leaflet/dist/leaflet.css';
 import history from '~/history';
 import { create, update, getTags, remove } from '~/services/locationApi';
 
-const MapWrapper = styled.div`
-  width: 100%;
-  height: 250px;
+const MapWrapper = styled(Row)`
+  &&& {
+    height: 250px;
+  }
+
+  > div {
+    height: 100%;
+  }
+
 
   .leaflet-container {
     height: 100%;
@@ -23,8 +29,22 @@ const MapWrapper = styled.div`
 `;
 
 const formItemLayout = {
-  labelCol: { span: 2 },
-  wrapperCol: { span: 14 }
+  labelCol: {
+    sm: {
+      span: 4
+    },
+    md: {
+      span: 2
+    }
+  },
+  wrapperCol: {
+    sm: {
+      span: 10
+    },
+    md: {
+      span: 14
+    }
+   }
 };
 
 const formItems = [{
@@ -200,14 +220,16 @@ class Location extends PureComponent {
     }
 
     return (
-      <MapWrapper>
-        <Map center={this.state.item.location.coordinates} zoom={12}>
-          <TileLayer
-            url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
-            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-          />
-          <CircleMarker center={this.state.item.location.coordinates} radius={10} />
-        </Map>
+      <MapWrapper gutter={16}>
+        <Col span={16}>
+          <Map center={this.state.item.location.coordinates} zoom={12}>
+            <TileLayer
+              url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
+              attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            />
+            <CircleMarker center={this.state.item.location.coordinates} radius={10} />
+          </Map>
+        </Col>
       </MapWrapper>
     );
   }
@@ -236,23 +258,23 @@ class Location extends PureComponent {
       <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
         {formItems.map(item => this.renderItem(item))}
         {this.renderMap()}
-        <Form.Item
-          wrapperCol={{ span: 12, offset: 2 }}
-        >
-          <Button type="primary" htmlType="submit">
-            Speichern
-          </Button>
-          {!this.props.isCreateMode && (
-            <Button
-              type="danger"
-              icon="delete"
-              onClick={evt => this.onOpenModal(evt)}
-              style={{ marginLeft: '15px' }}
-            >
-              Standort löschen
+        <Row style={{ marginTop: '15px' }}>
+          <Col span={16} style={{ textAlign: 'right' }}>
+            <Button type="primary" htmlType="submit">
+              Speichern
             </Button>
-          )}
-        </Form.Item>
+            {!this.props.isCreateMode && (
+              <Button
+                type="danger"
+                icon="delete"
+                onClick={evt => this.onOpenModal(evt)}
+                style={{ marginLeft: '15px' }}
+              >
+                Standort löschen
+              </Button>
+            )}
+          </Col>
+        </Row>
       </Form>
     );
   }
