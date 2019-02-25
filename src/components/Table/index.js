@@ -160,7 +160,7 @@ class PaginationTable extends PureComponent {
             key="action"
             render={item => (
               <Button
-                type="primary"
+                type="danger"
                 size="small"
                 icon="delete"
                 content="Delete"
@@ -176,7 +176,7 @@ class PaginationTable extends PureComponent {
           onCancel={() => this.onCancel()}
         >
           <p>
-            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen
+            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen?
           </p>
         </Modal>
       </TableWrapper>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Container from '~/components/Container';
 import {
-  Form, Input, Button, Spin, Select
+  Form, Input, Button, Spin, Select, Modal
 } from 'antd';
 import {
   Map, CircleMarker, TileLayer
@@ -11,7 +11,7 @@ import {
 import 'leaflet/dist/leaflet.css';
 
 import history from '~/history';
-import { create, update, getTags } from '~/services/locationApi';
+import { create, update, getTags, remove } from '~/services/locationApi';
 
 const MapWrapper = styled.div`
   width: 100%;
@@ -118,7 +118,8 @@ class Location extends PureComponent {
   state = {
     item: {},
     isLoading: true,
-    tags: []
+    tags: [],
+    isDeleteModalVisible: false
   }
 
   constructor(props) {
@@ -151,6 +152,32 @@ class Location extends PureComponent {
     });
   }
 
+  onOpenModal(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    this.setState({
+      isDeleteModalVisible: true
+    });
+  }
+
+  async onOk() {
+    await remove(this.props.match.params.id);
+    this.closeModal();
+
+    history.push('/standorte');
+  }
+
+  onCancel() {
+    this.closeModal();
+  }
+
+  closeModal() {
+    this.setState({
+      isDeleteModalVisible: false
+    });
+  }
+
   getInputComponent(type) {
     switch (type) {
       case 'tags': return getTagInput(this.state.tags);
@@ -176,7 +203,7 @@ class Location extends PureComponent {
       <MapWrapper>
         <Map center={this.state.item.location.coordinates} zoom={12}>
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           />
           <CircleMarker center={this.state.item.location.coordinates} radius={10} />
@@ -215,6 +242,16 @@ class Location extends PureComponent {
           <Button type="primary" htmlType="submit">
             Speichern
           </Button>
+          {!this.props.isCreateMode && (
+            <Button
+              type="danger"
+              icon="delete"
+              onClick={evt => this.onOpenModal(evt)}
+              style={{ marginLeft: '15px' }}
+            >
+              Standort löschen
+            </Button>
+          )}
         </Form.Item>
       </Form>
     );
@@ -228,6 +265,16 @@ class Location extends PureComponent {
       <Container>
         <h1>Standort {title}</h1>
         {this.state.isLoading ? <Spin /> : this.renderForm()}
+        <Modal
+          title="Eintrag löschen"
+          visible={this.state.isDeleteModalVisible}
+          onOk={() => this.onOk()}
+          onCancel={() => this.onCancel()}
+        >
+          <p>
+            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.item.name}</strong> löschen wollen?
+          </p>
+        </Modal>
       </Container>
     );
   }
