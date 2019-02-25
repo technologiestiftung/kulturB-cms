@@ -13,20 +13,17 @@ import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import history from '~/history';
 import {
-  create, update, getTags, remove
+  create, update, getTags, remove, removeImage
 } from '~/services/locationApi';
+import formItems from './form-items-config';
 
 const MapWrapper = styled(Row)`
   &&& {
     height: 250px;
   }
 
+  .leaflet-container,
   > div {
-    height: 100%;
-  }
-
-
-  .leaflet-container {
     height: 100%;
   }
 `;
@@ -49,57 +46,6 @@ const formItemLayout = {
     }
    }
 };
-
-const formItems = [{
-  name: 'name',
-  label: 'Name',
-  rules: [{
-    required: true, message: 'Bitte einen Namen angeben'
-  }],
-  getInitialValue: component => component.state.item.name
-}, {
-  name: 'types',
-  label: 'Typ',
-  rules: [{
-    required: true, message: 'Bitte einen Typen auswählen angeben'
-  }],
-  type: 'types',
-  getInitialValue: component => component.state.item.types
-}, {
-  name: 'website',
-  label: 'Webseite',
-  rules: [{
-    type: 'string', message: 'Bitten eine gültige URL angeben'
-  }],
-  getInitialValue: component => component.state.item.website
-}, {
-  name: 'address',
-  label: 'Adresse',
-  rules: [{
-    type: 'string', message: 'Bitten eine Adresse ein'
-  }],
-  getInitialValue: component => component.state.item.address
-}, {
-  name: 'zipcode',
-  label: 'PLZ',
-  rules: [{
-    type: 'string', message: 'Bitten eine gültige PLZ ein', len: 5
-  }],
-  getInitialValue: component => component.state.item.zipcode
-}, {
-  name: 'city',
-  label: 'Stadt',
-  rules: [{
-    type: 'string', message: 'Bitten eine gültige URL angeben'
-  }],
-  getInitialValue: component => component.state.item.city
-}, {
-  name: 'tags',
-  label: 'Kategorien',
-  rules: [],
-  type: 'tags',
-  getInitialValue: component => (component.state.item.tags ? component.state.item.tags.map(t => t._id) : undefined)
-}];
 
 function getTagInput(tags) {
   const options = tags.map(tag => (
@@ -158,7 +104,9 @@ class Location extends PureComponent {
     isLoading: true,
     tags: [],
     isDeleteModalVisible: false,
-    isError: false
+    isError: false,
+    isUploading: false,
+    fileList: []
   }
 
   constructor(props) {
@@ -191,8 +139,39 @@ class Location extends PureComponent {
     });
   }
 
-  onUploadChange(info) {
-    console.log(info)
+  onBeforeUpload() {
+    if (this.state.item.logo) {
+      return removeImage(this.state.item.logo.id);
+    }
+
+    return true;
+  }
+
+  onUploadChange({ file }) {
+    if (file.status === 'uploading') {
+      this.setState({ isUploading: true });
+    }
+
+    if (file.status === 'done') {
+      // Get this url from response in real world.
+      this.setState({
+        item: {
+          ...this.state.item,
+          logo: file.response
+        },
+        isUploading: false
+      });
+    }
+  }
+
+  async onImageRemove() {
+    const res = await removeImage(this.state.item.logo.id);
+    this.setState({
+      item: {
+        ...this.state.item,
+        logo: null
+      }
+    });
   }
 
   onOpenModal(evt) {
@@ -284,29 +263,61 @@ class Location extends PureComponent {
     );
   }
 
+  getFilesList() {
+    if (!this.state.item.logo) {
+      return [];
+    }
+
+    this.state.item.logo.uid = this.state.item.logo.id;
+    this.state.item.logo.thumbUrl = this.state.item.logo.url;
+
+    return [this.state.item.logo];
+  }
+
+  renderUpload() {
+    if (this.props.isCreateMode) {
+      return null;
+    }
+
+    const hasImage = this.state.item.logo && this.state.item.logo.id;
+
+    return (
+      <Row style={{ marginBottom: '15px' }}>
+        <Col span={16}>
+          {hasImage && <div>Logo:</div>}
+          <Upload
+            data={{
+              relation: 'location',
+              relId: this.state.item.id,
+              type: 'logo'
+            }}
+            name="file"
+            action={`${config.url.base}${config.url.upload}`}
+            headers={{
+              Authorization: this.props.token
+            }}
+            listType="picture"
+            defaultFileList={this.getFilesList()}
+            multiple
+            onChange={evt => this.onUploadChange(evt)}
+            onRemove={evt => this.onImageRemove(evt)}
+            beforeUpload={evt => this.onBeforeUpload(evt)}
+          >
+            {!hasImage && (
+              <Button>
+                <Icon type="upload" /> Logo hochladen
+              </Button>
+            )}
+          </Upload>
+        </Col>
+      </Row>
+    );
+  }
+
   renderForm() {
     return (
       <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
-        <Upload
-          data={{
-            relation: 'location',
-            relId: this.state.item.id,
-            type: 'logo'
-          }}
-          name="file"
-          action={`${config.url.base}${config.url.upload}`}
-          headers={{
-            Authorization: this.props.token,
-            'Content-Type': 'multipart/form-data'
-          }}
-          multiple
-          withCredentials
-          onChange={evt => this.onUploadChange(evt)}
-        >
-          <Button>
-            <Icon type="upload" /> Bild hochladen
-          </Button>
-        </Upload>
+        {this.renderUpload()}
         {formItems.map(item => this.renderItem(item))}
         {this.renderMap()}
         <Row style={{ marginTop: '15px' }}>

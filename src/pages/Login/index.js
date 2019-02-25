@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import {
-  Button, Form, Icon, Input
+  Button, Form, Icon, Input, Alert, Spin
 } from 'antd';
 import Container from '~/components/Container';
 import { login } from '~/AppState';
+import { Z_FINISH } from 'zlib';
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -62,15 +63,27 @@ class LoginForm extends PureComponent {
             )}
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={hasErrors(getFieldsError())}
-            >
-              Log in
-            </Button>
+            {this.props.isLogginIn ?
+              <Spin /> :
+              (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  disabled={hasErrors(getFieldsError())}
+                >
+                  Log in
+                </Button>
+              )
+            }
           </Form.Item>
         </Form>
+        {this.props.loginError && (
+          <Alert
+            message="Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+            type="error"
+            showIcon
+          />
+        )}
       </Container>
     );
   }
@@ -79,5 +92,6 @@ class LoginForm extends PureComponent {
 const Login = Form.create({ name: 'login' })(LoginForm);
 
 export default connect(state => ({
-  token: state.AppState.token
+  token: state.AppState.token,
+  loginError: state.AppState.loginError
 }))(Login);

@@ -72,6 +72,25 @@ export async function remove(id) {
   }
 }
 
+export async function removeImage(id) {
+  const url = `${config.url.base}${config.url.upload}/${id}`;
+  const { AppState } = Store.getState();
+
+  try {
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: AppState.token
+      }
+    }).then(r => r.json());
+
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function getTags() {
   const res = await fetch(`${config.url.base}${config.url.tags}`);
   return res.json();
@@ -82,5 +101,6 @@ export default {
   create,
   update,
   remove,
-  getTags
+  getTags,
+  removeImage
 };
