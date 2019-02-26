@@ -2,7 +2,9 @@ export default [{
   name: 'name',
   label: 'Name',
   rules: [{
-    required: true, message: 'Bitte einen Namen angeben'
+    required: true,
+    message: 'Bitte einen Namen angeben',
+    whitespace: true
   }],
   getInitialValue: component => component.state.item.name
 }, {
@@ -17,7 +19,7 @@ export default [{
   name: 'website',
   label: 'Webseite',
   rules: [{
-    type: 'string', message: 'Bitten eine gültige URL angeben'
+    type: 'url', message: 'Bitten eine gültige URL angeben'
   }],
   getInitialValue: component => component.state.item.website
 }, {
