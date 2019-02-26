@@ -22,8 +22,8 @@ function loginFailed() {
 }
 
 function loginCompleted(response) {
-  if (!response || !response.token) return loginFailed();
   const { token } = response;
+  if (!token) return loginFailed();
   storage.set(tokenStorageKey, token);
   return { type: LOGIN_COMPLETED, payload: { token, loginError: null, isLogginIn: false } };
 }
@@ -33,7 +33,8 @@ export function login(values) {
     dispatch({ type: LOGIN, payload: { isLogginIn: true } });
 
     userApi.login(values)
-      .then(res => dispatch(loginCompleted(res)));
+      .then(res => dispatch(loginCompleted(res)))
+      .catch(() => dispatch(loginFailed()));
   };
 }
 
