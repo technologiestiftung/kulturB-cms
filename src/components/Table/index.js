@@ -1,16 +1,18 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import {
   Table,
   Tag,
   Button,
-  Modal
+  Modal,
+  Input
 } from 'antd';
 
 import history from '~/history';
-import { remove, get } from '~/services/locationApi';
+import { remove, get, locationSearch } from '~/services/locationApi';
 
 const { Column } = Table;
+const { Search } = Input;
 
 const TableWrapper = styled.div`
   position: relative;
@@ -70,7 +72,8 @@ class PaginationTable extends PureComponent {
     pagination: {},
     loading: false,
     isDeleteModalVisible: false,
-    itemToDelete: {}
+    itemToDelete: {},
+    searchTerm: ''
   }
 
   componentDidMount() {
@@ -88,13 +91,19 @@ class PaginationTable extends PureComponent {
       return { pagination: pager };
     });
 
-    this.fetch({
+    const params = {
       limit: pagination.pageSize,
       skip: (pagination.pageSize * pagination.current) - pagination.pageSize,
       sort: sorter.field,
       order: sorter.order,
       ...filters
-    });
+    };
+
+    const { searchTerm } = this.state;
+    if (searchTerm) {
+      return this.search(searchTerm, params);
+    }
+    return this.fetch(params);
   }
 
   onOpenModal(evt, item) {
@@ -124,7 +133,7 @@ class PaginationTable extends PureComponent {
     });
   }
 
-  fetch = async (params = { limit: 10 }) => {
+  fetch = async (params = {}) => {
     this.setState({ loading: true });
     this.lastParams = params;
 
@@ -142,44 +151,70 @@ class PaginationTable extends PureComponent {
     });
   }
 
+  async search(value, params) {
+    this.setState({ loading: true });
+    if (value === '') return this.fetch();
+
+    const { data, count } = await locationSearch(value, params);
+    this.setState((prevState) => {
+      const pager = prevState.pagination;
+      return {
+        loading: false,
+        searchTerm: value,
+        data,
+        pagination: {
+          ...pager,
+          total: count
+        }
+      };
+    });
+  }
+
   render() {
     return (
-      <TableWrapper>
-        <Table
-          rowKey="id"
-          dataSource={this.state.data}
-          pagination={this.state.pagination}
-          onChange={this.onTableChange}
-          loading={this.state.loading}
-          onRow={item => ({
-            onClick: evt => this.onRowClick(evt, item)
-          })}
-        >
-          {this.props.columns.map(item => renderColumn(item))}
-          <Column
-            key="action"
-            render={item => (
-              <Button
-                type="danger"
-                size="small"
-                icon="delete"
-                content="Delete"
-                onClick={evt => this.onOpenModal(evt, item)}
+      <Fragment>
+        <Search
+          placeholder="input search text"
+          onSearch={value => this.search(value)}
+          style={{ width: 200 }}
+        />
+        <TableWrapper>
+          <Table
+            rowKey="id"
+            dataSource={this.state.data}
+            pagination={this.state.pagination}
+            onChange={this.onTableChange}
+            loading={this.state.loading}
+            onRow={item => ({
+              onClick: evt => this.onRowClick(evt, item)
+            })}
+            >
+            {this.props.columns.map(item => renderColumn(item))}
+            <Column
+              key="action"
+              render={item => (
+                <Button
+                  type="danger"
+                  size="small"
+                  icon="delete"
+                  content="Delete"
+                  onClick={evt => this.onOpenModal(evt, item)}
+                />
+                )}
               />
-            )}
-          />
-        </Table>
-        <Modal
-          title="Eintrag löschen"
-          visible={this.state.isDeleteModalVisible}
-          onOk={() => this.onOk()}
-          onCancel={() => this.onCancel()}
-        >
-          <p>
-            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen?
-          </p>
-        </Modal>
-      </TableWrapper>
+          </Table>
+          <Modal
+            title="Eintrag löschen"
+            visible={this.state.isDeleteModalVisible}
+            onOk={() => this.onOk()}
+            onCancel={() => this.onCancel()}
+          >
+            <p>
+              Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen?
+            </p>
+          </Modal>
+        </TableWrapper>
+      </Fragment>
     );
   }
 }
