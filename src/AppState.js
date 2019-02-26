@@ -22,8 +22,8 @@ function loginFailed() {
 }
 
 function loginCompleted(response) {
+  if (!response || !response.token) return loginFailed();
   const { token } = response;
-  if (!token) return loginFailed();
   storage.set(tokenStorageKey, token);
   return { type: LOGIN_COMPLETED, payload: { token, loginError: null, isLogginIn: false } };
 }
