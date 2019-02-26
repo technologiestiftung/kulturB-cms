@@ -25,10 +25,9 @@
         "sorter": true,
         "filters": [
           { "text": "Organisation", "value": "organisation" },
-          { "text": "Venue", "value": "venue" },
-          { "text": "Organisation and venue", "value": "organisation and venue" }
+          { "text": "Venue", "value": "venue" }
         ],
-        "filterMultiple": false
+        "filterMultiple": true
       }
     ]
   }
