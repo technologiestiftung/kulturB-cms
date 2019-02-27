@@ -136,9 +136,8 @@ class Location extends PureComponent {
           return create(values).then(res => history.push(`/standorte/${res.id}`));
         }
 
-        console.log(values)
-
-        update(this.props.match.params.id, values);
+        const updates = { venues: this.state.venueList.map(v => v.id), ...values };
+        update(this.props.match.params.id, updates);
       }
     });
   }
@@ -179,7 +178,7 @@ class Location extends PureComponent {
     });
   }
 
-  async onSearchVenue(search) {
+  async onSearchVenue(search) {
     this.setState({
       venuesAutoCompleteValue: search
     });
@@ -187,9 +186,9 @@ class Location extends PureComponent {
       return null;
     }
 
-    const venueAutoCompleteList = await locationSearch(search);
+    const { data } = await locationSearch(search);
 
-    this.setState({ venueAutoCompleteList });
+    this.setState({ venueAutoCompleteList: data });
   }
 
   onSelectItem(id, option) {
@@ -200,6 +199,12 @@ class Location extends PureComponent {
       venuesAutoCompleteValue: '',
       venueList: [...this.state.venueList, { id, name }]
     });
+  }
+
+  onDeleteItem(id) {
+    this.setState(prevState => ({
+      venueList: prevState.venueList.filter(venue => venue.id !== id)
+    }));
   }
 
   async onOk() {
@@ -264,13 +269,14 @@ class Location extends PureComponent {
   }
 
   getVenuesInput(item) {
-    const hasVenuList = this.state.venueList && this.state.venueList.length > 0;
+    console.log(this.state.venueList)
+    const hasVenueList = this.state.venueList && this.state.venueList.length > 0;
     const renderVenueList = (
       (this.state.item.venues && this.state.item.venues.length > 0) || 
-      hasVenuList
+      hasVenueList
     );
 
-    const venueList = hasVenuList ? this.state.venueList : this.state.item.venues;
+    const venueList = hasVenueList ? this.state.venueList : this.state.item.venues;
 
     return [
       <Form.Item
@@ -283,9 +289,16 @@ class Location extends PureComponent {
           onSelect={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
           value={this.state.venuesAutoCompleteValue}
         >
-          {this.state.venueAutoCompleteList.map(v => (
-            <AutoComplete.Option key={v.id}>{v.name}</AutoComplete.Option>
-          ))}
+          {this.state.venueAutoCompleteList
+            .map(v => (
+              <AutoComplete.Option
+                disabled={venueList && venueList.find(venue => venue.id === v.id)}
+                key={v.id}
+              >
+                {v.name}
+              </AutoComplete.Option>
+            ))
+          }
         </AutoComplete>
       </Form.Item>,
       renderVenueList && (
@@ -298,7 +311,7 @@ class Location extends PureComponent {
               renderItem={listItem => (
                 <List.Item key={listItem.id}>
                   {listItem.name}
-                  XXX
+                  <Button icon="delete" onClick={() => this.onDeleteItem(listItem.id)} />
                 </List.Item>
               )}
             />
@@ -319,8 +332,7 @@ class Location extends PureComponent {
     }
 
     if (item.type === 'venues') {
-      return null;
-      // return this.getVenuesInput(item);
+      return this.getVenuesInput(item);
     }
 
     return (
