@@ -174,9 +174,9 @@ class PaginationTable extends PureComponent {
     return (
       <Fragment>
         <Search
-          placeholder="input search text"
+          placeholder="Suche..."
           onSearch={value => this.search(value)}
-          style={{ width: 200 }}
+          enterButton
         />
         <TableWrapper>
           <Table
