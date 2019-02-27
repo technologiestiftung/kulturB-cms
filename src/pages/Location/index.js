@@ -308,13 +308,16 @@ class Location extends PureComponent {
               bordered
               dataSource={venueList}
               renderItem={listItem => (
-                <List.Item key={listItem.id}>
+                <List.Item
+                  key={listItem.id}
+                  actions={[
+                    <Button
+                      icon="delete"
+                      onClick={() => this.onDeleteItem(listItem.id)}
+                    />
+                  ]}
+                >
                   {listItem.name}
-                  <Button
-                    icon="delete"
-                    onClick={() => this.onDeleteItem(listItem.id)}
-                    style={{ margin: '0 auto' }}
-                  />
                 </List.Item>
               )}
             />
