@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import {
   Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon, AutoComplete, List
@@ -242,7 +242,12 @@ class Location extends PureComponent {
       }
 
       const item = await res.json();
-      this.setState({ item, tags, isLoading: false });
+      this.setState({
+        item,
+        tags,
+        isLoading: false,
+        venueList: item.venues
+      });
     } catch (e) {
       this.setState({ isError: true, isLoading: false });
     }
@@ -269,14 +274,8 @@ class Location extends PureComponent {
   }
 
   getVenuesInput(item) {
-    console.log(this.state.venueList)
+    const { venueList } = this.state;
     const hasVenueList = this.state.venueList && this.state.venueList.length > 0;
-    const renderVenueList = (
-      (this.state.item.venues && this.state.item.venues.length > 0) || 
-      hasVenueList
-    );
-
-    const venueList = hasVenueList ? this.state.venueList : this.state.item.venues;
 
     return [
       <Form.Item
@@ -301,7 +300,7 @@ class Location extends PureComponent {
           }
         </AutoComplete>
       </Form.Item>,
-      renderVenueList && (
+      hasVenueList && (
         <Row gutter={16} style={{ marginBottom: '15px' }}>
           <Col span={16}>
             <List
@@ -311,7 +310,11 @@ class Location extends PureComponent {
               renderItem={listItem => (
                 <List.Item key={listItem.id}>
                   {listItem.name}
-                  <Button icon="delete" onClick={() => this.onDeleteItem(listItem.id)} />
+                  <Button
+                    icon="delete"
+                    onClick={() => this.onDeleteItem(listItem.id)}
+                    style={{ margin: '0 auto' }}
+                  />
                 </List.Item>
               )}
             />
