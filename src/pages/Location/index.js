@@ -34,7 +34,7 @@ const formItemLayout = {
       span: 4
     },
     md: {
-      span: 2
+      span: 3
     }
   },
   wrapperCol: {
@@ -42,7 +42,7 @@ const formItemLayout = {
       span: 10
     },
     md: {
-      span: 14
+      span: 13
     }
    }
 };
@@ -228,6 +228,7 @@ class Location extends PureComponent {
     switch (type) {
       case 'tags': return getTagInput(this.state.tags);
       case 'types': return getTypeInput(config.types);
+      case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
       default: return <Input />;
     }
   }

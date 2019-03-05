@@ -16,6 +16,15 @@ export default [{
   type: 'types',
   getInitialValue: component => component.state.item.types
 }, {
+  name: 'description',
+  label: 'Beschreibung',
+  rules: [{
+    message: 'Bitte eine Beschreibung angeben',
+    whitespace: true
+  }],
+  type: 'textarea',
+  getInitialValue: component => component.state.item.description
+}, {
   name: 'website',
   label: 'Webseite',
   rules: [{
