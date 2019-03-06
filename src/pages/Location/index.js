@@ -8,6 +8,9 @@ import Container from '~/components/Container';
 import Map from './components/Map';
 import Upload from './components/Upload';
 import VenuesInput from './components/VenuesInput';
+import getTagInput from './components/TagInput';
+import getTypeInput from './components/TypeInput';
+
 import history from '~/history';
 import {
   create, update, getTags, remove, locationSearch
@@ -33,42 +36,6 @@ const formItemLayout = {
     }
    }
 };
-
-function getTagInput(tags) {
-  const options = tags.map(tag => (
-    <Select.Option key={tag._id}>
-      {tag.name}
-    </Select.Option>
-  ));
-
-  return (
-    <Select
-      mode="tags"
-      style={{ width: '100%' }}
-      placeholder="Kategorien angeben"
-    >
-      {options}
-    </Select>
-  );
-}
-
-function getTypeInput(types) {
-  const options = types.map(type => (
-    <Select.Option key={type}>
-      {type}
-    </Select.Option>
-  ));
-
-  return (
-    <Select
-      mode="tags"
-      style={{ width: '100%' }}
-      placeholder="Typen festlegen"
-    >
-      {options}
-    </Select>
-  );
-}
 
 function renderError() {
   return (
