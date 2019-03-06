@@ -1,14 +1,15 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon, AutoComplete, List
+  Form, Input, Button, Spin, Select, Modal, Col, Row, AutoComplete, List
 } from 'antd';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import Map from '~/components/Map';
+import Upload from '~/components/Upload';
 import history from '~/history';
 import {
-  create, update, getTags, remove, removeImage, locationSearch
+  create, update, getTags, remove, locationSearch
 } from '~/services/locationApi';
 import formItems from './form-items-config';
 
@@ -136,12 +137,10 @@ class Location extends PureComponent {
     });
   }
 
-  onUploadChange({ file }) {
-    if (file.status === 'uploading') {
+  onUploadChange(done) {
+    if (!done) {
       this.setState({ isUploading: true });
-    }
-
-    if (file.status === 'done') {
+    } else {
       // Get this url from response in real world.
       this.setState({
         item: {
@@ -154,7 +153,6 @@ class Location extends PureComponent {
   }
 
   async onImageRemove() {
-    const res = await removeImage(this.state.item.logo.id);
     this.setState({
       item: {
         ...this.state.item,
@@ -341,60 +339,15 @@ class Location extends PureComponent {
     );
   }
 
-  getFilesList() {
-    if (!this.state.item.logo) {
-      return [];
-    }
-
-    this.state.item.logo.uid = this.state.item.logo.id;
-    this.state.item.logo.thumbUrl = this.state.item.logo.url;
-
-    return [this.state.item.logo];
-  }
-
-  renderUpload() {
-    if (this.props.isCreateMode) {
-      return null;
-    }
-
-    const hasImage = this.state.item.logo && this.state.item.logo.id;
-
-    return (
-      <Row style={{ marginBottom: '15px' }}>
-        <Col span={16}>
-          {hasImage && <div>Logo:</div>}
-          <Upload
-            data={{
-              relation: 'location',
-              relId: this.state.item.id,
-              type: 'logo'
-            }}
-            name="file"
-            action={`${config.url.base}${config.url.upload}`}
-            headers={{
-              Authorization: this.props.token
-            }}
-            listType="picture"
-            defaultFileList={this.getFilesList()}
-            multiple
-            onChange={evt => this.onUploadChange(evt)}
-            onRemove={evt => this.onImageRemove(evt)}
-          >
-            {!hasImage && (
-              <Button>
-                <Icon type="upload" /> Logo hochladen
-              </Button>
-            )}
-          </Upload>
-        </Col>
-      </Row>
-    );
-  }
-
   renderForm() {
     return (
       <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
-        {this.renderUpload()}
+        <Upload
+          token={this.props.token}
+          onUploadChange={this.onUploadChange}
+          onImageRemove={this.onImageRemove}
+          {...this.state.item}
+        />
         {formItems.map(item => this.renderItem(item))}
         <Map updatePosition={this.updatePosition.bind(this)} {...this.state.item} />
         <Row style={{ marginTop: '15px' }}>
