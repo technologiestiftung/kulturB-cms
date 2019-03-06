@@ -1,41 +1,19 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Select, Modal, Col, Row
+  Form, Input, Button, Spin, Modal
 } from 'antd';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
-import Map from './components/Map';
-import Upload from './components/Upload';
-import VenuesInput from './components/VenuesInput';
+import LocationForm from './components/LocationForm';
 import getTagInput from './components/TagInput';
 import getTypeInput from './components/TypeInput';
+import formItemLayout from './form-layout-config';
 
 import history from '~/history';
 import {
   create, update, getTags, remove, locationSearch
 } from '~/services/locationApi';
-import formItems from './form-items-config';
-
-
-const formItemLayout = {
-  labelCol: {
-    sm: {
-      span: 4
-    },
-    md: {
-      span: 3
-    }
-  },
-  wrapperCol: {
-    sm: {
-      span: 10
-    },
-    md: {
-      span: 13
-    }
-   }
-};
 
 function renderError() {
   return (
@@ -226,76 +204,6 @@ class Location extends PureComponent {
     }));
   }
 
-  renderItem(item) {
-    const { getFieldDecorator } = this.props.form;
-    const fieldDecoratorOptions = {
-      rules: item.rules || []
-    };
-
-    if (item.getInitialValue) {
-      fieldDecoratorOptions.initialValue = item.getInitialValue(this);
-    }
-
-    if (item.type === 'venues') {
-      return (
-        <VenuesInput
-          item={item}
-          formItemLayout={formItemLayout}
-          venueList={this.state.venueList}
-          venueAutoCompleteList={this.state.venueAutoCompleteList}
-          venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
-          onSearchVenue={search => this.onSearchVenue(search)}
-          onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
-          onDeleteItem={id => this.onDeleteItem(id)}
-        />
-      );
-    }
-
-    return (
-      <Form.Item
-        key={item.name}
-        label={item.label}
-        {...formItemLayout}
-      >
-        {getFieldDecorator(item.name, fieldDecoratorOptions)(
-          this.getInputComponent(item.type)
-        )}
-      </Form.Item>
-    );
-  }
-
-  renderForm() {
-    return (
-      <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
-        <Upload
-          token={this.props.token}
-          onUploadChange={this.onUploadChange}
-          onImageRemove={this.onImageRemove}
-          {...this.state.item}
-        />
-        {formItems.map(item => this.renderItem(item))}
-        <Map updatePosition={(lat, lng) => this.updatePosition(lat, lng)} {...this.state.item} />
-        <Row style={{ marginTop: '15px' }}>
-          <Col span={16} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">
-              Speichern
-            </Button>
-            {!this.props.isCreateMode && (
-              <Button
-                type="danger"
-                icon="delete"
-                onClick={evt => this.onOpenModal(evt)}
-                style={{ marginLeft: '15px' }}
-              >
-                Standort löschen
-              </Button>
-            )}
-          </Col>
-        </Row>
-      </Form>
-    );
-  }
-
   render() {
     const { isCreateMode } = this.props;
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
@@ -307,7 +215,23 @@ class Location extends PureComponent {
     return (
       <Container>
         <h1>Standort {title}</h1>
-        {this.state.isLoading ? <Spin /> : this.renderForm()}
+        {this.state.isLoading ? <Spin /> : (
+          <LocationForm
+            form={this.props.form}
+            formItemLayout={formItemLayout}
+            onSearchVenue={search => this.onSearchVenue(search)}
+            onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
+            onDeleteItem={id => this.onDeleteItem(id)}
+            getInputComponent={type => this.getInputComponent(type)}
+            onSubmit={evt => this.onSubmit(evt)}
+            onUploadChange={this.onUploadChange}
+            onImageRemove={this.onImageRemove}
+            updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
+            onOpenModal={evt => this.onOpenModal(evt)}
+            {...this.props}
+            {...this.state}
+          />
+        )}
         <Modal
           title="Eintrag löschen"
           visible={this.state.isDeleteModalVisible}

@@ -6,7 +6,7 @@ export default [{
     message: 'Bitte einen Namen angeben',
     whitespace: true
   }],
-  getInitialValue: component => component.state.item.name
+  getInitialValue: component => component.props.item.name
 }, {
   name: 'types',
   label: 'Typ',
@@ -14,7 +14,7 @@ export default [{
     required: true, message: 'Bitte einen Typen auswählen angeben'
   }],
   type: 'types',
-  getInitialValue: component => component.state.item.types
+  getInitialValue: component => component.props.item.types
 }, {
   name: 'description',
   label: 'Beschreibung',
@@ -23,41 +23,41 @@ export default [{
     whitespace: true
   }],
   type: 'textarea',
-  getInitialValue: component => component.state.item.description
+  getInitialValue: component => component.props.item.description
 }, {
   name: 'website',
   label: 'Webseite',
   rules: [{
     type: 'url', message: 'Bitten eine gültige URL angeben'
   }],
-  getInitialValue: component => component.state.item.website
+  getInitialValue: component => component.props.item.website
 }, {
   name: 'address',
   label: 'Adresse',
   rules: [{
     type: 'string', message: 'Bitten eine Adresse ein'
   }],
-  getInitialValue: component => component.state.item.address
+  getInitialValue: component => component.props.item.address
 }, {
   name: 'zipcode',
   label: 'PLZ',
   rules: [{
     type: 'string', message: 'Bitten eine gültige PLZ ein', len: 5
   }],
-  getInitialValue: component => component.state.item.zipcode
+  getInitialValue: component => component.props.item.zipcode
 }, {
   name: 'city',
   label: 'Stadt',
   rules: [{
     type: 'string', message: 'Bitten eine gültige URL angeben'
   }],
-  getInitialValue: component => component.state.item.city
+  getInitialValue: component => component.props.item.city
 }, {
   name: 'tags',
   label: 'Kategorien',
   rules: [],
   type: 'tags',
-  getInitialValue: component => (component.state.item.tags ? component.state.item.tags.map(t => t._id) : undefined)
+  getInitialValue: component => (component.props.item.tags ? component.props.item.tags.map(t => t._id) : undefined)
 }, {
   name: 'venues',
   label: 'Spielstätten',
