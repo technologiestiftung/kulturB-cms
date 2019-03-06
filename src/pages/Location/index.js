@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Select, Modal, Col, Row, AutoComplete, List
+  Form, Input, Button, Spin, Select, Modal, Col, Row
 } from 'antd';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import Map from './components/Map';
 import Upload from './components/Upload';
+import VenuesInput from './components/VenuesInput';
 import history from '~/history';
 import {
   create, update, getTags, remove, locationSearch
@@ -258,60 +259,6 @@ class Location extends PureComponent {
     }));
   }
 
-  getVenuesInput(item) {
-    const { venueList } = this.state;
-    const hasVenueList = this.state.venueList && this.state.venueList.length > 0;
-
-    return [
-      <Form.Item
-        key={item.name}
-        label={item.label}
-        {...formItemLayout}
-      >
-        <AutoComplete
-          onSearch={search => this.onSearchVenue(search)}
-          onSelect={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
-          value={this.state.venuesAutoCompleteValue}
-        >
-          {this.state.venueAutoCompleteList
-            .map(v => (
-              <AutoComplete.Option
-                disabled={venueList && venueList.find(venue => venue.id === v.id)}
-                key={v.id}
-              >
-                {v.name}
-              </AutoComplete.Option>
-            ))
-          }
-        </AutoComplete>
-      </Form.Item>,
-      hasVenueList && (
-        <Row gutter={16} style={{ marginBottom: '15px' }}>
-          <Col span={16}>
-            <List
-              key="venuelist"
-              bordered
-              dataSource={venueList}
-              renderItem={listItem => (
-                <List.Item
-                  key={listItem.id}
-                  actions={[
-                    <Button
-                      icon="delete"
-                      onClick={() => this.onDeleteItem(listItem.id)}
-                    />
-                  ]}
-                >
-                  {listItem.name}
-                </List.Item>
-              )}
-            />
-          </Col>
-        </Row>
-      )
-    ];
-  }
-
   renderItem(item) {
     const { getFieldDecorator } = this.props.form;
     const fieldDecoratorOptions = {
@@ -323,7 +270,18 @@ class Location extends PureComponent {
     }
 
     if (item.type === 'venues') {
-      return this.getVenuesInput(item);
+      return (
+        <VenuesInput
+          item={item}
+          formItemLayout={formItemLayout}
+          venueList={this.state.venueList}
+          venueAutoCompleteList={this.state.venueAutoCompleteList}
+          venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
+          onSearchVenue={search => this.onSearchVenue(search)}
+          onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
+          onDeleteItem={id => this.onDeleteItem(id)}
+        />
+      );
     }
 
     return (
