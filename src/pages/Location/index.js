@@ -4,7 +4,7 @@ import {
   Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon, AutoComplete, List
 } from 'antd';
 import {
-  Map, CircleMarker, TileLayer
+  Map, Marker, TileLayer
 } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
@@ -136,7 +136,12 @@ class Location extends PureComponent {
           return create(values).then(res => history.push(`/standorte/${res.id}`));
         }
 
-        const updates = { venues: this.state.venueList.map(v => v.id), ...values };
+        const updates = {
+          venues: this.state.venueList.map(v => v.id),
+          location: this.state.item.location,
+          ...values
+        };
+
         update(this.props.match.params.id, updates);
       }
     });
@@ -254,6 +259,19 @@ class Location extends PureComponent {
     }
   }
 
+  updatePosition(evt) {
+    const { lat, lng } = evt.target.getLatLng();
+    this.setState(prevState => ({
+      item: {
+        ...prevState.item,
+        location: {
+          type: 'Point',
+          coordinates: [lat, lng]
+        }
+      }
+    }));
+  }
+
   renderMap() {
     if (!this.state.item.location) {
       return null;
@@ -267,7 +285,12 @@ class Location extends PureComponent {
               url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
               attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
             />
-            <CircleMarker center={this.state.item.location.coordinates} radius={10} />
+            <Marker
+              draggable
+              onDragend={evt => this.updatePosition(evt)}
+              position={this.state.item.location.coordinates}
+              radius={10}
+            />
           </Map>
         </Col>
       </MapWrapper>
