@@ -5,8 +5,8 @@ import {
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
-import Map from '~/components/Map';
-import Upload from '~/components/Upload';
+import Map from './components/Map';
+import Upload from './components/Upload';
 import history from '~/history';
 import {
   create, update, getTags, remove, locationSearch
