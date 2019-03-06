@@ -153,20 +153,25 @@ class PaginationTable extends PureComponent {
 
   async search(value, params) {
     this.setState({ loading: true });
-    if (value === '') return this.fetch();
+    if (value === '') {
+      this.setState({
+        searchTerm: '',
+        pagination: {
+          current: 0
+        }
+      });
+      return this.fetch();
+    }
 
     const { data, count } = await locationSearch(value, params);
-    this.setState((prevState) => {
-      const pager = prevState.pagination;
-      return {
-        loading: false,
-        searchTerm: value,
-        data,
-        pagination: {
-          ...pager,
-          total: count
-        }
-      };
+    this.setState({
+      loading: false,
+      searchTerm: value,
+      data,
+      pagination: {
+        current: 0,
+        total: count
+      }
     });
   }
 
