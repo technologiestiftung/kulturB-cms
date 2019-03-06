@@ -129,11 +129,13 @@ class Location extends PureComponent {
 
   onSubmit(evt) {
     evt.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         if (this.isCreateMode) {
           this.isCreateMode = false;
-          return create(values).then(res => history.push(`/standorte/${res.id}`));
+          const res = await create(values);
+          history.replace(`/standorte/${res.id}`);
+          return this.setState({ item: res });
         }
 
         const updates = {
@@ -142,7 +144,8 @@ class Location extends PureComponent {
           ...values
         };
 
-        update(this.props.match.params.id, updates);
+        const res = await update(this.props.match.params.id, updates);
+        this.setState({ item: res });
       }
     });
   }
