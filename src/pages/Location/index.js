@@ -1,32 +1,17 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 import {
   Form, Input, Button, Spin, Select, Modal, Col, Row, Upload, Icon, AutoComplete, List
 } from 'antd';
-import {
-  Map, Marker, TileLayer
-} from 'react-leaflet';
-
-import 'leaflet/dist/leaflet.css';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
+import Map from '~/components/Map';
 import history from '~/history';
 import {
   create, update, getTags, remove, removeImage, locationSearch
 } from '~/services/locationApi';
 import formItems from './form-items-config';
 
-const MapWrapper = styled(Row)`
-  &&& {
-    height: 250px;
-  }
-
-  .leaflet-container,
-  > div {
-    height: 100%;
-  }
-`;
 
 const formItemLayout = {
   labelCol: {
@@ -133,9 +118,10 @@ class Location extends PureComponent {
       if (!err) {
         if (this.isCreateMode) {
           this.isCreateMode = false;
-          const res = await create(values);
-          history.replace(`/standorte/${res.id}`);
-          return this.setState({ item: res });
+            const res = await create(values);
+            if (!res.id) return this.setState({ isError: true, isLoading: false });
+            history.replace(`/standorte/${res.id}`);
+            return this.setState({ item: res });
         }
 
         const updates = {
@@ -262,8 +248,7 @@ class Location extends PureComponent {
     }
   }
 
-  updatePosition(evt) {
-    const { lat, lng } = evt.target.getLatLng();
+  updatePosition(lat, lng) {
     this.setState(prevState => ({
       item: {
         ...prevState.item,
@@ -273,31 +258,6 @@ class Location extends PureComponent {
         }
       }
     }));
-  }
-
-  renderMap() {
-    if (!this.state.item.location) {
-      return null;
-    }
-
-    return (
-      <MapWrapper gutter={16}>
-        <Col span={16}>
-          <Map center={this.state.item.location.coordinates} zoom={12}>
-            <TileLayer
-              url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
-              attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            />
-            <Marker
-              draggable
-              onDragend={evt => this.updatePosition(evt)}
-              position={this.state.item.location.coordinates}
-              radius={10}
-            />
-          </Map>
-        </Col>
-      </MapWrapper>
-    );
   }
 
   getVenuesInput(item) {
@@ -436,7 +396,7 @@ class Location extends PureComponent {
       <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
         {this.renderUpload()}
         {formItems.map(item => this.renderItem(item))}
-        {this.renderMap()}
+        <Map updatePosition={this.updatePosition.bind(this)} {...this.state.item} />
         <Row style={{ marginTop: '15px' }}>
           <Col span={16} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">
