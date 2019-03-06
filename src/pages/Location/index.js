@@ -349,7 +349,7 @@ class Location extends PureComponent {
           {...this.state.item}
         />
         {formItems.map(item => this.renderItem(item))}
-        <Map updatePosition={this.updatePosition.bind(this)} {...this.state.item} />
+        <Map updatePosition={(lat, lng) => this.updatePosition(lat, lng)} {...this.state.item} />
         <Row style={{ marginTop: '15px' }}>
           <Col span={16} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">
