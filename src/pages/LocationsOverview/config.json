@@ -1,0 +1,34 @@
+{
+  "table": {
+    "columns": [
+      {
+        "key": "name",
+        "title": "Name",
+        "dataIndex": "name",
+        "sorter": true
+      },
+      {
+        "title": "Tags",
+        "key": "tags",
+        "dataIndex": "tags"
+      },
+      {
+        "key": "website",
+        "title": "Website",
+        "dataIndex": "website",
+        "sorter": true
+      },
+      {
+        "key": "types",
+        "title": "Typ",
+        "dataIndex": "types",
+        "sorter": true,
+        "filters": [
+          { "text": "Organisation", "value": "organisation" },
+          { "text": "Venue", "value": "venue" }
+        ],
+        "filterMultiple": true
+      }
+    ]
+  }
+}

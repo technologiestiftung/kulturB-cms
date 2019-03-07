@@ -1,68 +1,225 @@
-import React, { PureComponent } from 'react';
-import { Dimmer, Loader, Table, Pagination } from 'semantic-ui-react';
+import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
+import {
+  Table,
+  Tag,
+  Button,
+  Modal,
+  Input
+} from 'antd';
+
+import history from '~/history';
+import { remove, get, locationSearch } from '~/services/locationApi';
+
+const { Column } = Table;
+const { Search } = Input;
 
 const TableWrapper = styled.div`
   position: relative;
+  background: white;
+
+  .ant-table-wrapper {
+    .ant-table-pagination {
+      margin: 16px;
+    }
+
+    .ant-table-row {
+      cursor: pointer;
+    }
+  }
 `;
 
-const headerData = [
-  { key: 'name', label: 'Name' },
-  { key: 'age', label: 'Alter' },
-  { key: 'gender', label: 'Geschlecht' }
-];
+const renderColumn = (column) => {
+  if (column.key === 'tags') {
+    column.render = tags => (
+      tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)
+    );
+  }
 
-const tableData = [
-  { name: 'John', age: 15, gender: 'Male', id: 1 },
-  { name: 'Amber', age: 40, gender: 'Female', id: 2 },
-  { name: 'Leslie', age: 25, gender: 'Female', id: 3 },
-  { name: 'Ben', age: 70, gender: 'Male', id: 4 }
-];
+  if (column.key === 'types') {
+    column.render = types => (
+      types.map(tag => <Tag key={tag}>{tag}</Tag>)
+    );
+  }
+
+  if (column.key === 'website') {
+    column.render = (text) => {
+      if (typeof text === 'undefined') {
+        return null;
+      }
+
+      return <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
+    };
+  }
+
+  return (
+    <Column
+      key={column.key}
+      title={column.title}
+      dataIndex={column.key}
+      filters={column.filters}
+      render={column.render}
+      sorter={column.sorter}
+      filterMultiple={column.filterMultiple}
+      width={column.width}
+    />
+   );
+};
 
 class PaginationTable extends PureComponent {
-  render() {
-    const isLoading = false;
-    const activeColumn = false;
-    const sortDirection = 'ascending';
+  state = {
+    data: [],
+    pagination: {},
+    loading: false,
+    isDeleteModalVisible: false,
+    itemToDelete: {},
+    searchTerm: ''
+  }
 
+  componentDidMount() {
+    this.fetch();
+  }
+
+  onRowClick(evt, item) {
+    history.push(`/${this.props.itemIdentifier}/${item.id}`);
+  }
+
+  onTableChange = (pagination, filters, sorter) => {
+    this.setState((prevState) => {
+      const pager = prevState.pagination;
+      pager.current = pagination.current;
+      return { pagination: pager };
+    });
+
+    const params = {
+      limit: pagination.pageSize,
+      skip: (pagination.pageSize * pagination.current) - pagination.pageSize,
+      sort: sorter.field,
+      order: sorter.order,
+      ...filters
+    };
+
+    const { searchTerm } = this.state;
+    if (searchTerm) {
+      return this.search(searchTerm, params);
+    }
+    return this.fetch(params);
+  }
+
+  onOpenModal(evt, item) {
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    this.setState({
+      isDeleteModalVisible: true,
+      itemToDelete: item
+    });
+  }
+
+  async onOk() {
+    await remove(this.state.itemToDelete.id);
+    await this.fetch(this.lastParams);
+    this.closeModal();
+  }
+
+  onCancel() {
+    this.closeModal();
+  }
+
+  closeModal() {
+    this.setState({
+      isDeleteModalVisible: false,
+      itemToDelete: {}
+    });
+  }
+
+  fetch = async (params = {}) => {
+    this.setState({ loading: true });
+    this.lastParams = params;
+
+    const { data, count } = await get(params);
+
+    this.setState((prevState) => {
+      const { pagination } = prevState;
+      pagination.total = count;
+
+      return {
+        loading: false,
+        data,
+        pagination
+      };
+    });
+  }
+
+  async search(value, params) {
+    this.setState({ loading: true });
+    if (value === '') {
+      this.setState({
+        searchTerm: '',
+        pagination: {
+          current: 0
+        }
+      });
+      return this.fetch();
+    }
+
+    const { data, count } = await locationSearch(value, params);
+    this.setState({
+      loading: false,
+      searchTerm: value,
+      data,
+      pagination: {
+        current: 0,
+        total: count
+      }
+    });
+  }
+
+  render() {
     return (
-      <TableWrapper>
-        <Dimmer active={isLoading}>
-          <Loader>Lade Daten</Loader>
-        </Dimmer>
-        <Table sortable celled fixed>
-          <Table.Header>
-            <Table.Row>
-              {headerData.map(header => (
-                <Table.HeaderCell
-                  key={header.key}
-                  sorted={null}
-                  onClick={this.props.handleSort(header.key)}
-                >
-                  {header.label}
-                </Table.HeaderCell>
-              ))}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {tableData.map(d => (
-              <Table.Row key={d.id}>
-                {
-                  Object.keys(d)
-                    .filter(cellKey => headerData.find(header => header.key === cellKey))
-                    .map((cellKey, index) => <Table.Cell key={`${d.id}-${index}`}>{d[cellKey]}</Table.Cell>)
-                }
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-        <Pagination
-          defaultActivePage={1}
-          totalPages={10}
-          firstItem={null}
-          lastItem={null}
+      <Fragment>
+        <Search
+          placeholder="Suche..."
+          onSearch={value => this.search(value)}
+          enterButton
         />
-      </TableWrapper>
+        <TableWrapper>
+          <Table
+            rowKey="id"
+            dataSource={this.state.data}
+            pagination={this.state.pagination}
+            onChange={this.onTableChange}
+            loading={this.state.loading}
+            onRow={item => ({
+              onClick: evt => this.onRowClick(evt, item)
+            })}
+            >
+            {this.props.columns.map(item => renderColumn(item))}
+            <Column
+              key="action"
+              render={item => (
+                <Button
+                  type="danger"
+                  size="small"
+                  icon="delete"
+                  content="Delete"
+                  onClick={evt => this.onOpenModal(evt, item)}
+                />
+                )}
+              />
+          </Table>
+          <Modal
+            title="Eintrag löschen"
+            visible={this.state.isDeleteModalVisible}
+            onOk={() => this.onOk()}
+            onCancel={() => this.onCancel()}
+          >
+            <p>
+              Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen?
+            </p>
+          </Modal>
+        </TableWrapper>
+      </Fragment>
     );
   }
 }

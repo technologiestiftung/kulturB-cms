@@ -1,24 +1,63 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { Layout, Menu } from 'antd';
 
+import { logout } from '~/AppState';
+import logoSrc from '../../../public/images/tsb-logo.svg';
+
+console.log(logoSrc)
+
 const { Header } = Layout;
+
+const Logo = styled.img`
+  color: white;
+  width: 50px;
+`;
 
 class HeaderMenu extends PureComponent {
   render() {
-    const { pathname } = this.props.location;
+    const { location, token, dispatch } = this.props;
 
     return (
-      <Header>
+      <Header
+        style={{ padding: '0 20px' }}
+      >
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={[pathname]}
-          style={{ lineHeight: '64px' }}
+          selectedKeys={[location.pathname]}
+          style={{
+            lineHeight: '64px',
+            maxWidth: '1100px',
+            width: '100%',
+            margin: '0 auto',
+            padding: '0 20px'
+          }}
         >
-          <Menu.Item key="/"><NavLink to="/">Home</NavLink></Menu.Item>
-          <Menu.Item key="/standorte"><NavLink to="/standorte">Standorte</NavLink></Menu.Item>
+          <Menu.Item>
+            <Logo src={logoSrc} />
+          </Menu.Item>
+          {token && (
+            <Menu.Item key="/">
+              <NavLink to="/">Home</NavLink>
+            </Menu.Item>
+          )}
+          {token && (
+            <Menu.Item key="/standorte">
+              <NavLink to="/standorte">Standorte</NavLink>
+            </Menu.Item>
+          )}
+          {token && (
+            <Menu.Item style={{ float: 'right' }}>
+              <div
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </div>
+            </Menu.Item>
+          )}
         </Menu>
       </Header>
     );

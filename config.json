@@ -1,7 +1,19 @@
 {
   "meta": {
-    "description": "webkid react starterkit",
+    "description": "TSB Admin",
     "viewport": "width=device-width, initial-scale=1",
     "robots": "noindex,nofollow"
-  }
+  },
+  "url": {
+    "base": "https://tsb-metadata-generator.herokuapp.com/api/v1",
+    "locations": "/locations",
+    "tags": "/tags",
+    "user": {
+      "base": "/users",
+      "login": "/login"
+    },
+    "upload": "/files"
+  },
+  "localStoragePrefix": "tsb",
+  "types": ["organisation", "venue"]
 }
