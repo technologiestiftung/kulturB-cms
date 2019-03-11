@@ -113,12 +113,41 @@ export async function getTags() {
   return res.json();
 }
 
+export async function createTag(name) {
+  const { AppState } = Store.getState();
+
+  const res = await fetch(`${config.url.base}${config.url.tags}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: AppState.token
+    },
+    body: JSON.stringify({ name })
+  });
+  return res.json();
+}
+
+export async function deleteTag(id) {
+  const { AppState } = Store.getState();
+
+  const res = await fetch(`${config.url.base}${config.url.tags}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: AppState.token
+    }
+  });
+  return res.json();
+}
+
 export default {
   get,
   create,
   update,
   remove,
   getTags,
+  createTag,
+  deleteTag,
   removeImage,
   locationSearch
 };
