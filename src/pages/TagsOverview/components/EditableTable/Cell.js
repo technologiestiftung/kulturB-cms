@@ -42,6 +42,9 @@ class EditableCell extends PureComponent {
       handleSave,
       ...restProps
     } = this.props;
+
+    console.log(this.props);
+
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
         {editable ? (
@@ -49,7 +52,7 @@ class EditableCell extends PureComponent {
             {(form) => {
               this.form = form;
               return (
-                editing ? (
+                editing || record.unsynced ? (
                   <FormItem style={{ margin: 0 }}>
                     {form.getFieldDecorator(dataIndex, {
                       rules: [{
@@ -62,6 +65,7 @@ class EditableCell extends PureComponent {
                         ref={node => (this.input = node)}
                         onPressEnter={this.save}
                         onBlur={this.save}
+                        autoFocus
                       />
                     )}
                   </FormItem>

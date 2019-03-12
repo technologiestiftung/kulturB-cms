@@ -16,7 +16,8 @@
     "indent": "off",
     "consistent-return": 0,
     "react/jsx-one-expression-per-line": 0,
-    "react/sort-comp": 0
+    "react/sort-comp": 0,
+    "no-underscore-dangle": 0
   },
   "env": {
     "browser": true

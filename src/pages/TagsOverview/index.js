@@ -44,10 +44,11 @@ class Tags extends PureComponent {
     const { count, data } = this.state;
     const newData = {
       key: count,
-      name: 'Neu'
+      name: '',
+      unsynced: true
     };
     this.setState({
-      data: [...data, newData],
+      data: [newData, ...data],
       count: count + 1
     });
   }
@@ -64,12 +65,17 @@ class Tags extends PureComponent {
 
   render() {
     const { data, loading } = this.state;
+    const hasUnsyncedData = data.find(d => d.unsynced);
 
     return (
       <Container>
         <HeaderArea>
           <h1>Kategorien Übersicht</h1>
-          <StyledButton onClick={this.handleAdd} type="primary">
+          <StyledButton
+            disabled={hasUnsyncedData}
+            onClick={this.handleAdd}
+            type="primary"
+          >
             Neue Kategorie anlegen
           </StyledButton>
         </HeaderArea>
