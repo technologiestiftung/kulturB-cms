@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input
+  Form, Input, Row, Col, Button
 } from 'antd';
 import { Consumer } from './Context';
 
@@ -66,13 +66,24 @@ class EditableCell extends PureComponent {
                     )}
                   </FormItem>
                 ) : (
-                  <div
+                  <Row
+                    type="flex"
+                    justify="space-between"
                     className="editable-cell-value-wrap"
                     style={{ paddingRight: 24 }}
-                    onClick={this.toggleEdit}
                   >
-                    {restProps.children}
-                  </div>
+                    <Col>
+                      {restProps.children}
+                    </Col>
+                    <Col>
+                      <Button
+                        size="small"
+                        icon="edit"
+                        content="Edit"
+                        onClick={this.toggleEdit}
+                      />
+                    </Col>
+                  </Row>
                 )
               );
             }}

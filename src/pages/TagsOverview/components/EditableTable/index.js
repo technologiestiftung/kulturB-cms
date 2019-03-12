@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Row, Col, Table, Button, Popconfirm
+  Table, Button, Popconfirm
 } from 'antd';
 
 import EditableCell from './Cell';
@@ -15,25 +15,7 @@ class EditableTable extends PureComponent {
     this.columns = [{
       title: 'Name',
       dataIndex: 'name',
-      editable: true,
-      render: (text, record) => (
-        this.props.data.length >= 1
-          ? (
-            <Row type="flex" justify="space-between">
-              <Col>
-                {text}
-              </Col>
-              <Col>
-                <Button
-                  size="small"
-                  icon="edit"
-                  content="Edit"
-                  onClick={() => this.toggleEdit(record.key)}
-                />
-              </Col>
-            </Row>
-          ) : null
-      )
+      editable: true
     }, {
       dataIndex: 'delete',
       width: '5%',
