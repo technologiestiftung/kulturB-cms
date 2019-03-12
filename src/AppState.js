@@ -8,7 +8,8 @@ const LOGIN_FAILED = 'App/AppState/LOGIN_FAILED';
 const LOGOUT = 'App/AppState/LOGOUT';
 const LOGOUT_COMPLETED = 'App/AppState/LOGOUT_COMPLETED';
 
-const tokenStorageKey = 'jwt';
+const tokenStorageKey = 'accessToken';
+const refreshTokenStorageKey = 'refreshToken';
 
 const initialState = {
   token: storage.get(tokenStorageKey),
@@ -22,10 +23,19 @@ function loginFailed() {
 }
 
 function loginCompleted(response) {
-  const { token } = response;
-  if (!token) return loginFailed();
-  storage.set(tokenStorageKey, token);
-  return { type: LOGIN_COMPLETED, payload: { token, loginError: null, isLogginIn: false } };
+  const { accessToken, refreshToken } = response;
+  if (!accessToken) return loginFailed();
+  storage.set(tokenStorageKey, accessToken);
+  storage.set(refreshTokenStorageKey, refreshToken);
+
+  return {
+    type: LOGIN_COMPLETED,
+    payload: {
+      token: accessToken,
+      loginError: null,
+      isLogginIn: false
+    }
+  };
 }
 
 export function login(values) {
@@ -48,6 +58,7 @@ export function logout() {
     dispatch({ type: LOGOUT });
 
     storage.remove(tokenStorageKey);
+    storage.remove(refreshTokenStorageKey);
     dispatch(logoutCompleted());
   };
 }
