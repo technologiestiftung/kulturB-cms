@@ -1,4 +1,5 @@
 import fetch from 'unfetch';
+import Store from '~/store';
 
 export async function login(values) {
   const url = `${config.url.base}${config.url.user.base}${config.url.user.login}`;
@@ -15,4 +16,21 @@ export async function login(values) {
   }
 }
 
-export default { login };
+export async function refreshToken() {
+  const { AppState } = Store.getState();
+
+  const url = `${config.url.base}${config.url.user.base}${config.url.user.refreshToken}?token=${AppState.token}`;
+  try {
+    const res = await fetch(url)
+      .then(r => r.json());
+
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export default {
+  login,
+  refreshToken
+};

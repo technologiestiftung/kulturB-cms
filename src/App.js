@@ -13,6 +13,7 @@ import Login from '~/pages/Login';
 import NoMatch from '~/pages/NoMatch';
 import { Layout } from 'antd';
 import history from '~/history';
+import { refreshAccessToken } from '~/AppState';
 
 const PrivateRoute = ({ component: Component, token = false, ...rest }) => (
   <Route
@@ -31,6 +32,10 @@ const PrivateRoute = ({ component: Component, token = false, ...rest }) => (
 );
 
 class App extends PureComponent {
+  componentDidMount() {
+    this.props.dispatch(refreshAccessToken());
+  }
+
   render() {
     return (
       <Router history={history}>
