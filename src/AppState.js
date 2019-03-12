@@ -74,7 +74,7 @@ export function refreshAccessToken() {
     dispatch({ type: REFRESH_TOKEN });
     const { AppState } = Store.getState();
 
-    userApi.refreshToken(AppState.refreshToken)
+    userApi.refreshToken(AppState)
       .then(res => dispatch(refreshCompleted(res)))
       .catch(() => dispatch(loginFailed()));
   };
