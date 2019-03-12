@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 
 import {
   createTag, updateTag, getTags, deleteTag
-} from '~/services/locationApi';
+} from '~/services/tagsApi';
 import EditableTable from './components/EditableTable';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';

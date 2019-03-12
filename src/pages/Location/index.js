@@ -12,8 +12,9 @@ import formItemLayout from './form-layout-config';
 
 import history from '~/history';
 import {
-  create, update, getTags, remove, locationSearch
+  create, update, remove, locationSearch
 } from '~/services/locationApi';
+import { getTags } from '~/services/tagsApi';
 
 function renderError() {
   return (
