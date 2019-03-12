@@ -127,6 +127,20 @@ export async function createTag(name) {
   return res.json();
 }
 
+export async function updateTag(id, name) {
+  const { AppState } = Store.getState();
+
+  const res = await fetch(`${config.url.base}${config.url.tags}/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: AppState.token
+    },
+    body: JSON.stringify({ name })
+  });
+  return res.json();
+}
+
 export async function deleteTag(id) {
   const { AppState } = Store.getState();
 
@@ -147,6 +161,7 @@ export default {
   remove,
   getTags,
   createTag,
+  updateTag,
   deleteTag,
   removeImage,
   locationSearch
