@@ -43,8 +43,6 @@ class EditableCell extends PureComponent {
       ...restProps
     } = this.props;
 
-    console.log(this.props);
-
     return (
       <td ref={node => (this.cell = node)} {...restProps}>
         {editable ? (

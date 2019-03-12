@@ -108,8 +108,8 @@ export async function locationSearch(name, params) {
   return res.json();
 }
 
-export async function getTags() {
-  const res = await fetch(`${config.url.base}${config.url.tags}`);
+export async function getTags(sort = 'name', order = 'ascend') {
+  const res = await fetch(`${config.url.base}${config.url.tags}?sort=${sort}&order=${order}`);
   return res.json();
 }
 

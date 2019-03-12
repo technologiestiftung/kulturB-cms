@@ -21,7 +21,7 @@ class Tags extends PureComponent {
   fetch = async () => {
     this.setState({ loading: true });
 
-    const { data, count } = await getTags();
+    const { data, count } = await getTags('createdAt', 'descend');
 
     this.setState(() => ({
         loading: false,

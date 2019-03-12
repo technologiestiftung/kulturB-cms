@@ -10,8 +10,6 @@ class EditableTable extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.apiUrl = `${config.url.base}${config.url.tags}`;
-
     this.columns = [{
       title: 'Name',
       dataIndex: 'name',
