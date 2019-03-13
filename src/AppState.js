@@ -72,11 +72,12 @@ function refreshCompleted(response) {
 export function refreshAccessToken() {
   return (dispatch) => {
     dispatch({ type: REFRESH_TOKEN });
-    const { AppState } = Store.getState();
-
-    userApi.refreshToken(AppState)
-      .then(res => dispatch(refreshCompleted(res)))
-      .catch(() => dispatch(loginFailed()));
+    const { token } = Store.getState().AppState;
+    if (token) {
+      userApi.refreshToken({ token })
+        .then(res => dispatch(refreshCompleted(res)))
+        .catch(() => dispatch(loginFailed()));
+    }
   };
 }
 
