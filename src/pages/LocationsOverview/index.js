@@ -5,23 +5,10 @@ import styled from 'styled-components';
 import history from '~/history';
 import Table from '~/components/Table';
 import Container from '~/components/Container';
+import HeaderArea from '~/components/HeaderArea';
+import StyledButton from '~/components/Button';
 
 import tableConfig from './config';
-
-const StyledButton = styled(Button)`
-  &&& {
-    margin-left: auto;
-  }
-`;
-
-const HeaderArea = styled.div`
-  display: flex;
-  align-items: center;
-
-  h1 {
-    line-height: 1;
-  }
-`;
 
 class Organisations extends PureComponent {
   render() {

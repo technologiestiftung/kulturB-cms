@@ -10,7 +10,8 @@
       {
         "title": "Tags",
         "key": "tags",
-        "dataIndex": "tags"
+        "dataIndex": "tags",
+        "sorter": true
       },
       {
         "key": "website",

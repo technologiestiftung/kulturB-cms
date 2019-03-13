@@ -50,6 +50,11 @@ class HeaderMenu extends PureComponent {
             </Menu.Item>
           )}
           {token && (
+            <Menu.Item key="/tags">
+              <NavLink to="/tags">Kategorien</NavLink>
+            </Menu.Item>
+          )}
+          {token && (
             <Menu.Item style={{ float: 'right' }}>
               <div
                 onClick={() => dispatch(logout())}

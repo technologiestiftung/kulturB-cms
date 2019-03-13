@@ -108,17 +108,11 @@ export async function locationSearch(name, params) {
   return res.json();
 }
 
-export async function getTags() {
-  const res = await fetch(`${config.url.base}${config.url.tags}`);
-  return res.json();
-}
-
 export default {
   get,
   create,
   update,
   remove,
-  getTags,
   removeImage,
   locationSearch
 };

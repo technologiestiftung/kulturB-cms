@@ -12,8 +12,9 @@ import formItemLayout from './form-layout-config';
 
 import history from '~/history';
 import {
-  create, update, getTags, remove, locationSearch
+  create, update, remove, locationSearch
 } from '~/services/locationApi';
+import { getTags } from '~/services/tagsApi';
 
 function renderError() {
   return (
@@ -50,13 +51,13 @@ class Location extends PureComponent {
   }
 
   async componentDidMount() {
-    const tags = await getTags();
+    const { data } = await getTags();
 
     if (this.props.isCreateMode) {
-      return this.setState({ isLoading: false, tags });
+      return this.setState({ isLoading: false, tags: data });
     }
 
-    this.loadLocation(tags);
+    this.loadLocation(data);
   }
 
   onSubmit(evt) {
