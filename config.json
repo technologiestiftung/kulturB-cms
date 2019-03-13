@@ -10,7 +10,8 @@
     "tags": "/tags",
     "user": {
       "base": "/users",
-      "login": "/login"
+      "login": "/login",
+      "refreshToken": "/refreshToken"
     },
     "upload": "/files"
   },
