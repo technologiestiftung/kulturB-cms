@@ -10,7 +10,7 @@ export default function getTypeInput(types) {
 
   return (
     <Select
-      mode="tags"
+      mode="multiple"
       style={{ width: '100%' }}
       placeholder="Typen festlegen"
     >
