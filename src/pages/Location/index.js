@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal
+  Form, Input, Button, Spin, Modal, notification
 } from 'antd';
 
 import { Link } from 'react-router-dom';
@@ -29,6 +29,12 @@ function renderError() {
       </div>
     </Container>
   );
+}
+
+function renderSuccessMessage() {
+  return notification.success({
+    message: 'Erfolgreich gespeichert.'
+  });
 }
 
 class Location extends PureComponent {
@@ -69,6 +75,7 @@ class Location extends PureComponent {
             const res = await create(values);
             if (!res.id) return this.setState({ isError: true, isLoading: false });
             history.replace(`/standorte/${res.id}`);
+            renderSuccessMessage();
             return this.setState({ item: res });
         }
 
@@ -79,7 +86,9 @@ class Location extends PureComponent {
         };
 
         const res = await update(this.props.match.params.id, updates);
+        if (!res.id) return this.setState({ isError: true, isLoading: false });
         this.setState({ item: res });
+        renderSuccessMessage();
       }
     });
   }
