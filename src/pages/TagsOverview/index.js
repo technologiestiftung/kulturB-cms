@@ -75,6 +75,7 @@ class Tags extends PureComponent {
             disabled={hasUnsyncedData}
             onClick={this.handleAdd}
             type="primary"
+            icon="plus"
           >
             Neue Kategorie anlegen
           </StyledButton>
