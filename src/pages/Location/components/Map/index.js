@@ -18,6 +18,10 @@ const MapWrapper = styled(Row)`
   }
 `;
 
+const Hint = styled(Row)`
+  text-align: center
+`;
+
 class LocationMap extends PureComponent {
   updatePosition(evt) {
     const { lat, lng } = evt.target.getLatLng();
@@ -32,6 +36,9 @@ class LocationMap extends PureComponent {
     return (
       <MapWrapper gutter={16}>
         <Col span={16}>
+          <Hint>
+            Verschieben Sie den Marker um die Koordinaten zu berichtigen
+          </Hint>
           <Map center={this.props.location.coordinates} zoom={12}>
             <TileLayer
               url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
