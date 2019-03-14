@@ -19,13 +19,13 @@ const parseQuery = (url, params) => {
 };
 
 export async function get(params) {
-  const url = parseQuery(`${config.url.base}${config.url.locations}`, params);
+  const url = parseQuery(`${config.url.base}${config.url.locations.base}`, params);
   const res = await fetch(url);
   return res.json();
 }
 
 export async function create(values) {
-  const url = `${config.url.base}${config.url.locations}`;
+  const url = `${config.url.base}${config.url.locations.base}`;
   const { AppState } = Store.getState();
 
   try {
@@ -45,7 +45,7 @@ export async function create(values) {
 }
 
 export async function update(id, values) {
-  const url = `${config.url.base}${config.url.locations}/${id}`;
+  const url = `${config.url.base}${config.url.locations.base}/${id}`;
   const { AppState } = Store.getState();
 
   try {
@@ -65,7 +65,7 @@ export async function update(id, values) {
 }
 
 export async function remove(id) {
-  const url = `${config.url.base}${config.url.locations}/${id}`;
+  const url = `${config.url.base}${config.url.locations.base}/${id}`;
   const { AppState } = Store.getState();
 
   try {
@@ -103,7 +103,7 @@ export async function removeImage(id) {
 }
 
 export async function locationSearch(name, params) {
-  const url = parseQuery(`${config.url.base}${config.url.locations}/search`, { name, ...params });
+  const url = parseQuery(`${config.url.base}${config.url.locations.base}/search`, { name, ...params });
   const res = await fetch(url);
   return res.json();
 }
