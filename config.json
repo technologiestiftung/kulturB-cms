@@ -6,7 +6,11 @@
   },
   "url": {
     "base": "https://tsb-metadata-generator.herokuapp.com/api/v1",
-    "locations": "/locations",
+    "locations": {
+      "base": "/locations",
+      "export": "/export",
+      "import": "/import"
+    },
     "tags": "/tags",
     "user": {
       "base": "/users",

@@ -1,7 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Button } from 'antd';
-import styled from 'styled-components';
-
 import history from '~/history';
 import Table from '~/components/Table';
 import Container from '~/components/Container';
@@ -12,7 +9,7 @@ import tableConfig from './config';
 
 class Organisations extends PureComponent {
   render() {
-    const apiUrl = `${config.url.base}${config.url.locations}`;
+    const apiUrl = `${config.url.base}${config.url.locations.base}`;
     const { columns } = tableConfig.table;
 
     return (
@@ -32,6 +29,12 @@ class Organisations extends PureComponent {
           columns={columns}
           itemIdentifier="standorte"
         />
+        <StyledButton
+          icon="export"
+          href={`${apiUrl}${config.url.locations.export}`}
+        >
+          Exportieren
+        </StyledButton>
       </Container>
     );
   }

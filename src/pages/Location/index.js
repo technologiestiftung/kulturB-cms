@@ -175,7 +175,7 @@ class Location extends PureComponent {
   async loadLocation(tags) {
     try {
       const { id } = this.props.match.params;
-      const res = await fetch(`${config.url.base}${config.url.locations}/${id}`);
+      const res = await fetch(`${config.url.base}${config.url.locations.base}/${id}`);
 
       if (res.status !== 200) {
         return this.setState({ isError: true, isLoading: false });
