@@ -189,11 +189,11 @@ class PaginationTable extends PureComponent {
             dataSource={this.state.data}
             pagination={this.state.pagination}
             onChange={this.onTableChange}
-            loading={this.state.loading}
+            loading={this.state.loading || this.props.loading}
             onRow={item => ({
               onClick: evt => this.onRowClick(evt, item)
             })}
-            >
+          >
             {this.props.columns.map(item => renderColumn(item))}
             <Column
               key="action"
@@ -206,7 +206,7 @@ class PaginationTable extends PureComponent {
                   onClick={evt => this.onOpenModal(evt, item)}
                 />
                 )}
-              />
+            />
           </Table>
           <Modal
             title="Eintrag löschen"
