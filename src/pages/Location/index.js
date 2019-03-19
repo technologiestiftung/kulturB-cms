@@ -8,6 +8,7 @@ import Container from '~/components/Container';
 import LocationForm from './components/LocationForm';
 import getTagInput from './components/TagInput';
 import getTypeInput from './components/TypeInput';
+import getAccessibilityInput from './components/AccessibiltyInput';
 import formItemLayout from './form-layout-config';
 
 import history from '~/history';
@@ -176,6 +177,7 @@ class Location extends PureComponent {
     switch (type) {
       case 'tags': return getTagInput(this.state.tags);
       case 'types': return getTypeInput(config.types);
+      case 'accessibility': return getAccessibilityInput(config.accessibility);
       case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
       default: return <Input />;
     }
