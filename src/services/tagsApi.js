@@ -1,15 +1,15 @@
 import fetch from 'unfetch';
 import Store from '~/store';
 
-export async function getTags(sort = 'name', order = 'ascend') {
-  const res = await fetch(`${config.url.base}${config.url.tags}?sort=${sort}&order=${order}`);
+export async function getTags(limit = 0, sort = 'name', order = 'ascend') {
+  const res = await fetch(`${config.url.base}${config.url.tags}?limit=${limit}&sort=${sort}&order=${order}`);
   return res.json();
 }
 
 export async function createTag(name) {
   const { AppState } = Store.getState();
 
-  const res = await fetch(`${config.url.base}${config.url.tags}?limit=0`, {
+  const res = await fetch(`${config.url.base}${config.url.tags}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
