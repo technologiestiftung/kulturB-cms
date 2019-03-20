@@ -53,7 +53,7 @@ export default [{
   }],
   getInitialValue: component => component.props.item.city
 }, {
-  name: 'accessibility',
+  name: 'accessibility_wheelchair',
   label: 'Rollstuhlgerecht',
   type: 'accessibility',
   rules: [{
