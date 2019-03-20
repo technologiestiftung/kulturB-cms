@@ -21,7 +21,7 @@ class Tags extends PureComponent {
   fetch = async () => {
     this.setState({ loading: true });
 
-    const { data, count } = await getTags('createdAt', 'descend');
+    const { data, count } = await getTags(0, 'createdAt', 'descend');
 
     this.setState(() => ({
         loading: false,
@@ -75,6 +75,7 @@ class Tags extends PureComponent {
             disabled={hasUnsyncedData}
             onClick={this.handleAdd}
             type="primary"
+            icon="plus"
           >
             Neue Kategorie anlegen
           </StyledButton>

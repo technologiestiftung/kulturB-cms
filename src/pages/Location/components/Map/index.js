@@ -12,8 +12,19 @@ const MapWrapper = styled(Row)`
     height: 250px;
   }
 
-  .leaflet-container,
-  > div {
+  .leaflet-container {
+    flex-grow: 1;
+  }
+`;
+
+const Hint = styled.div`
+  text-align: center;
+`;
+
+const FlexCol = styled(Col)`
+  &&& {
+    display: flex;
+    flex-direction: column;
     height: 100%;
   }
 `;
@@ -31,7 +42,10 @@ class LocationMap extends PureComponent {
 
     return (
       <MapWrapper gutter={16}>
-        <Col span={16}>
+        <FlexCol span={16}>
+          <Hint>
+            Verschieben Sie den Marker, um die Koordinaten zu berichtigen.
+          </Hint>
           <Map center={this.props.location.coordinates} zoom={12}>
             <TileLayer
               url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
@@ -44,7 +58,7 @@ class LocationMap extends PureComponent {
               radius={10}
             />
           </Map>
-        </Col>
+        </FlexCol>
       </MapWrapper>
     );
   }

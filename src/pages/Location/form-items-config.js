@@ -53,6 +53,14 @@ export default [{
   }],
   getInitialValue: component => component.props.item.city
 }, {
+  name: 'accessibility_wheelchair',
+  label: 'Rollstuhlgerecht',
+  type: 'accessibility',
+  rules: [{
+    type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
+  }],
+  getInitialValue: component => component.props.item.accessibility
+}, {
   name: 'tags',
   label: 'Kategorien',
   rules: [],

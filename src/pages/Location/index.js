@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal
+  Form, Input, Button, Spin, Modal, notification
 } from 'antd';
 
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Container from '~/components/Container';
 import LocationForm from './components/LocationForm';
 import getTagInput from './components/TagInput';
 import getTypeInput from './components/TypeInput';
+import getAccessibilityInput from './components/AccessibiltyInput';
 import formItemLayout from './form-layout-config';
 
 import history from '~/history';
@@ -29,6 +30,18 @@ function renderError() {
       </div>
     </Container>
   );
+}
+
+function renderSuccessMessage() {
+  return notification.success({
+    message: 'Erfolgreich gespeichert.'
+  });
+}
+
+function renderErrorMessage() {
+  return notification.error({
+    message: 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.'
+  });
 }
 
 class Location extends PureComponent {
@@ -67,8 +80,9 @@ class Location extends PureComponent {
         if (this.isCreateMode) {
           this.isCreateMode = false;
             const res = await create(values);
-            if (!res.id) return this.setState({ isError: true, isLoading: false });
+            if (!res.id) return renderErrorMessage();
             history.replace(`/standorte/${res.id}`);
+            renderSuccessMessage();
             return this.setState({ item: res });
         }
 
@@ -79,7 +93,9 @@ class Location extends PureComponent {
         };
 
         const res = await update(this.props.match.params.id, updates);
+        if (!res.id) return renderErrorMessage();
         this.setState({ item: res });
+        renderSuccessMessage();
       }
     });
   }
@@ -167,6 +183,7 @@ class Location extends PureComponent {
     switch (type) {
       case 'tags': return getTagInput(this.state.tags);
       case 'types': return getTypeInput(config.types);
+      case 'accessibility': return getAccessibilityInput(config.accessibility);
       case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
       default: return <Input />;
     }
@@ -175,7 +192,7 @@ class Location extends PureComponent {
   async loadLocation(tags) {
     try {
       const { id } = this.props.match.params;
-      const res = await fetch(`${config.url.base}${config.url.locations}/${id}`);
+      const res = await fetch(`${config.url.base}${config.url.locations.base}/${id}`);
 
       if (res.status !== 200) {
         return this.setState({ isError: true, isLoading: false });
