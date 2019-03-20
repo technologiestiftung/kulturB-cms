@@ -9,7 +9,7 @@ export async function getTags(sort = 'name', order = 'ascend') {
 export async function createTag(name) {
   const { AppState } = Store.getState();
 
-  const res = await fetch(`${config.url.base}${config.url.tags}`, {
+  const res = await fetch(`${config.url.base}${config.url.tags}?limit=0`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
