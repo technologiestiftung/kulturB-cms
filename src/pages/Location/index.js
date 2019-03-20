@@ -38,6 +38,12 @@ function renderSuccessMessage() {
   });
 }
 
+function renderErrorMessage() {
+  return notification.error({
+    message: 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.'
+  });
+}
+
 class Location extends PureComponent {
   state = {
     item: {},
@@ -74,7 +80,7 @@ class Location extends PureComponent {
         if (this.isCreateMode) {
           this.isCreateMode = false;
             const res = await create(values);
-            if (!res.id) return this.setState({ isError: true, isLoading: false });
+            if (!res.id) return renderErrorMessage();
             history.replace(`/standorte/${res.id}`);
             renderSuccessMessage();
             return this.setState({ item: res });
@@ -87,7 +93,7 @@ class Location extends PureComponent {
         };
 
         const res = await update(this.props.match.params.id, updates);
-        if (!res.id) return this.setState({ isError: true, isLoading: false });
+        if (!res.id) return renderErrorMessage();
         this.setState({ item: res });
         renderSuccessMessage();
       }
