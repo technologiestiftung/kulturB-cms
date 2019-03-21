@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, notification
+  Form, Input, Button, Spin, Modal, notification, Switch
 } from 'antd';
 
 import { Link } from 'react-router-dom';
@@ -185,6 +185,7 @@ class Location extends PureComponent {
       case 'types': return getTypeInput(config.types);
       case 'accessibility': return getAccessibilityInput(config.accessibility);
       case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
+      case 'switch': return <Switch />;
       default: return <Input />;
     }
   }

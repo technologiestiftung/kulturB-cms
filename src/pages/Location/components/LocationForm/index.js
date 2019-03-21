@@ -20,6 +20,10 @@ class LocationForm extends PureComponent {
       fieldDecoratorOptions.initialValue = item.getInitialValue(this);
     }
 
+    if (item.valuePropName) {
+      fieldDecoratorOptions.valuePropName = item.valuePropName;
+    }
+
     if (item.type === 'venues') {
       return (
         <VenuesInput

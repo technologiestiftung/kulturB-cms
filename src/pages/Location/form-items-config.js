@@ -1,4 +1,10 @@
 export default [{
+  name: 'published',
+  label: 'Veröffentlicht',
+  type: 'switch',
+  valuePropName: 'checked',
+  getInitialValue: component => component.props.item.published
+}, {
   name: 'name',
   label: 'Name',
   rules: [{
