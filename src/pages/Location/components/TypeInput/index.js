@@ -11,6 +11,7 @@ export default function getTypeInput(types) {
   return (
     <Select
       mode="multiple"
+      notFoundContent=""
       style={{ width: '100%' }}
       placeholder="Typen festlegen"
     >
