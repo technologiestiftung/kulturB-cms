@@ -19,6 +19,7 @@ const MapWrapper = styled(Row)`
 
 const Hint = styled.div`
   text-align: center;
+  margin-bottom: 5px;
 `;
 
 const FlexCol = styled(Col)`
@@ -44,7 +45,7 @@ class LocationMap extends PureComponent {
       <MapWrapper gutter={16}>
         <FlexCol span={16}>
           <Hint>
-            Verschieben Sie den Marker, um die Koordinaten zu berichtigen.
+            Verschieben Sie den Marker, um die Koordinaten zu korrigieren.
           </Hint>
           <Map center={this.props.location.coordinates} zoom={12}>
             <TileLayer
