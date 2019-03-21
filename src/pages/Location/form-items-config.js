@@ -61,6 +61,14 @@ export default [{
   }],
   getInitialValue: component => component.props.item.accessibility
 }, {
+  name: 'openingHours',
+  label: 'Öffnungszeiten',
+  rules: [{
+    whitespace: true
+  }],
+  type: 'openingHours',
+  getInitialValue: component => component.props.item.openingHours
+}, {
   name: 'tags',
   label: 'Kategorien',
   rules: [],
