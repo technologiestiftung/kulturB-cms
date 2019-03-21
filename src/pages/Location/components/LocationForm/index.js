@@ -22,6 +22,7 @@ class LocationForm extends PureComponent {
     if (item.type === 'venues') {
       return (
         <VenuesInput
+          key={item.name}
           item={item}
           formItemLayout={this.props.formItemLayout}
           venueList={this.props.venueList}
@@ -57,7 +58,10 @@ class LocationForm extends PureComponent {
           {...this.props.item}
         />
         {formItems.map(item => this.renderItem(item))}
-        <Map updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)} {...this.props.item} />
+        <Map
+          updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
+          {...this.props.item}
+        />
         <Row style={{ marginTop: '15px' }}>
           <Col span={16} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">
