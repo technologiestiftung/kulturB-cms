@@ -1,11 +1,22 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { icon } from 'leaflet';
 import { Row, Col } from 'antd';
 import {
   Map, Marker, TileLayer
 } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
+
+import iconUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+const MarkerIcon = icon({
+  iconUrl,
+  shadowUrl,
+  iconAnchor: [12.5, 41],
+  iconSize: [25, 41]
+});
 
 const MapWrapper = styled(Row)`
   &&& {
@@ -57,6 +68,7 @@ class LocationMap extends PureComponent {
               onDragend={evt => this.updatePosition(evt)}
               position={this.props.location.coordinates}
               radius={10}
+              icon={MarkerIcon}
             />
           </Map>
         </FlexCol>
