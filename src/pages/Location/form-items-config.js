@@ -1,4 +1,10 @@
 export default [{
+  name: 'published',
+  label: 'Veröffentlicht',
+  type: 'switch',
+  valuePropName: 'checked',
+  getInitialValue: component => component.props.item.published
+}, {
   name: 'name',
   label: 'Name',
   rules: [{
@@ -60,6 +66,14 @@ export default [{
     type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
   }],
   getInitialValue: component => component.props.item.accessibility
+}, {
+  name: 'openingHours',
+  label: 'Öffnungszeiten',
+  rules: [{
+    whitespace: true
+  }],
+  type: 'openingHours',
+  getInitialValue: component => component.props.item.openingHours
 }, {
   name: 'tags',
   label: 'Kategorien',

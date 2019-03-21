@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, notification
+  Form, Input, Button, Spin, Modal, notification, Switch
 } from 'antd';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import LocationForm from './components/LocationForm';
-import getTagInput from './components/TagInput';
-import getTypeInput from './components/TypeInput';
+import getSelectInput from './components/SelectInput';
 import getAccessibilityInput from './components/AccessibiltyInput';
 import formItemLayout from './form-layout-config';
 
@@ -181,10 +180,11 @@ class Location extends PureComponent {
 
   getInputComponent(type) {
     switch (type) {
-      case 'tags': return getTagInput(this.state.tags);
-      case 'types': return getTypeInput(config.types);
+      case 'tags': return getSelectInput(this.state.tags);
+      case 'types': return getSelectInput(config.types);
       case 'accessibility': return getAccessibilityInput(config.accessibility);
       case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
+      case 'switch': return <Switch />;
       default: return <Input />;
     }
   }
