@@ -7,8 +7,6 @@ import { Layout, Menu } from 'antd';
 import { logout } from '~/AppState';
 import logoSrc from '../../../public/images/tsb-logo.svg';
 
-console.log(logoSrc)
-
 const { Header } = Layout;
 
 const Logo = styled.img`
