@@ -19,7 +19,7 @@ const renderTable = openingHoursTable => (
       <td>{openingHoursTable.we}</td>
     </tr>
     <tr>
-      <td>Donnestag</td>
+      <td>Donnerstag</td>
       <td>{openingHoursTable.th}</td>
     </tr>
     <tr>
