@@ -194,24 +194,26 @@ class PaginationTable extends PureComponent {
             dataSource={this.state.data}
             pagination={this.state.pagination}
             onChange={this.onTableChange}
-            loading={this.state.loading || this.props.loading}
+            loading={this.state.loading}
             onRow={item => ({
               onClick: evt => this.onRowClick(evt, item)
             })}
           >
             {this.props.columns.map(item => renderColumn(item))}
-            <Column
-              key="action"
-              render={item => (
-                <Button
-                  type="danger"
-                  size="small"
-                  icon="delete"
-                  content="Delete"
-                  onClick={evt => this.onOpenModal(evt, item)}
-                />
-                )}
-            />
+            {this.props.token && (
+              <Column
+                key="action"
+                render={item => (
+                  <Button
+                    type="danger"
+                    size="small"
+                    icon="delete"
+                    content="Delete"
+                    onClick={evt => this.onOpenModal(evt, item)}
+                  />
+                  )}
+              />
+            )}
           </Table>
           <Modal
             title="Eintrag löschen"

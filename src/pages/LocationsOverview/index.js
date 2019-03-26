@@ -8,15 +8,6 @@ import StyledButton from '~/components/Button';
 import tableConfig from './config';
 
 class Organisations extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.tableRef = React.createRef();
-  }
-
-  state = {
-    loading: false
-  }
-
   render() {
     const apiUrl = `${config.url.base}${config.url.locations.base}`;
     const { columns } = tableConfig.table;
@@ -25,20 +16,21 @@ class Organisations extends PureComponent {
       <Container>
         <HeaderArea>
           <h1>Standorte Übersicht</h1>
-          <StyledButton
-            type="primary"
-            icon="plus"
-            onClick={() => history.push('/standorte/neu')}
-          >
-            Neuen Standort anlegen
-          </StyledButton>
+          {this.props.token && (
+            <StyledButton
+              type="primary"
+              icon="plus"
+              onClick={() => history.push('/standorte/neu')}
+            >
+              Neuen Standort anlegen
+            </StyledButton>
+          )}
         </HeaderArea>
         <Table
           url={apiUrl}
           columns={columns}
           itemIdentifier="standorte"
-          loading={this.state.loading}
-          ref={this.tableRef}
+          token={this.props.token}
         />
       </Container>
     );

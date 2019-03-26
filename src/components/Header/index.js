@@ -42,11 +42,9 @@ class HeaderMenu extends PureComponent {
               <NavLink to="/">Home</NavLink>
             </Menu.Item>
           )}
-          {token && (
-            <Menu.Item key="/standorte">
-              <NavLink to="/standorte">Standorte</NavLink>
-            </Menu.Item>
-          )}
+          <Menu.Item key="/standorte">
+            <NavLink to="/standorte">Standorte</NavLink>
+          </Menu.Item>
           {token && (
             <Menu.Item key="/tags">
               <NavLink to="/tags">Kategorien</NavLink>
@@ -57,15 +55,17 @@ class HeaderMenu extends PureComponent {
               <NavLink to="/einstellungen">Einstellungen</NavLink>
             </Menu.Item>
           )}
-          {token && (
-            <Menu.Item style={{ float: 'right' }}>
+          <Menu.Item style={{ float: 'right' }}>
+            {token ? (
               <div
-                onClick={() => dispatch(logout())}
+              onClick={() => dispatch(logout())}
               >
                 Logout
               </div>
-            </Menu.Item>
-          )}
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
+          </Menu.Item>
         </Menu>
       </Header>
     );
