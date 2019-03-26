@@ -10,6 +10,7 @@ class Import extends PureComponent {
       <Upload
         name="file"
         action={`${apiUrl}${config.url.locations.import}`}
+        beforeUpload={this.props.beforeUpload}
         onChange={this.props.onChange}
         headers={{ authorization: this.props.token }}
         accept=".csv"

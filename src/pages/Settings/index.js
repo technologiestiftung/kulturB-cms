@@ -53,6 +53,7 @@ class Settings extends PureComponent {
             <Import
               token={this.props.token}
               onChange={info => this.onChange(info)}
+              beforeUpload={() => this.setState({ loading: true })}
             />
           </div>
         </Spin>
