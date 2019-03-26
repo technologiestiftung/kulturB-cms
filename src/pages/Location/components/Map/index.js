@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import { icon } from 'leaflet';
 import { Row, Col } from 'antd';
 import {
-  Map, Marker, TileLayer
+  Map, Marker, CircleMarker, Tooltip, TileLayer
 } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
 
 import iconUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+import { get } from '~/services/locationApi';
+
 
 const MarkerIcon = icon({
   iconUrl,
@@ -42,6 +45,21 @@ const FlexCol = styled(Col)`
 `;
 
 class LocationMap extends PureComponent {
+  state = {
+    locations: []
+  }
+
+  componentDidMount() {
+    this.fetchLocations();
+  }
+
+  async fetchLocations() {
+    const { data: locations } = await get({ limit: 0, fields: ['_id', 'name', 'location'] });
+    this.setState(() => ({
+      locations
+    }));
+  }
+
   updatePosition(evt) {
     const { lat, lng } = evt.target.getLatLng();
     this.props.updatePosition(lat, lng);
@@ -70,6 +88,20 @@ class LocationMap extends PureComponent {
               radius={10}
               icon={MarkerIcon}
             />
+            {this.state.locations.map(entry => entry.location
+            && entry.location.coordinates
+            && (entry._id !== this.props._id)
+            && (
+              <CircleMarker
+                center={entry.location.coordinates}
+                radius={5}
+                icon={MarkerIcon}
+              >
+                <Tooltip direction="top">
+                  {entry.name}
+                </Tooltip>
+              </CircleMarker>
+            ))}
           </Map>
         </FlexCol>
       </MapWrapper>
