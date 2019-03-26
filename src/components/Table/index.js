@@ -29,6 +29,11 @@ const TableWrapper = styled.div`
   }
 `;
 
+const SearchBar = styled(Search)`
+  max-width: 400px;
+  margin-bottom: 10px;
+`;
+
 const renderColumn = (column) => {
   if (column.key === 'tags') {
     column.render = tags => (
@@ -178,7 +183,7 @@ class PaginationTable extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Search
+        <SearchBar
           placeholder="Suche..."
           onSearch={value => this.search(value)}
           enterButton
