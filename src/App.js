@@ -11,6 +11,7 @@ import LocationsOverview from '~/pages/LocationsOverview';
 import TagsOverview from '~/pages/TagsOverview';
 import Login from '~/pages/Login';
 import NoMatch from '~/pages/NoMatch';
+import Settings from '~/pages/Settings';
 import { Layout } from 'antd';
 import history from '~/history';
 import { refreshAccessToken } from '~/AppState';
@@ -47,6 +48,7 @@ class App extends PureComponent {
             <PrivateRoute token={this.props.token} path="/standorte" exact component={LocationsOverview} />
             <PrivateRoute token={this.props.token} path="/standorte/neu" exact isCreateMode component={Location} />
             <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
+            <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
             <Route path="/login" component={Login} />
             <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
           </Switch>

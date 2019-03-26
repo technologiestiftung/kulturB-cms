@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react';
 import history from '~/history';
-import { message } from 'antd';
 import Table from '~/components/Table';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import StyledButton from '~/components/Button';
-import ImportExport from '~/components/ImportExport';
 
 import tableConfig from './config';
 
@@ -17,20 +15,6 @@ class Organisations extends PureComponent {
 
   state = {
     loading: false
-  }
-
-  onChange(info) {
-    if (info.file.status !== 'uploading') {
-      this.setState({ loading: true });
-    }
-    if (info.file.status === 'done') {
-      message.success(`${info.file.name} erfolgreich hochgeladen.`);
-      this.setState({ loading: false });
-      this.tableRef.current.fetch();
-    } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} upload fehlgeschlagen.`);
-      this.setState({ loading: false });
-    }
   }
 
   render() {
@@ -55,10 +39,6 @@ class Organisations extends PureComponent {
           itemIdentifier="standorte"
           loading={this.state.loading}
           ref={this.tableRef}
-        />
-        <ImportExport
-          token={this.props.token}
-          onChange={info => this.onChange(info)}
         />
       </Container>
     );
