@@ -6,34 +6,36 @@ import { SimpleOpeningHours } from 'simple-opening-hours';
 
 const renderTable = openingHoursTable => (
   <table>
-    <tr>
-      <td>Montag</td>
-      <td>{openingHoursTable.mo}</td>
-    </tr>
-    <tr>
-      <td>Dienstag</td>
-      <td>{openingHoursTable.tu}</td>
-    </tr>
-    <tr>
-      <td>Mittwoch</td>
-      <td>{openingHoursTable.we}</td>
-    </tr>
-    <tr>
-      <td>Donnerstag</td>
-      <td>{openingHoursTable.th}</td>
-    </tr>
-    <tr>
-      <td>Freitag</td>
-      <td>{openingHoursTable.fr}</td>
-    </tr>
-    <tr>
-      <td>Samstag</td>
-      <td>{openingHoursTable.sa}</td>
-    </tr>
-    <tr>
-      <td>Sonntag</td>
-      <td>{openingHoursTable.su}</td>
-    </tr>
+    <tbody>
+      <tr>
+        <td>Montag</td>
+        <td>{openingHoursTable.mo}</td>
+      </tr>
+      <tr>
+        <td>Dienstag</td>
+        <td>{openingHoursTable.tu}</td>
+      </tr>
+      <tr>
+        <td>Mittwoch</td>
+        <td>{openingHoursTable.we}</td>
+      </tr>
+      <tr>
+        <td>Donnerstag</td>
+        <td>{openingHoursTable.th}</td>
+      </tr>
+      <tr>
+        <td>Freitag</td>
+        <td>{openingHoursTable.fr}</td>
+      </tr>
+      <tr>
+        <td>Samstag</td>
+        <td>{openingHoursTable.sa}</td>
+      </tr>
+      <tr>
+        <td>Sonntag</td>
+        <td>{openingHoursTable.su}</td>
+      </tr>
+    </tbody>
   </table>
 );
 
