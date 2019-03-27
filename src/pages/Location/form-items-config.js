@@ -65,7 +65,7 @@ export default [{
   rules: [{
     type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
   }],
-  getInitialValue: component => component.props.item.accessibility_wheelchair
+  getInitialValue: component => component.props.item.accessibility_wheelchair || 'unknown'
 }, {
   name: 'accessibility_blind',
   label: 'Hilfsmittel für Menschen mit Blindheit und Sehbehinderung',
