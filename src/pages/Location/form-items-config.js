@@ -67,6 +67,20 @@ export default [{
   }],
   getInitialValue: component => component.props.item.accessibility_wheelchair
 }, {
+  name: 'accessibility_blind',
+  label: 'Hilfsmittel für Menschen mit Blindheit und Sehbehinderung',
+  rules: [{
+    type: 'string'
+  }],
+  getInitialValue: component => component.props.item.accessibility_blind
+}, {
+  name: 'accessibility_deaf',
+  label: 'Hilfsmittel für Gehörlose Menschen',
+  rules: [{
+    type: 'string'
+  }],
+  getInitialValue: component => component.props.item.accessibility_deaf
+}, {
   name: 'openingHours',
   label: 'Öffnungszeiten',
   rules: [{
