@@ -50,7 +50,6 @@ class Location extends PureComponent {
     tags: [],
     isDeleteModalVisible: false,
     isError: false,
-    isUploading: false,
     venueAutoCompleteList: [],
     venuesAutoCompleteValue: '',
     venueList: []
@@ -102,9 +101,7 @@ class Location extends PureComponent {
   }
 
   onUploadChange(done) {
-    if (!done) {
-      this.setState({ isUploading: true });
-    } else {
+    if (done) {
       // Get this url from response in real world.
       this.setState(prevState => ({
         item: {
@@ -116,7 +113,7 @@ class Location extends PureComponent {
     }
   }
 
-  async onImageRemove() {
+  onImageRemove() {
     this.setState(prevState => ({
       item: {
         ...prevState.item,
@@ -244,12 +241,16 @@ class Location extends PureComponent {
             onDeleteItem={id => this.onDeleteItem(id)}
             getInputComponent={type => this.getInputComponent(type)}
             onSubmit={evt => this.onSubmit(evt)}
-            onUploadChange={this.onUploadChange}
-            onImageRemove={this.onImageRemove}
+            onUploadChange={evt => this.onUploadChange(evt)}
+            onImageRemove={() => this.onImageRemove()}
             updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
             onOpenModal={evt => this.onOpenModal(evt)}
-            {...this.props}
-            {...this.state}
+            venueList={this.state.venueList}
+            venueAutoCompleteList={this.state.venueAutoCompleteList}
+            venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
+            token={this.props.token}
+            item={this.state.item}
+            isCreateMode={this.props.isCreateMode}
           />
         )}
         <Modal

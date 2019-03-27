@@ -90,13 +90,13 @@ class LocationMap extends PureComponent {
             />
             {this.state.locations.map(entry => entry.location
             && entry.location.coordinates
-            && (entry._id !== this.props._id)
+            && (entry.id !== this.props.id)
             && (
               <CircleMarker
                 center={entry.location.coordinates}
                 radius={5}
                 icon={MarkerIcon}
-                key={entry._id}
+                key={entry.id}
               >
                 <Tooltip direction="top">
                   {entry.name}

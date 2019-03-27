@@ -8,11 +8,11 @@ import { removeImage } from '~/services/locationApi';
 class FileUpload extends PureComponent {
   onUploadChange({ file }) {
     if (file.status === 'uploading') {
-      this.props.fileUploaded(false);
+      this.props.onUploadChange(false);
     }
 
     if (file.status === 'done') {
-      this.props.fileUploaded(true);
+      this.props.onUploadChange({ file });
     }
   }
 
