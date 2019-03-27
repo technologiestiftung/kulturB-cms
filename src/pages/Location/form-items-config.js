@@ -93,7 +93,11 @@ export default [{
   label: 'Kategorien',
   rules: [],
   type: 'tags',
-  getInitialValue: component => (component.props.item.tags ? component.props.item.tags.map(t => t._id) : undefined)
+  getInitialValue: component => (
+    component.props.item.tags
+    ? component.props.item.tags.map(t => t._id)
+    : undefined
+  )
 }, {
   name: 'venues',
   label: 'Spielstätten',

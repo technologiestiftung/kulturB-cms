@@ -58,7 +58,10 @@ class HeaderMenu extends PureComponent {
           <Menu.Item style={{ float: 'right' }}>
             {token ? (
               <div
-              onClick={() => dispatch(logout())}
+                onClick={() => dispatch(logout())}
+                onKeyPress={() => dispatch(logout())}
+                role="button"
+                tabIndex={0}
               >
                 Logout
               </div>

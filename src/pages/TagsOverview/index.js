@@ -27,8 +27,9 @@ class Tags extends PureComponent {
         loading: false,
         count,
         data: data.map((d) => {
-          d.key = d._id;
-          return d;
+          const entry = d;
+          entry.key = entry._id;
+          return entry;
         })
       }));
   }

@@ -6,7 +6,6 @@ import {
 } from 'antd';
 import Container from '~/components/Container';
 import { login } from '~/AppState';
-import { Z_FINISH } from 'zlib';
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -63,9 +62,9 @@ class LoginForm extends PureComponent {
             )}
           </Form.Item>
           <Form.Item>
-            {this.props.isLogginIn ?
-              <Spin /> :
-              (
+            {this.props.isLogginIn
+              ? <Spin />
+              : (
                 <Button
                   type="primary"
                   htmlType="submit"

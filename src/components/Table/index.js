@@ -34,7 +34,8 @@ const SearchBar = styled(Search)`
   margin-bottom: 10px;
 `;
 
-const renderColumn = (column) => {
+const renderColumn = (col) => {
+  const column = col;
   if (column.key === 'tags') {
     column.render = tags => (
       tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)
@@ -222,7 +223,9 @@ class PaginationTable extends PureComponent {
             onCancel={() => this.onCancel()}
           >
             <p>
-              Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen?
+              Sind Sie sicher, dass sie den Eintrag
+              <strong> {this.state.itemToDelete.name} </strong>
+              löschen wollen?
             </p>
           </Modal>
         </TableWrapper>

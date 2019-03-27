@@ -106,23 +106,23 @@ class Location extends PureComponent {
       this.setState({ isUploading: true });
     } else {
       // Get this url from response in real world.
-      this.setState({
+      this.setState(prevState => ({
         item: {
-          ...this.state.item,
-          logo: file.response
+          ...prevState.item,
+          logo: done.file.response
         },
         isUploading: false
-      });
+      }));
     }
   }
 
   async onImageRemove() {
-    this.setState({
+    this.setState(prevState => ({
       item: {
-        ...this.state.item,
+        ...prevState.item,
         logo: null
       }
-    });
+    }));
   }
 
   onOpenModal(evt) {
@@ -150,11 +150,11 @@ class Location extends PureComponent {
   onSelectItem(id, option) {
     const name = option.props.children;
 
-    this.setState({
+    this.setState(prevState => ({
       venueAutoCompleteList: [],
       venuesAutoCompleteValue: '',
-      venueList: [...this.state.venueList, { id, name }]
-    });
+      venueList: [...prevState.venueList, { id, name }]
+    }));
   }
 
   onDeleteItem(id) {
@@ -259,7 +259,9 @@ class Location extends PureComponent {
           onCancel={() => this.onCancel()}
         >
           <p>
-            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.item.name}</strong> löschen wollen?
+            Sind Sie sicher, dass sie den Eintrag
+            <strong> {this.state.item.name} </strong>
+            löschen wollen?
           </p>
         </Modal>
       </Container>
