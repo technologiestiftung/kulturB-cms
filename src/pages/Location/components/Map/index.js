@@ -96,6 +96,7 @@ class LocationMap extends PureComponent {
                 center={entry.location.coordinates}
                 radius={5}
                 icon={MarkerIcon}
+                key={entry._id}
               >
                 <Tooltip direction="top">
                   {entry.name}
