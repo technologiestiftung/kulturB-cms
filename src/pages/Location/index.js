@@ -82,6 +82,7 @@ class Location extends PureComponent {
             if (!res.id) return renderErrorMessage();
             history.replace(`/standorte/${res.id}`);
             renderSuccessMessage();
+            this.props.form.setFieldsValue(res);
             return this.setState({ item: res });
         }
 
@@ -93,6 +94,7 @@ class Location extends PureComponent {
 
         const res = await update(this.props.match.params.id, updates);
         if (!res.id) return renderErrorMessage();
+        this.props.form.setFieldsValue(res);
         this.setState({ item: res });
         renderSuccessMessage();
       }
