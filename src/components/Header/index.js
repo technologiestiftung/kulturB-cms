@@ -20,7 +20,7 @@ class HeaderMenu extends PureComponent {
 
     return (
       <Header
-        style={{ padding: '0 20px' }}
+        style={{ padding: 0 }}
       >
         <Menu
           theme="dark"
@@ -28,7 +28,7 @@ class HeaderMenu extends PureComponent {
           selectedKeys={[location.pathname]}
           style={{
             lineHeight: '64px',
-            maxWidth: '1100px',
+            maxWidth: '1300px',
             width: '100%',
             margin: '0 auto',
             padding: '0 20px'
