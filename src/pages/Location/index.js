@@ -93,7 +93,7 @@ class Location extends PureComponent {
 
         const res = await update(this.props.match.params.id, updates);
         if (!res.id) return renderErrorMessage();
-        this.props.form.setFieldsValue(res);
+        // this.props.form.setFieldsValue(res);
         this.setState({ item: res });
         renderSuccessMessage();
       }
