@@ -43,7 +43,7 @@ class App extends PureComponent {
         <Layout>
           <Header token={this.props.token} dispatch={this.props.dispatch} />
           <Switch>
-            <PrivateRoute token={this.props.token} path="/" exact component={Home} />
+            <Route path="/" exact component={() => <Home token={this.props.token} />} />
             <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
             <Route path="/standorte" exact component={() => <LocationsOverview token={this.props.token} />} />
             <PrivateRoute token={this.props.token} path="/standorte/neu" exact isCreateMode component={Location} />

@@ -35,7 +35,9 @@ class HeaderMenu extends PureComponent {
           }}
         >
           <Menu.Item>
-            <Logo src={logoSrc} />
+            <NavLink to="/">
+              <Logo src={logoSrc} />
+            </NavLink>
           </Menu.Item>
           {token && (
             <Menu.Item key="/">
