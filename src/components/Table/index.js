@@ -24,7 +24,7 @@ const TableWrapper = styled.div`
     }
 
     .ant-table-row {
-      cursor: pointer;
+      cursor: ${props => (props.token ? 'pointer' : 'auto') };
     }
   }
 `;
@@ -54,7 +54,7 @@ const renderColumn = (col) => {
         return null;
       }
 
-      return <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
+      return <a target="_blank" rel="noopener noreferrer" href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
     };
   }
 
@@ -87,7 +87,9 @@ class PaginationTable extends PureComponent {
   }
 
   onRowClick(evt, item) {
-    history.push(`/${this.props.itemIdentifier}/${item.id}`);
+    if (this.props.token) {
+      history.push(`/${this.props.itemIdentifier}/${item.id}`);
+    }
   }
 
   onTableChange = (pagination, filters, sorter) => {
@@ -189,7 +191,7 @@ class PaginationTable extends PureComponent {
           onSearch={value => this.search(value)}
           enterButton
         />
-        <TableWrapper>
+        <TableWrapper token={this.props.token}>
           <Table
             rowKey="id"
             dataSource={this.state.data}
