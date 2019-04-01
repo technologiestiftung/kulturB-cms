@@ -26,7 +26,10 @@ export default [{
   label: 'Beschreibung',
   rules: [{
     message: 'Bitte eine Beschreibung angeben',
-    whitespace: true
+    whitespace: true,
+  }, {
+    message: 'Maximal 350 Zeichen benutzen',
+    max: 350
   }],
   type: 'textarea',
   getInitialValue: component => component.props.item.description
