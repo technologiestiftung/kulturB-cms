@@ -28,7 +28,7 @@ export default [{
     message: 'Bitte eine Beschreibung angeben',
     whitespace: true,
   }, {
-    message: 'Maximal 350 Zeichen benutzen',
+    message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
     max: 350
   }],
   type: 'textarea',
