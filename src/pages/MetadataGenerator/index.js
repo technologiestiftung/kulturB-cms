@@ -62,7 +62,7 @@ const jsonld = (item) => {
     telephone: item.telephone
   };
 
-  return JSON.stringify(res);
+  return JSON.stringify(res, null, 2);
 };
 
 class MetadataGenerator extends PureComponent {
