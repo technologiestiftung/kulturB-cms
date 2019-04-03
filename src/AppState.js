@@ -24,6 +24,7 @@ const initialState = {
 function loginFailed() {
   storage.remove(tokenStorageKey);
   storage.remove(refreshTokenStorageKey);
+
   return { type: LOGIN_FAILED, payload: { loginError: true, isLogginIn: false } };
 }
 
@@ -72,9 +73,9 @@ function refreshCompleted(response) {
 export function refreshAccessToken() {
   return (dispatch) => {
     dispatch({ type: REFRESH_TOKEN });
-    const { token } = Store.getState().AppState;
-    if (token) {
-      userApi.refreshToken({ token })
+    const { refreshToken } = Store.getState().AppState;
+    if (refreshToken) {
+      userApi.refreshToken({ token: refreshToken })
         .then(res => dispatch(refreshCompleted(res)))
         .catch(() => dispatch(loginFailed()));
     }

@@ -76,12 +76,15 @@ class LocationForm extends PureComponent {
           token={this.props.token}
           onUploadChange={this.props.onUploadChange}
           onImageRemove={this.props.onImageRemove}
-          {...this.props.item}
+          id={this.props.item.id}
+          logo={this.props.item.logo}
+          isCreateMode={this.props.isCreateMode}
         />
         {formItems.map(item => this.renderItem(item))}
         <Map
           updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
-          {...this.props.item}
+          id={this.props.item.id}
+          location={this.props.item.location}
         />
         <Row style={{ marginTop: '15px' }}>
           <Col span={16} style={{ textAlign: 'right' }}>

@@ -24,12 +24,19 @@ const TableWrapper = styled.div`
     }
 
     .ant-table-row {
-      cursor: pointer;
+      cursor: ${props => (props.token ? 'pointer' : 'auto') };
+      height: 80px;
     }
   }
 `;
 
-const renderColumn = (column) => {
+const SearchBar = styled(Search)`
+  max-width: 400px;
+  margin-bottom: 10px;
+`;
+
+const renderColumn = (col) => {
+  const column = col;
   if (column.key === 'tags') {
     column.render = tags => (
       tags.map(tag => <Tag key={tag.name}>{tag.name}</Tag>)
@@ -48,7 +55,7 @@ const renderColumn = (column) => {
         return null;
       }
 
-      return <a href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
+      return <a target="_blank" rel="noopener noreferrer" href={text.startsWith('http') ? text : `https://${text}`}>{text}</a>;
     };
   }
 
@@ -81,7 +88,9 @@ class PaginationTable extends PureComponent {
   }
 
   onRowClick(evt, item) {
-    history.push(`/${this.props.itemIdentifier}/${item.id}`);
+    if (this.props.token) {
+      history.push(`/${this.props.itemIdentifier}/${item.id}`);
+    }
   }
 
   onTableChange = (pagination, filters, sorter) => {
@@ -178,35 +187,37 @@ class PaginationTable extends PureComponent {
   render() {
     return (
       <Fragment>
-        <Search
+        <SearchBar
           placeholder="Suche..."
           onSearch={value => this.search(value)}
           enterButton
         />
-        <TableWrapper>
+        <TableWrapper token={this.props.token}>
           <Table
             rowKey="id"
             dataSource={this.state.data}
             pagination={this.state.pagination}
             onChange={this.onTableChange}
-            loading={this.state.loading || this.props.loading}
+            loading={this.state.loading}
             onRow={item => ({
               onClick: evt => this.onRowClick(evt, item)
             })}
           >
             {this.props.columns.map(item => renderColumn(item))}
-            <Column
-              key="action"
-              render={item => (
-                <Button
-                  type="danger"
-                  size="small"
-                  icon="delete"
-                  content="Delete"
-                  onClick={evt => this.onOpenModal(evt, item)}
-                />
-                )}
-            />
+            {this.props.token && (
+              <Column
+                key="action"
+                render={item => (
+                  <Button
+                    type="danger"
+                    size="small"
+                    icon="delete"
+                    content="Delete"
+                    onClick={evt => this.onOpenModal(evt, item)}
+                  />
+                  )}
+              />
+            )}
           </Table>
           <Modal
             title="Eintrag löschen"
@@ -215,7 +226,9 @@ class PaginationTable extends PureComponent {
             onCancel={() => this.onCancel()}
           >
             <p>
-              Sind Sie sicher, dass sie den Eintrag <strong>{this.state.itemToDelete.name}</strong> löschen wollen?
+              Sind Sie sicher, dass sie den Eintrag
+              <strong> {this.state.itemToDelete.name} </strong>
+              löschen wollen?
             </p>
           </Modal>
         </TableWrapper>

@@ -50,7 +50,6 @@ class Location extends PureComponent {
     tags: [],
     isDeleteModalVisible: false,
     isError: false,
-    isUploading: false,
     venueAutoCompleteList: [],
     venuesAutoCompleteValue: '',
     venueList: []
@@ -82,6 +81,7 @@ class Location extends PureComponent {
             if (!res.id) return renderErrorMessage();
             history.replace(`/standorte/${res.id}`);
             renderSuccessMessage();
+            this.props.form.setFieldsValue(res);
             return this.setState({ item: res });
         }
 
@@ -93,6 +93,7 @@ class Location extends PureComponent {
 
         const res = await update(this.props.match.params.id, updates);
         if (!res.id) return renderErrorMessage();
+        // this.props.form.setFieldsValue(res);
         this.setState({ item: res });
         renderSuccessMessage();
       }
@@ -100,27 +101,25 @@ class Location extends PureComponent {
   }
 
   onUploadChange(done) {
-    if (!done) {
-      this.setState({ isUploading: true });
-    } else {
+    if (done) {
       // Get this url from response in real world.
-      this.setState({
+      this.setState(prevState => ({
         item: {
-          ...this.state.item,
-          logo: file.response
+          ...prevState.item,
+          logo: done.file.response
         },
         isUploading: false
-      });
+      }));
     }
   }
 
-  async onImageRemove() {
-    this.setState({
+  onImageRemove() {
+    this.setState(prevState => ({
       item: {
-        ...this.state.item,
+        ...prevState.item,
         logo: null
       }
-    });
+    }));
   }
 
   onOpenModal(evt) {
@@ -148,11 +147,11 @@ class Location extends PureComponent {
   onSelectItem(id, option) {
     const name = option.props.children;
 
-    this.setState({
+    this.setState(prevState => ({
       venueAutoCompleteList: [],
       venuesAutoCompleteValue: '',
-      venueList: [...this.state.venueList, { id, name }]
-    });
+      venueList: [...prevState.venueList, { id, name }]
+    }));
   }
 
   onDeleteItem(id) {
@@ -242,12 +241,16 @@ class Location extends PureComponent {
             onDeleteItem={id => this.onDeleteItem(id)}
             getInputComponent={type => this.getInputComponent(type)}
             onSubmit={evt => this.onSubmit(evt)}
-            onUploadChange={this.onUploadChange}
-            onImageRemove={this.onImageRemove}
+            onUploadChange={evt => this.onUploadChange(evt)}
+            onImageRemove={() => this.onImageRemove()}
             updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
             onOpenModal={evt => this.onOpenModal(evt)}
-            {...this.props}
-            {...this.state}
+            venueList={this.state.venueList}
+            venueAutoCompleteList={this.state.venueAutoCompleteList}
+            venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
+            token={this.props.token}
+            item={this.state.item}
+            isCreateMode={this.props.isCreateMode}
           />
         )}
         <Modal
@@ -257,7 +260,9 @@ class Location extends PureComponent {
           onCancel={() => this.onCancel()}
         >
           <p>
-            Sind Sie sicher, dass sie den Eintrag <strong>{this.state.item.name}</strong> löschen wollen?
+            Sind Sie sicher, dass sie den Eintrag
+            <strong> {this.state.item.name} </strong>
+            löschen wollen?
           </p>
         </Modal>
       </Container>

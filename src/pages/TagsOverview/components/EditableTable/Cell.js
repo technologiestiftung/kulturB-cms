@@ -12,11 +12,11 @@ class EditableCell extends PureComponent {
   }
 
   toggleEdit = () => {
-    const editing = !this.state.editing;
-    this.setState({ editing }, () => {
-      if (editing) {
+    this.setState((prevState) => {
+      if (prevState.editing) {
         this.input.focus();
       }
+      return { editing: !prevState.editing };
     });
   }
 
@@ -44,7 +44,7 @@ class EditableCell extends PureComponent {
     } = this.props;
 
     return (
-      <td ref={node => (this.cell = node)} {...restProps}>
+      <td ref={(node) => { this.cell = node; }} {...restProps}>
         {editable ? (
           <Consumer>
             {(form) => {
@@ -60,7 +60,7 @@ class EditableCell extends PureComponent {
                       initialValue: record[dataIndex]
                     })(
                       <Input
-                        ref={node => (this.input = node)}
+                        ref={(node) => { this.input = node; }}
                         onPressEnter={this.save}
                         onBlur={this.save}
                         autoFocus

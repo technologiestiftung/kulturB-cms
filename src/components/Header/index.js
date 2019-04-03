@@ -20,7 +20,7 @@ class HeaderMenu extends PureComponent {
 
     return (
       <Header
-        style={{ padding: '0 20px' }}
+        style={{ padding: 0 }}
       >
         <Menu
           theme="dark"
@@ -28,39 +28,47 @@ class HeaderMenu extends PureComponent {
           selectedKeys={[location.pathname]}
           style={{
             lineHeight: '64px',
-            maxWidth: '1100px',
+            maxWidth: '1300px',
             width: '100%',
             margin: '0 auto',
             padding: '0 20px'
           }}
         >
           <Menu.Item>
-            <Logo src={logoSrc} />
+            <NavLink to="/">
+              <Logo src={logoSrc} />
+            </NavLink>
           </Menu.Item>
-          {token && (
-            <Menu.Item key="/">
-              <NavLink to="/">Home</NavLink>
-            </Menu.Item>
-          )}
-          {token && (
-            <Menu.Item key="/standorte">
-              <NavLink to="/standorte">Standorte</NavLink>
-            </Menu.Item>
-          )}
+          <Menu.Item key="/">
+            <NavLink to="/">Home</NavLink>
+          </Menu.Item>
+          <Menu.Item key="/standorte">
+            <NavLink to="/standorte">Standorte</NavLink>
+          </Menu.Item>
           {token && (
             <Menu.Item key="/tags">
               <NavLink to="/tags">Kategorien</NavLink>
             </Menu.Item>
           )}
           {token && (
-            <Menu.Item style={{ float: 'right' }}>
+            <Menu.Item key="/einstellungen">
+              <NavLink to="/einstellungen">Einstellungen</NavLink>
+            </Menu.Item>
+          )}
+          <Menu.Item style={{ float: 'right' }}>
+            {token ? (
               <div
                 onClick={() => dispatch(logout())}
+                onKeyPress={() => dispatch(logout())}
+                role="button"
+                tabIndex={0}
               >
                 Logout
               </div>
-            </Menu.Item>
-          )}
+            ) : (
+              <NavLink to="/login">Login</NavLink>
+            )}
+          </Menu.Item>
         </Menu>
       </Header>
     );

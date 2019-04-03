@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import { icon } from 'leaflet';
 import { Row, Col } from 'antd';
 import {
-  Map, Marker, TileLayer
+  Map, Marker, CircleMarker, Tooltip, TileLayer
 } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
 
 import iconUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+import { get } from '~/services/locationApi';
+
 
 const MarkerIcon = icon({
   iconUrl,
@@ -42,6 +45,25 @@ const FlexCol = styled(Col)`
 `;
 
 class LocationMap extends PureComponent {
+  state = {
+    locations: [],
+    viewport: {
+      center: this.props.location.coordinates,
+      zoom: 12
+    }
+  }
+
+  componentDidMount() {
+    this.fetchLocations();
+  }
+
+  async fetchLocations() {
+    const { data: locations } = await get({ limit: 0, fields: ['_id', 'name', 'location'] });
+    this.setState(() => ({
+      locations
+    }));
+  }
+
   updatePosition(evt) {
     const { lat, lng } = evt.target.getLatLng();
     this.props.updatePosition(lat, lng);
@@ -58,7 +80,7 @@ class LocationMap extends PureComponent {
           <Hint>
             Verschieben Sie den Marker, um die Koordinaten zu korrigieren.
           </Hint>
-          <Map center={this.props.location.coordinates} zoom={12}>
+          <Map center={this.props.location.coordinates} viewport={this.state.viewport}>
             <TileLayer
               url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
               attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
@@ -70,6 +92,21 @@ class LocationMap extends PureComponent {
               radius={10}
               icon={MarkerIcon}
             />
+            {this.state.locations.map(entry => entry.location
+            && entry.location.coordinates
+            && (entry.id !== this.props.id)
+            && (
+              <CircleMarker
+                center={entry.location.coordinates}
+                radius={5}
+                icon={MarkerIcon}
+                key={entry.id}
+              >
+                <Tooltip direction="top">
+                  {entry.name}
+                </Tooltip>
+              </CircleMarker>
+            ))}
           </Map>
         </FlexCol>
       </MapWrapper>

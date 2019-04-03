@@ -26,7 +26,10 @@ export default [{
   label: 'Beschreibung',
   rules: [{
     message: 'Bitte eine Beschreibung angeben',
-    whitespace: true
+    whitespace: true,
+  }, {
+    message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
+    max: 350
   }],
   type: 'textarea',
   getInitialValue: component => component.props.item.description
@@ -65,7 +68,21 @@ export default [{
   rules: [{
     type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
   }],
-  getInitialValue: component => component.props.item.accessibility
+  getInitialValue: component => component.props.item.accessibility_wheelchair || 'unknown'
+}, {
+  name: 'accessibility_blind',
+  label: 'Hilfsmittel für Menschen mit Blindheit und Sehbehinderung',
+  rules: [{
+    type: 'string'
+  }],
+  getInitialValue: component => component.props.item.accessibility_blind
+}, {
+  name: 'accessibility_deaf',
+  label: 'Hilfsmittel für Gehörlose Menschen',
+  rules: [{
+    type: 'string'
+  }],
+  getInitialValue: component => component.props.item.accessibility_deaf
 }, {
   name: 'openingHours',
   label: 'Öffnungszeiten',
@@ -79,7 +96,11 @@ export default [{
   label: 'Kategorien',
   rules: [],
   type: 'tags',
-  getInitialValue: component => (component.props.item.tags ? component.props.item.tags.map(t => t._id) : undefined)
+  getInitialValue: component => (
+    component.props.item.tags
+    ? component.props.item.tags.map(t => t._id)
+    : undefined
+  )
 }, {
   name: 'venues',
   label: 'Spielstätten',

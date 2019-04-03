@@ -13,7 +13,9 @@ class EditableTable extends PureComponent {
     this.columns = [{
       title: 'Name',
       dataIndex: 'name',
-      editable: true
+      editable: true,
+      sorter: (a, b) => a.name.localeCompare(b.name),
+      sortDirections: ['descend', 'ascend']
     }, {
       dataIndex: 'delete',
       width: '5%',

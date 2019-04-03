@@ -4,7 +4,7 @@ import Store from '~/store';
 const parseQuery = (url, params) => {
   const urlObject = new URL(url);
   Object.keys(params).forEach((key) => {
-    if (params[key]) {
+    if (typeof params[key] !== 'undefined') {
       const value = params[key];
       if (Array.isArray(value)) {
         if (value.length) {
@@ -18,7 +18,7 @@ const parseQuery = (url, params) => {
   return urlObject;
 };
 
-export async function get(params) {
+export async function get(params = {}) {
   const url = parseQuery(`${config.url.base}${config.url.locations.base}`, params);
   const res = await fetch(url);
   return res.json();
