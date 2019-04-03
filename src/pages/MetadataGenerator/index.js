@@ -115,6 +115,9 @@ class MetadataGenerator extends PureComponent {
           </Select>
           <Divider />
           <Form>
+            <RowItem label="Name">
+              <Input placeholder="Name eingeben" value={this.state.location.name} />
+            </RowItem>
             <RowItem label="Typ">
               <Select
                 showSearch
@@ -127,19 +130,16 @@ class MetadataGenerator extends PureComponent {
               </Select>
             </RowItem>
             <RowItem label="Beschreibung">
-              <TextArea value={this.state.location.description} />
-            </RowItem>
-            <RowItem label="Name">
-              <Input value={this.state.location.name} />
+              <TextArea placeholder="Beschreibung eingeben" value={this.state.location.description} />
             </RowItem>
             <RowItem label="Addresse">
-              <Input value={this.state.location.address} />
+              <Input placeholder="Beschreibung eingeben" value={this.state.location.address} />
             </RowItem>
             <RowItem label="Telefonnummer">
-              <Input value={this.state.location.telephone} />
+              <Input  placeholder="Telefonnummer eingeben"  value={this.state.location.telephone} />
             </RowItem>
             <RowItem label="Webseite">
-              <Input value={this.state.location.website} />
+              <Input placeholder="Webseite eingeben" value={this.state.location.website} />
             </RowItem>
           </Form>
         </Col>
@@ -169,7 +169,7 @@ class MetadataGenerator extends PureComponent {
               <TextArea value={jsonld(this.state.location)} rows={20} readOnly />
               <CopyToClipboard
                 text={jsonld(this.state.location)}
-                onCopy={() => notification.success({message: 'In der Zwischenablage Kopiert.'})}
+                onCopy={() => notification.success({ message: 'In der Zwischenablage Kopiert.' })}
               >
                 <MarginedButton type="primary" icon="copy">
                   Kopieren
