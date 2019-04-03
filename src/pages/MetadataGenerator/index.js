@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import { get } from '~/services/locationApi';
 import {
-  Col, Tabs, Card, Input, Select, Divider, Form, Button
+  Col, Tabs, Card, Input, Select, Divider, Form, Button, notification
 } from 'antd';
 
 const { Meta } = Card;
@@ -58,7 +59,7 @@ const jsonld = (item) => {
     url: item.website,
     sameAs: item.website,
     email: item.email,
-    telephone: item.telephone,
+    telephone: item.telephone
   };
 
   return JSON.stringify(res);
@@ -166,9 +167,14 @@ class MetadataGenerator extends PureComponent {
             </GreyTabPane>
             <GreyTabPane tab="Metadaten" key="2">
               <TextArea value={jsonld(this.state.location)} rows={20} readOnly />
-              <MarginedButton type="primary" icon="copy" onClick={this.copyContent}>
-                Kopieren
-              </MarginedButton>
+              <CopyToClipboard
+                text={jsonld(this.state.location)}
+                onCopy={() => notification.success({message: 'In der Zwischenablage Kopiert.'})}
+              >
+                <MarginedButton type="primary" icon="copy">
+                  Kopieren
+                </MarginedButton>
+              </CopyToClipboard>
             </GreyTabPane>
           </FullHeightTabs>
         </FullHeightCol>
