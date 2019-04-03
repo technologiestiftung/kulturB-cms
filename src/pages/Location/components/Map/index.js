@@ -46,7 +46,11 @@ const FlexCol = styled(Col)`
 
 class LocationMap extends PureComponent {
   state = {
-    locations: []
+    locations: [],
+    viewport: {
+      center: this.props.location.coordinates,
+      zoom: 12
+    }
   }
 
   componentDidMount() {
@@ -76,7 +80,7 @@ class LocationMap extends PureComponent {
           <Hint>
             Verschieben Sie den Marker, um die Koordinaten zu korrigieren.
           </Hint>
-          <Map center={this.props.location.coordinates} zoom={12}>
+          <Map center={this.props.location.coordinates} viewport={this.state.viewport}>
             <TileLayer
               url="https://maps.tilehosting.com/styles/positron/{z}/{x}/{y}.png?key=IA1qWrAbZAe6JUuSfLgB"
               attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
