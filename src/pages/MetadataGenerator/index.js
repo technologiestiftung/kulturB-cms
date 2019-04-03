@@ -148,7 +148,7 @@ class MetadataGenerator extends PureComponent {
               <FullHeightCol span={12} offset={6}>
                 <StyledCard
                   hoverable
-                  cover={this.state.location.logo && (<img alt="logo" src={this.state.location.logo} />)}
+                  cover={this.state.location.logo && (<img alt="logo" src={this.state.location.logo.url} />)}
                 >
                   {this.state.location.tags
                     && this.state.location.tags.map(tag => <p>{tag.name}</p>)}
