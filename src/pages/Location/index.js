@@ -6,7 +6,7 @@ import {
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import LocationForm from './components/LocationForm';
-import getSelectInput from './components/SelectInput';
+import getSelectInput from '~/components/SelectInput';
 import getAccessibilityInput from './components/AccessibiltyInput';
 import formItemLayout from './form-layout-config';
 
