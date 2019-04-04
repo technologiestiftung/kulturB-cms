@@ -17,7 +17,7 @@ export default [{
   name: 'types',
   label: 'Typ',
   rules: [{
-    required: true, message: 'Bitte einen Typen auswählen angeben'
+    required: true, message: 'Bitte einen Typen auswählen'
   }],
   type: 'types',
   getInitialValue: component => component.props.item.types
@@ -26,7 +26,7 @@ export default [{
   label: 'Beschreibung',
   rules: [{
     message: 'Bitte eine Beschreibung angeben',
-    whitespace: true,
+    whitespace: true
   }, {
     message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
     max: 350
