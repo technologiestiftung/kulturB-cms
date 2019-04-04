@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
-import { get } from '~/services/locationApi';
+import { get, getById } from '~/services/locationApi';
 import {
   Col, Tabs, Card, Input, Select, Divider, Form, Button, notification
 } from 'antd';
@@ -72,16 +72,15 @@ class MetadataGenerator extends PureComponent {
   }
 
   async componentWillMount() {
-    const { data: locations } = await get({ limit: 0 });
+    const { data: locations } = await get({ limit: 0, fields: ['_id', 'name'] });
     this.setState({ locations });
   }
 
-  selectLocation(evt) {
+  async selectLocation(evt) {
     if (!evt) return this.setState({ location: {} });
-    this.setState(({ locations }) => {
-      const location = locations.find(loc => loc._id === evt.key);
-      return { location };
-    });
+    const found = this.state.locations.find(loc => loc._id === evt.key);
+    const location = await getById(found._id);
+    this.setState({ location });
   }
 
   render() {
