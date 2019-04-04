@@ -21,6 +21,11 @@ class MetadataForm extends PureComponent {
     types: config.types
   }
 
+  componentDidMount() {
+    const fields = items.map(item => item.name);
+    this.props.onValuesChange(null, this.props.form.getFieldsValue(fields));
+  }
+
   async componentWillMount() {
     const { data: tags } = await getTags();
     return this.setState({ tags });
@@ -57,7 +62,7 @@ class MetadataForm extends PureComponent {
     return (
       <Form>
         {items.map(item => (
-          <RowItem label={item.label}>
+          <RowItem label={item.label} key={item.label}>
             {getFieldDecorator(item.name, {
               initialValue: item.initialValue,
               rules: item.rules,
