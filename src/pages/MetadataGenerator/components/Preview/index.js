@@ -18,7 +18,7 @@ class MetadataPreview extends PureComponent {
         cover={this.props.logo && (<img alt="logo" src={this.props.logo.url} />)}
       >
         {this.props.tags
-          && this.props.tags.map(tag => <p>{tag.name}</p>)}
+          && this.props.tags.map(tag => <p key={tag._id}>{tag.name}</p>)}
         <Meta
           title={this.props.name}
           description={this.props.address}
