@@ -54,6 +54,26 @@ export default [
     }],
   },
   {
+    name: 'zipcode',
+    label: 'PLZ',
+    initialValue: '10178',
+    defaultValue: '',
+    rules: [{
+      type: 'string', message: 'Bitten eine gültige PLZ eingeben', len: 5
+    }],
+    getInitialValue: component => component.props.item.zipcode
+  },
+  {
+    name: 'city',
+    label: 'Stadt',
+    initialValue: 'Berlin',
+    defaultValue: 'Berlin',
+    rules: [{
+      type: 'string', message: 'Bitten eine gültige URL angeben'
+    }],
+    getInitialValue: component => component.props.item.city
+  },
+  {
     name: 'openingHours',
     label: 'Öffnungszeiten',
     initialValue: 'Mo-Sa 10-18',

@@ -1,5 +1,10 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import Select from 'react-select';
+
+const StyledSelect = styled(Select)`
+  width: 75%;
+`;
 
 class LocationSelect extends PureComponent {
   render() {
@@ -7,12 +12,13 @@ class LocationSelect extends PureComponent {
       .map(location => ({ label: location.name, value: location._id }));
 
     return (
-      <Select
-        isSearchable
+      <StyledSelect
         noOptionsMessage={() => 'Keinen Standort gefunden'}
         placeholder="Standort auswählen"
         onChange={this.props.selectLocation}
         options={options}
+        isSearchable
+        isClearable
       />
     );
   }

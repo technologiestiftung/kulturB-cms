@@ -69,7 +69,7 @@ class MetadataGenerator extends PureComponent {
           </p>
           <LocationSelect
             locations={this.state.locations}
-            selectLocation={(selectedLocation) => this.selectLocation(selectedLocation)}
+            selectLocation={selectedLocation => this.selectLocation(selectedLocation)}
           />
           <Divider />
           <MetadataForm
