@@ -37,6 +37,9 @@ const PrivateRoute = ({ component: Component, token = false, ...rest }) => (
 const Content = styled.div`
   padding: 0 16px;
   display: flex;
+  max-width: 1300px;
+  margin: 0 auto;
+  width: 100%;
 `;
 
 class App extends PureComponent {
