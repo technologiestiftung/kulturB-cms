@@ -51,7 +51,7 @@ class App extends PureComponent {
             <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
             <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
             <Route path="/login" component={Login} />
-            <Route path="/metadata" component={MetadataGenerator} />
+            <Route path="/metadaten" component={MetadataGenerator} />
             <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
           </Switch>
         </Layout>
