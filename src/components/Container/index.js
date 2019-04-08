@@ -10,7 +10,7 @@ const StyledContainer = styled(Content)`
 
 export const ContainerBg = styled(StyledContainer)`
   background: white;
-  margin-top: 40px;
+  margin: 40px auto;
   padding: 25px 20px;
 `;
 
