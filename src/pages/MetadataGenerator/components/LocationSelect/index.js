@@ -1,29 +1,19 @@
 import React, { PureComponent } from 'react';
-import {
-  Select
-} from 'antd';
-
-const { Option } = Select;
+import Select from 'react-select';
 
 class LocationSelect extends PureComponent {
   render() {
+    const options = this.props.locations
+      .map(location => ({ label: location.name, value: location._id }));
+
     return (
       <Select
-        showSearch
-        style={{ width: 200 }}
+        isSearchable
+        noOptionsMessage={() => 'Keinen Standort gefunden'}
         placeholder="Standort auswählen"
         onChange={this.props.selectLocation}
-        notFoundContent=""
-      >
-        {
-          this.props.locations
-            .map(location => (
-              <Option key={location._id} value={location.name}>
-                {location.name}
-              </Option>
-            ))
-        }
-      </Select>
+        options={options}
+      />
     );
   }
 }
