@@ -35,6 +35,16 @@ export default [
     }],
   },
   {
+    name: 'telephone',
+    label: 'Telefonnummer',
+    rules: [{
+      max: 15,
+      min: 3,
+      message: 'Bitten eine Telefonnummer angeben'
+    }],
+    getInitialValue: component => component.props.item.telephone
+  },
+  {
     name: 'address',
     label: 'Adresse',
     initialValue: 'Alexanderplatz 1',
@@ -55,6 +65,7 @@ export default [
   {
     name: 'tags',
     label: 'Kategorien',
+    initialValue: ['Theater'],
     defaultValue: [],
     type: 'tags',
   },

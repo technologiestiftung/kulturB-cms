@@ -41,17 +41,26 @@ export default [{
   }],
   getInitialValue: component => component.props.item.website
 }, {
+  name: 'telephone',
+  label: 'Telefonnummer',
+  rules: [{
+    max: 15,
+    min: 3,
+    message: 'Bitten eine Telefonnummer angeben'
+  }],
+  getInitialValue: component => component.props.item.telephone
+}, {
   name: 'address',
   label: 'Adresse',
   rules: [{
-    type: 'string', message: 'Bitten eine Adresse ein'
+    type: 'string', message: 'Bitten eine Adresse eingeben'
   }],
   getInitialValue: component => component.props.item.address
 }, {
   name: 'zipcode',
   label: 'PLZ',
   rules: [{
-    type: 'string', message: 'Bitten eine gültige PLZ ein', len: 5
+    type: 'string', message: 'Bitten eine gültige PLZ eingeben', len: 5
   }],
   getInitialValue: component => component.props.item.zipcode
 }, {
