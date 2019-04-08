@@ -20,10 +20,9 @@ class HeaderMenu extends PureComponent {
 
     return (
       <Header
-        style={{ padding: 0 }}
+        style={{ padding: 0, background: 'white' }}
       >
         <Menu
-          theme="dark"
           mode="horizontal"
           selectedKeys={[location.pathname]}
           style={{
