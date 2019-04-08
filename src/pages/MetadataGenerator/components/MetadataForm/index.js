@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import styled from 'styled-components';
 import {
   Form, Input
 } from 'antd';
@@ -11,11 +10,6 @@ import formItemLayout from './form-layout-config';
 
 const { TextArea } = Input;
 const { Item } = Form;
-
-const RowItem = styled(Item)`
-  display: flex !important;
-  justify-content: center;
-`;
 
 class MetadataForm extends PureComponent {
   state = {
@@ -64,12 +58,12 @@ class MetadataForm extends PureComponent {
     return (
       <Form>
         {items.map(item => (
-          <RowItem {...formItemLayout} label={item.label} key={item.label}>
+          <Item {...formItemLayout} label={item.label} key={item.label}>
             {getFieldDecorator(item.name, {
               initialValue: item.initialValue,
               rules: item.rules,
             })(this.getInputComponent(item.type))}
-          </RowItem>
+          </Item>
         ))}
       </Form>
     );

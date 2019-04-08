@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import {
-  Card, Divider
-} from 'antd';
+import { Card, Divider } from 'antd';
 
 const { Meta } = Card;
 
 const StyledCard = styled(Card)`
-  margin: 20px !important;
+  &&& {
+    max-width: 75%;
+    margin: 20px auto;
+  }
 `;
 
 class MetadataPreview extends PureComponent {

@@ -87,9 +87,7 @@ class MetadataGenerator extends PureComponent {
         <FullHeightCol span={12}>
           <FullHeightTabs defaultActiveKey="1">
             <GreyTabPane tab="Vorschau" key="1">
-              <FullHeightCol span={12} offset={6}>
-                <MetadataPreview {...this.state.location} />
-              </FullHeightCol>
+              <MetadataPreview {...this.state.location} />
             </GreyTabPane>
             <GreyTabPane tab="Metadaten" key="2">
               <MetadataCode location={this.state.location} />
