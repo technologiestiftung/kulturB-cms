@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   Switch, Route, Router, Redirect
 } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Header from '~/components/Header';
 import Home from '~/pages/Home';
@@ -33,6 +34,11 @@ const PrivateRoute = ({ component: Component, token = false, ...rest }) => (
   />
 );
 
+const Content = styled.div`
+  padding: 0 16px;
+  display: flex;
+`;
+
 class App extends PureComponent {
   componentDidMount() {
     this.props.dispatch(refreshAccessToken());
@@ -43,17 +49,19 @@ class App extends PureComponent {
       <Router history={history}>
         <Layout>
           <Header token={this.props.token} dispatch={this.props.dispatch} />
-          <Switch>
-            <Route path="/" exact component={() => <Home token={this.props.token} />} />
-            <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
-            <Route path="/standorte" exact component={() => <LocationsOverview token={this.props.token} />} />
-            <PrivateRoute token={this.props.token} path="/standorte/neu" exact isCreateMode component={Location} />
-            <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
-            <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
-            <Route path="/login" component={Login} />
-            <Route path="/metadaten" component={MetadataGenerator} />
-            <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
-          </Switch>
+          <Content>
+            <Switch>
+              <Route path="/" exact component={() => <Home token={this.props.token} />} />
+              <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
+              <Route path="/standorte" exact component={() => <LocationsOverview token={this.props.token} />} />
+              <PrivateRoute token={this.props.token} path="/standorte/neu" exact isCreateMode component={Location} />
+              <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
+              <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
+              <Route path="/login" component={Login} />
+              <Route path="/metadaten" component={MetadataGenerator} />
+              <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
+            </Switch>
+          </Content>
         </Layout>
       </Router>
     );

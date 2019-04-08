@@ -4,7 +4,7 @@ import {
   Col, Tabs, Divider
 } from 'antd';
 
-import Container from '~/components/Container';
+import { ContainerBg } from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import MetadataForm from './components/MetadataForm';
 import MetadataPreview from './components/Preview';
@@ -25,11 +25,6 @@ const FullHeightTabs = styled(Tabs)`
 
 const FullHeightCol = styled(Col)`
   height: 100%;
-`;
-
-const StyledContainer = styled(Container)`
-  margin: 50px auto;
-  background: white;
 `;
 
 const GreyTabPane = styled(TabPane)`
@@ -62,7 +57,7 @@ class MetadataGenerator extends PureComponent {
 
   render() {
     return (
-      <StyledContainer>
+      <ContainerBg>
         <Col span={12}>
           <HeaderArea>
             <h1>Metadata Generator</h1>
@@ -94,7 +89,7 @@ class MetadataGenerator extends PureComponent {
             </GreyTabPane>
           </FullHeightTabs>
         </FullHeightCol>
-      </StyledContainer>
+      </ContainerBg>
     );
   }
 }
