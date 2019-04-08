@@ -48,9 +48,9 @@ class MetadataGenerator extends PureComponent {
     this.setState({ locations });
   }
 
-  async selectLocation(evt) {
-    if (!evt) return this.setState({ location: {} });
-    const found = this.state.locations.find(loc => loc._id === evt.key);
+  async selectLocation(selectedLocation) {
+    if (!selectedLocation) return this.setState({ location: {} });
+    const found = this.state.locations.find(loc => loc._id === selectedLocation.value);
     const location = await getById(found._id);
     location.tags = location.tags.map(tag => tag.name);
     this.setState({ location });
@@ -74,7 +74,7 @@ class MetadataGenerator extends PureComponent {
           </p>
           <LocationSelect
             locations={this.state.locations}
-            selectLocation={(label, evt) => this.selectLocation(evt)}
+            selectLocation={(selectedLocation) => this.selectLocation(selectedLocation)}
           />
           <Divider />
           <MetadataForm
