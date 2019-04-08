@@ -7,12 +7,14 @@ import {
 import getSelectInput from '~/components/SelectInput';
 import { getTags } from '~/services/tagsApi';
 import items from './form-items-config';
+import formItemLayout from './form-layout-config';
 
 const { TextArea } = Input;
 const { Item } = Form;
 
 const RowItem = styled(Item)`
   display: flex !important;
+  justify-content: center;
 `;
 
 class MetadataForm extends PureComponent {
@@ -62,7 +64,7 @@ class MetadataForm extends PureComponent {
     return (
       <Form>
         {items.map(item => (
-          <RowItem label={item.label} key={item.label}>
+          <RowItem {...formItemLayout} label={item.label} key={item.label}>
             {getFieldDecorator(item.name, {
               initialValue: item.initialValue,
               rules: item.rules,
