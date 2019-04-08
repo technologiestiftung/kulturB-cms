@@ -44,6 +44,15 @@ const FlexCol = styled(Col)`
   }
 `;
 
+const GrayMarker = styled(CircleMarker)`
+  &&& {
+    fill: #ddd;
+    fill-opacity: 1;
+    stroke: #fff;
+    stroke-width: 2;
+  }
+`;
+
 class LocationMap extends PureComponent {
   state = {
     locations: [],
@@ -96,7 +105,7 @@ class LocationMap extends PureComponent {
             && entry.location.coordinates
             && (entry.id !== this.props.id)
             && (
-              <CircleMarker
+              <GrayMarker
                 center={entry.location.coordinates}
                 radius={5}
                 icon={MarkerIcon}
@@ -105,7 +114,7 @@ class LocationMap extends PureComponent {
                 <Tooltip direction="top">
                   {entry.name}
                 </Tooltip>
-              </CircleMarker>
+              </GrayMarker>
             ))}
           </Map>
         </FlexCol>
