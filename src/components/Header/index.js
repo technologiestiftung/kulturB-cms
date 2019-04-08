@@ -57,7 +57,7 @@ class HeaderMenu extends PureComponent {
               <NavLink to="/einstellungen">Einstellungen</NavLink>
             </Menu.Item>
           )}
-          <Menu.Item style={{ float: 'right', paddingRight: 0 }}>
+          <Menu.Item style={{ float: 'right' }}>
             {token ? (
               <div
                 onClick={() => dispatch(logout())}
