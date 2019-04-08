@@ -1,11 +1,15 @@
 import React, { PureComponent } from 'react';
-import Container from '~/components/Container';
+
+import { ContainerBg } from '~/components/Container';
+import HeaderArea from '~/components/HeaderArea';
 
 class Home extends PureComponent {
   render() {
     return (
-      <Container>
-        <h1>TSB Admin</h1>
+      <ContainerBg>
+        <HeaderArea>
+          <h1>TSB Admin</h1>
+        </HeaderArea>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit,
           sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -15,7 +19,7 @@ class Home extends PureComponent {
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
           deserunt mollit anim id est laborum.
         </p>
-      </Container>
+      </ContainerBg>
     );
   }
 }

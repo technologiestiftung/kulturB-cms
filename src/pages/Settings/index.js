@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Spin, Divider, message } from 'antd';
 
-import Container from '~/components/Container';
+import { ContainerBg } from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import Import from '~/components/Import';
 import Export from '~/components/Export';
@@ -26,7 +26,7 @@ class Settings extends PureComponent {
 
   render() {
     return (
-      <Container>
+      <ContainerBg>
         <HeaderArea>
           <h1>Einstellungen</h1>
         </HeaderArea>
@@ -57,7 +57,7 @@ class Settings extends PureComponent {
             />
           </div>
         </Spin>
-      </Container>
+      </ContainerBg>
     );
   }
 }
