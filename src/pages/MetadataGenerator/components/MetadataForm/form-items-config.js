@@ -26,6 +26,15 @@ export default [
     type: 'textarea'
   },
   {
+    name: 'logo.url',
+    label: 'Logo url',
+    rules: [{
+      message: 'Bitte einen URL angeben',
+      type: 'url'
+    }],
+    type: 'input'
+  },
+  {
     name: 'website',
     label: 'Webseite',
     initialValue: 'https://example.com',
@@ -76,7 +85,7 @@ export default [
   {
     name: 'openingHours',
     label: 'Öffnungszeiten',
-    initialValue: 'Mo-Sa 10-18',
+    initialValue: 'Mo-Sa 10:00-18:00',
     defaultValue: '',
     rules: [{
       whitespace: true
