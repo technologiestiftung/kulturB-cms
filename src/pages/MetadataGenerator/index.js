@@ -62,8 +62,8 @@ class MetadataGenerator extends PureComponent {
     history.replace(`/metadaten/${location._id}`);
   }
 
-  onValuesChange(changedValues, allValues) {
-    this.setState({ location: allValues });
+  onValuesChange(changedValues, location) {
+    this.setState({ location });
   }
 
   render() {
