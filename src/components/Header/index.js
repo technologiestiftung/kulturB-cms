@@ -24,7 +24,7 @@ class HeaderMenu extends PureComponent {
       >
         <Menu
           mode="horizontal"
-          selectedKeys={[location.pathname]}
+          selectedKeys={[`/${location.pathname.split('/')[1]}`]}
           style={{
             lineHeight: '64px',
             maxWidth: '1300px',
