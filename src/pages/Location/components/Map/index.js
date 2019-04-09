@@ -44,15 +44,6 @@ const FlexCol = styled(Col)`
   }
 `;
 
-// const GrayMarker = styled(CircleMarker)`
-//   &&& {
-//     fill: #ddd;
-//     fill-opacity: 1;
-//     stroke: #fff;
-//     stroke-width: 2;
-//   }
-// `;
-
 class LocationMap extends PureComponent {
   state = {
     locations: [],

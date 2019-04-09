@@ -1,6 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Card, Divider, Icon, Row, Col } from 'antd';
+import {
+  Card, Divider, Icon, Row, Col
+} from 'antd';
 import { SimpleOpeningHours } from 'simple-opening-hours';
 import OpeningHoursPreview from '~/components/OpeningHoursPreview';
 
@@ -22,18 +24,16 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const renderRow = (label, value) => {
-  return (
-    <Row>
-      <Col span={12}>
-        {label}
-      </Col>
-      <Col>
-        {value}
-      </Col>
-    </Row>
-  );
-};
+const renderRow = (label, value) => (
+  <Row>
+    <Col span={12}>
+      {label}
+    </Col>
+    <Col>
+      {value}
+    </Col>
+  </Row>
+);
 
 class MetadataPreview extends PureComponent {
   state = {
