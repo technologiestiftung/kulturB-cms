@@ -72,6 +72,9 @@ class LocationForm extends PureComponent {
   render() {
     return (
       <Form onSubmit={evt => this.props.onSubmit(evt)} layout="horizontal">
+        <Button href={`/metadaten/${this.props.item._id}`}>
+          Zum Metadaten-Generator
+        </Button>
         <Upload
           token={this.props.token}
           onUploadChange={this.props.onUploadChange}

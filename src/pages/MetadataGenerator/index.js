@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import {
-  Col, Tabs, Divider
+  Col, Tabs, Divider, Spin
 } from 'antd';
 
 import { ContainerBg } from '~/components/Container';
@@ -11,6 +11,7 @@ import MetadataPreview from './components/Preview';
 import MetadataCode from './components/Code';
 import LocationSelect from './components/LocationSelect';
 import { get, getById } from '~/services/locationApi';
+import history from '~/history';
 
 
 const { TabPane } = Tabs;
@@ -35,7 +36,15 @@ const GreyTabPane = styled(TabPane)`
 class MetadataGenerator extends PureComponent {
   state = {
     locations: [],
-    location: {}
+    location: {},
+    loading: false
+  }
+
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    if (id) {
+      this.selectLocation({ value: id });
+    }
   }
 
   async componentWillMount() {
@@ -44,11 +53,12 @@ class MetadataGenerator extends PureComponent {
   }
 
   async selectLocation(selectedLocation) {
+    this.setState({ loading: true });
     if (!selectedLocation) return this.setState({ location: {} });
-    const found = this.state.locations.find(loc => loc._id === selectedLocation.value);
-    const location = await getById(found._id);
+    const location = await getById(selectedLocation.value);
     location.tags = location.tags.map(tag => tag.name);
-    this.setState({ location });
+    this.setState({ location, loading: false });
+    history.replace(`/metadaten/${location._id}`);
   }
 
   onValuesChange(changedValues, allValues) {
@@ -58,37 +68,40 @@ class MetadataGenerator extends PureComponent {
   render() {
     return (
       <ContainerBg>
-        <Col span={12}>
-          <HeaderArea>
-            <h1>Metadata Generator</h1>
-          </HeaderArea>
-          <p>
-            Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
-            Ut vestibulum nesciunt ipsum etiam porta maecenas eget nonummy eget diam torquent.
-            Augue in tellus quam odio pellentesque.
-          </p>
-          <LocationSelect
-            locations={this.state.locations}
-            selectLocation={selectedLocation => this.selectLocation(selectedLocation)}
-          />
-          <Divider />
-          <MetadataForm
-            location={this.state.location}
-            onValuesChange={
-              (changedValues, allValues) => this.onValuesChange(changedValues, allValues)
-            }
-          />
-        </Col>
-        <FullHeightCol span={12}>
-          <FullHeightTabs defaultActiveKey="1">
-            <GreyTabPane tab="Vorschau" key="1">
-              <MetadataPreview {...this.state.location} />
-            </GreyTabPane>
-            <GreyTabPane tab="Metadaten" key="2">
-              <MetadataCode location={this.state.location} />
-            </GreyTabPane>
-          </FullHeightTabs>
-        </FullHeightCol>
+        <Spin spinning={this.state.loading}>
+          <Col span={12}>
+            <HeaderArea>
+              <h1>Metadata Generator</h1>
+            </HeaderArea>
+            <p>
+              Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
+              Ut vestibulum nesciunt ipsum etiam porta maecenas eget nonummy eget diam torquent.
+              Augue in tellus quam odio pellentesque.
+            </p>
+            <LocationSelect
+              location={this.state.location}
+              locations={this.state.locations}
+              selectLocation={selectedLocation => this.selectLocation(selectedLocation)}
+            />
+            <Divider />
+            <MetadataForm
+              location={this.state.location}
+              onValuesChange={
+                (changedValues, allValues) => this.onValuesChange(changedValues, allValues)
+              }
+            />
+          </Col>
+          <FullHeightCol span={12}>
+            <FullHeightTabs defaultActiveKey="1">
+              <GreyTabPane tab="Vorschau" key="1">
+                <MetadataPreview {...this.state.location} />
+              </GreyTabPane>
+              <GreyTabPane tab="Metadaten" key="2">
+                <MetadataCode location={this.state.location} />
+              </GreyTabPane>
+            </FullHeightTabs>
+          </FullHeightCol>
+        </Spin>
       </ContainerBg>
     );
   }
