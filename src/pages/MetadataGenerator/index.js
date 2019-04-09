@@ -37,6 +37,7 @@ class MetadataGenerator extends PureComponent {
   state = {
     locations: [],
     location: {},
+    locationName: '',
     loading: false
   }
 
@@ -57,7 +58,7 @@ class MetadataGenerator extends PureComponent {
     if (!selectedLocation) return this.setState({ location: {} });
     const location = await getById(selectedLocation.value);
     location.tags = location.tags.map(tag => tag.name);
-    this.setState({ location, loading: false });
+    this.setState({ location, locationName: location.name, loading: false });
     history.replace(`/metadaten/${location._id}`);
   }
 
@@ -80,6 +81,7 @@ class MetadataGenerator extends PureComponent {
             </p>
             <LocationSelect
               location={this.state.location}
+              locationName={this.state.locationName}
               locations={this.state.locations}
               selectLocation={selectedLocation => this.selectLocation(selectedLocation)}
             />
