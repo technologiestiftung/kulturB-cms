@@ -11,8 +11,10 @@ class LocationSelect extends PureComponent {
     const options = this.props.locations
       .map(location => ({ label: location.name, value: location._id }));
 
+    const { name, _id } = this.props.location;
     return (
       <StyledSelect
+        value={{ label: name, value: _id }}
         noOptionsMessage={() => 'Keinen Standort gefunden'}
         placeholder="Standort auswählen"
         onChange={this.props.selectLocation}

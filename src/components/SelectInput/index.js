@@ -1,14 +1,16 @@
 import React from 'react';
 import { Select } from 'antd';
 
+const { Option } = Select;
+
 export default function getSelectInput(entries) {
   const options = entries.map(option => (
-    <Select.Option
-      title={option.name ? option.name : option}
-      key={option._id ? option._id : option}
+    <Option
+      title={option.name || option}
+      key={option._id || option}
     >
-      {option.name ? option.name : option}
-    </Select.Option>
+      {option.name || option}
+    </Option>
   ));
 
   return (
