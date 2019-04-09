@@ -18,7 +18,6 @@ class LocationSelect extends PureComponent {
         onChange={this.props.selectLocation}
         options={options}
         isSearchable
-        isClearable
       />
     );
   }
