@@ -73,7 +73,7 @@ class MetadataForm extends PureComponent {
 const WrappedMetadata = Form.create({
   name: 'metadata',
   onValuesChange(props, changedValues, allValues) {
-    props.onValuesChange(changedValues, allValues);
+    props.onValuesChange(changedValues, allValues, Object.assign({}, props.location, allValues));
   },
 })(MetadataForm);
 

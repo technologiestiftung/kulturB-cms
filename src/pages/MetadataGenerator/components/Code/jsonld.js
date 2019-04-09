@@ -6,6 +6,7 @@ export default (item) => {
     website,
     email,
     telephone,
+    location,
     address,
     zipcode,
     city,
@@ -17,7 +18,7 @@ export default (item) => {
     '@type': 'Organization',
     name
   };
-  const location = {
+  const locationSchema = {
     '@type': 'CivicStructure'
   };
 
@@ -30,17 +31,29 @@ export default (item) => {
   if (email) res.email = email;
   if (telephone) res.telephone = telephone;
   if (address && zipcode && city) {
-    res.location = location;
+    res.location = locationSchema;
 
     res.location.address = [address, zipcode, city].join(', ');
   }
 
   if (openingHours) {
-    if (!res.location) res.location = location;
+    if (!res.location) res.location = locationSchema;
     res.location.openingHours = openingHours;
   }
 
-  return `<script type="application/ld+json">
+  if (location && location.coordinates) {
+    if (!res.location) res.location = locationSchema;
+    const [latitude, longitude] = location.coordinates;
+    res.location.geo = {
+      '@type': 'GeoCoordinates',
+      latitude,
+      longitude
+    };
+  }
+
+  return `
+<script type="application/ld+json">
   ${JSON.stringify(res, null, 2)}
-  </script>`;
+</script>
+  `.trim();
 };
