@@ -33,10 +33,20 @@ const GreyTabPane = styled(TabPane)`
   height: 100%;
 `;
 
+const FullHeightSpin = styled(Spin)`
+  .ant-spin-nested-loading {
+    height: 100%;
+    .ant-spin-container {
+      height: 100%;
+    }
+  }
+`;
+
 class MetadataGenerator extends PureComponent {
   state = {
     locations: [],
     location: {},
+    fullLocation: {},
     locationName: '',
     loading: false
   }
@@ -62,14 +72,14 @@ class MetadataGenerator extends PureComponent {
     history.replace(`/metadaten/${location._id}`);
   }
 
-  onValuesChange(changedValues, location) {
-    this.setState({ location });
+  onValuesChange(changedValues, location, fullLocation) {
+    this.setState({ location, fullLocation });
   }
 
   render() {
     return (
       <ContainerBg>
-        <Spin spinning={this.state.loading}>
+        <FullHeightSpin spinning={this.state.loading}>
           <Col span={12}>
             <HeaderArea>
               <h1>Metadata Generator</h1>
@@ -89,7 +99,7 @@ class MetadataGenerator extends PureComponent {
             <MetadataForm
               location={this.state.location}
               onValuesChange={
-                (changedValues, allValues) => this.onValuesChange(changedValues, allValues)
+                (changedValues, allValues, fullLocation) => this.onValuesChange(changedValues, allValues, fullLocation)
               }
             />
           </Col>
@@ -99,11 +109,11 @@ class MetadataGenerator extends PureComponent {
                 <MetadataPreview {...this.state.location} />
               </GreyTabPane>
               <GreyTabPane tab="Metadaten" key="2">
-                <MetadataCode location={this.state.location} />
+                <MetadataCode location={this.state.fullLocation} />
               </GreyTabPane>
             </FullHeightTabs>
           </FullHeightCol>
-        </Spin>
+        </FullHeightSpin>
       </ContainerBg>
     );
   }
