@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
-import { Card, Divider, Icon } from 'antd';
+import { Card, Divider, Icon, Row, Col } from 'antd';
 import { SimpleOpeningHours } from 'simple-opening-hours';
 import OpeningHoursPreview from '~/components/OpeningHoursPreview';
 
@@ -22,6 +22,19 @@ const StyledCard = styled(Card)`
   }
 `;
 
+const renderRow = (label, value) => {
+  return (
+    <Row>
+      <Col span={12}>
+        {label}
+      </Col>
+      <Col>
+        {value}
+      </Col>
+    </Row>
+  );
+};
+
 class MetadataPreview extends PureComponent {
   state = {
     openingHoursPreview: false,
@@ -40,20 +53,21 @@ class MetadataPreview extends PureComponent {
     }
 
     return (
-      <Fragment>
+      <Row>
         <div
           onClick={() => this.toggleOpeningHoursPreview()}
           onKeyPress={() => this.toggleOpeningHoursPreview()}
           role="button"
           tabIndex={-1}
         >
-          Geöffnet: {label}
-          <Icon type={this.state.openingHoursPreview ? 'up' : 'down'} />
+          {renderRow('Geöffnet:', <div>{ label } <Icon type={this.state.openingHoursPreview ? 'up' : 'down'} /></div>)}
         </div>
-        {this.state.openingHoursPreview
-          && <OpeningHoursPreview openingHours={openingHours.getTable()} />
-        }
-      </Fragment>
+        <Col span={12} style={{ float: 'right' }}>
+          {this.state.openingHoursPreview
+            && <OpeningHoursPreview openingHours={openingHours.getTable()} />
+          }
+        </Col>
+      </Row>
     );
   }
 
@@ -63,18 +77,14 @@ class MetadataPreview extends PureComponent {
         hoverable
         cover={this.props.logo && this.props.logo.url && (<img alt="logo" src={this.props.logo.url} />)}
       >
-        {this.props.tags
-          && this.props.tags.map(tag => <p key={tag._id}>{tag.name}</p>)}
         <Meta
           title={this.props.name}
           description={[this.props.address, this.props.zipcode, this.props.city].join(' ')}
         />
-        {this.props.description && <p>{this.props.description}</p>}
+        {this.props.description && <Row style={{ marginTop: 8 }}>{this.props.description}</Row>}
         <Divider />
-        {this.props.website
-            && <div>Website: <a href={this.props.website}>{this.props.website}</a></div>
-        }
-        {this.props.telephone && <div>Telefonnummer: {this.props.telephone}</div>}
+        {this.props.website && renderRow('Website:', <a href={this.props.website} target="_blank" rel="noopener noreferrer">{this.props.website}</a>)}
+        {this.props.telephone && renderRow('Telefonnummer:', this.props.telephone)}
         {this.props.openingHours && this.renderOpeningHours(this.props.openingHours)}
       </StyledCard>
     );
