@@ -81,11 +81,13 @@ class LocationForm extends PureComponent {
           isCreateMode={this.props.isCreateMode}
         />
         {formItems.map(item => this.renderItem(item))}
-        <Map
-          updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
-          id={this.props.item.id}
-          location={this.props.item.location}
-        />
+        {this.props.item.location && (
+          <Map
+            updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
+            id={this.props.item.id}
+            location={this.props.item.location}
+          />
+        )}
         <Row style={{ marginTop: '15px' }}>
           <Col span={16} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">
