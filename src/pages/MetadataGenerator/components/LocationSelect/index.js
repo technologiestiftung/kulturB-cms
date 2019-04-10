@@ -13,8 +13,8 @@ class LocationSelect extends PureComponent {
 
     return (
       <StyledSelect
-        value={{ label: this.props.locationName || 'Standort auswählen...' }}
-        noOptionsMessage={() => 'Keinen Standort gefunden'}
+        value={{ label: this.props.locationName || 'Kulturort auswählen...' }}
+        noOptionsMessage={() => 'Keinen Kulturort gefunden'}
         onChange={this.props.selectLocation}
         options={options}
         isSearchable

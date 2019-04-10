@@ -44,8 +44,8 @@ class HeaderMenu extends PureComponent {
           <Menu.Item key="/metadaten">
             <NavLink to="/metadaten">Metadaten</NavLink>
           </Menu.Item>
-          <Menu.Item key="/standorte">
-            <NavLink to="/standorte">Standorte</NavLink>
+          <Menu.Item key="/kulturorte">
+            <NavLink to="/kulturorte">Kulturorte</NavLink>
           </Menu.Item>
           {token && (
             <Menu.Item key="/tags">

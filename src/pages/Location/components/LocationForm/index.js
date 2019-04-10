@@ -100,7 +100,7 @@ class LocationForm extends PureComponent {
                 onClick={evt => this.props.onOpenModal(evt)}
                 style={{ marginLeft: '15px' }}
               >
-                Standort löschen
+                Kulturort löschen
               </Button>
             )}
           </Col>

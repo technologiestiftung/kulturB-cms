@@ -56,9 +56,9 @@ class App extends PureComponent {
             <Switch>
               <Route path="/" exact component={() => <Home token={this.props.token} />} />
               <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
-              <Route path="/standorte" exact component={() => <LocationsOverview token={this.props.token} />} />
-              <PrivateRoute token={this.props.token} path="/standorte/neu" exact isCreateMode component={Location} />
-              <PrivateRoute token={this.props.token} path="/standorte/:id" component={Location} />
+              <Route path="/kulturorte" exact component={() => <LocationsOverview token={this.props.token} />} />
+              <PrivateRoute token={this.props.token} path="/kulturorte/neu" exact isCreateMode component={Location} />
+              <PrivateRoute token={this.props.token} path="/kulturorte/:id" component={Location} />
               <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
               <Route path="/login" component={Login} />
               <Route path="/metadaten/:id" component={MetadataGenerator} />
