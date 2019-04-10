@@ -182,7 +182,7 @@ export default [{
   childrens: [
     {
       name: 'accessibility.deaf.subtitles',
-      label: 'Angebote mit Untertiteln oder Übertiteln',
+      label: 'Angebote mit Unter-/Übertiteln',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility

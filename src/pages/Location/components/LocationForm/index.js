@@ -4,6 +4,7 @@ import {
   Row, Col, Button, Form, Collapse
 } from 'antd';
 
+import FormItem from '~/components/FormItem';
 import Map from '~/pages/Location/components/Map';
 import VenuesInput from '~/pages/Location/components/VenuesInput';
 import Upload from '~/pages/Location/components/Upload';
@@ -64,7 +65,7 @@ class LocationForm extends PureComponent {
 
     if (item.type === 'openingHours') {
       return (
-        <Form.Item
+        <FormItem
           key={item.name}
           label={item.label}
           {...this.props.formItemLayout}
@@ -74,12 +75,12 @@ class LocationForm extends PureComponent {
               this.props.getInputComponent(item.type)
             )}
           </OpeningHoursInput>
-        </Form.Item>
+        </FormItem>
       );
     }
 
     return (
-      <Form.Item
+      <FormItem
         key={item.name}
         label={item.label}
         {...this.props.formItemLayout}
@@ -87,7 +88,7 @@ class LocationForm extends PureComponent {
         {getFieldDecorator(item.name, fieldDecoratorOptions)(
           this.props.getInputComponent(item.type)
         )}
-      </Form.Item>
+      </FormItem>
     );
   }
 
