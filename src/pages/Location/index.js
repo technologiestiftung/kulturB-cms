@@ -235,9 +235,11 @@ class Location extends PureComponent {
       <Container>
         <HeaderArea>
           <h1>Kulturort {title}</h1>
-          <StyledButton href={`/metadaten/${this.state.item._id}`}>
-            Zum Metadaten-Generator
-          </StyledButton>
+          {!isCreateMode && (
+            <StyledButton href={`/metadaten/${this.state.item._id}`}>
+              Zum Metadaten-Generator
+            </StyledButton>
+          )}
         </HeaderArea>
         {this.state.isLoading ? <Spin /> : (
           <LocationForm
