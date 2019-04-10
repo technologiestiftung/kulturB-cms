@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import {
-  Row, Col, Button, Form
+  Row, Col, Button, Form, Collapse
 } from 'antd';
 
 import Map from '~/pages/Location/components/Map';
@@ -8,6 +9,17 @@ import VenuesInput from '~/pages/Location/components/VenuesInput';
 import Upload from '~/pages/Location/components/Upload';
 import formItems from '~/pages/Location/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
+
+const TransparentCollapse = styled(Collapse)`
+  &&& {
+    background: none;
+    margin: 20px;
+
+    .ant-collapse-item {
+      border: 0;
+    }
+  }
+`;
 
 class LocationForm extends PureComponent {
   renderItem(item) {
@@ -22,6 +34,16 @@ class LocationForm extends PureComponent {
 
     if (item.valuePropName) {
       fieldDecoratorOptions.valuePropName = item.valuePropName;
+    }
+
+    if (item.type === 'label') {
+      return (
+        <TransparentCollapse bordered={false} key={item.label}>
+          <Collapse.Panel header={item.label} key="1">
+            {item.childrens.map(children => this.renderItem(children))}
+          </Collapse.Panel>
+        </TransparentCollapse>
+      );
     }
 
     if (item.type === 'venues') {
