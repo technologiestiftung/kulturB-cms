@@ -23,7 +23,7 @@ const MarkerIcon = icon({
 
 const MapWrapper = styled(Row)`
   &&& {
-    height: 250px;
+    height: 400px;
   }
 
   .leaflet-container {
