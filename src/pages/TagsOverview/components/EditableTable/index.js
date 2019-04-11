@@ -1,10 +1,16 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import {
   Table, Button, Popconfirm
 } from 'antd';
 
 import EditableCell from './Cell';
 import EditableFormRow from './Row';
+
+const StyledTable = styled(Table)`
+  background: white;
+  margin-top: 10px;
+`;
 
 class EditableTable extends PureComponent {
   constructor(props) {
@@ -58,7 +64,7 @@ class EditableTable extends PureComponent {
       };
     });
     return (
-      <Table
+      <StyledTable
         components={components}
         rowClassName={() => 'editable-row'}
         bordered

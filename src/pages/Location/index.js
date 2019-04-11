@@ -5,8 +5,10 @@ import {
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
+import HeaderArea from '~/components/HeaderArea';
+import StyledButton from '~/components/Button';
 import LocationForm from './components/LocationForm';
-import getSelectInput from './components/SelectInput';
+import getSelectInput from '~/components/SelectInput';
 import getAccessibilityInput from './components/AccessibiltyInput';
 import formItemLayout from './form-layout-config';
 
@@ -19,12 +21,12 @@ import { getTags } from '~/services/tagsApi';
 function renderError() {
   return (
     <Container>
-      <h1>Standort Fehler</h1>
-      Der gesuchte Standort konnte nicht gefunden werden.
+      <h1>Kulturort Fehler</h1>
+      Der gesuchte Kulturort konnte nicht gefunden werden.
 
       <div style={{ marginTop: '15px' }}>
         <Button>
-          <Link to="/standorte">Zurück zur Übersicht</Link>
+          <Link to="/kulturorte">Zurück zur Übersicht</Link>
         </Button>
       </div>
     </Container>
@@ -79,7 +81,7 @@ class Location extends PureComponent {
           this.isCreateMode = false;
             const res = await create(values);
             if (!res.id) return renderErrorMessage();
-            history.replace(`/standorte/${res.id}`);
+            history.replace(`/kulturorte/${res.id}`);
             renderSuccessMessage();
             this.props.form.setFieldsValue(res);
             return this.setState({ item: res });
@@ -164,7 +166,7 @@ class Location extends PureComponent {
     await remove(this.props.match.params.id);
     this.closeModal();
 
-    history.push('/standorte');
+    history.push('/kulturorte');
   }
 
   onCancel() {
@@ -231,7 +233,14 @@ class Location extends PureComponent {
 
     return (
       <Container>
-        <h1>Standort {title}</h1>
+        <HeaderArea>
+          <h1>Kulturort {title}</h1>
+          {!isCreateMode && (
+            <StyledButton href={`/metadaten/${this.state.item._id}`}>
+              Zum Metadaten-Generator
+            </StyledButton>
+          )}
+        </HeaderArea>
         {this.state.isLoading ? <Spin /> : (
           <LocationForm
             form={this.props.form}

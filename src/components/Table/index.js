@@ -26,6 +26,12 @@ const TableWrapper = styled.div`
     .ant-table-row {
       cursor: ${props => (props.token ? 'pointer' : 'auto') };
       height: 80px;
+
+      &:hover {
+        td {
+          background: ${props => (props.token ? '#e6f7ff' : 'none') };
+        }
+      }
     }
   }
 `;

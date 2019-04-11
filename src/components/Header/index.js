@@ -20,12 +20,11 @@ class HeaderMenu extends PureComponent {
 
     return (
       <Header
-        style={{ padding: 0 }}
+        style={{ padding: 0, background: 'white' }}
       >
         <Menu
-          theme="dark"
           mode="horizontal"
-          selectedKeys={[location.pathname]}
+          selectedKeys={[`/${location.pathname.split('/')[1]}`]}
           style={{
             lineHeight: '64px',
             maxWidth: '1300px',
@@ -34,16 +33,19 @@ class HeaderMenu extends PureComponent {
             padding: '0 20px'
           }}
         >
-          <Menu.Item>
+          <Menu.Item style={{ paddingLeft: 0 }}>
             <NavLink to="/">
               <Logo src={logoSrc} />
             </NavLink>
           </Menu.Item>
           <Menu.Item key="/">
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">Start</NavLink>
           </Menu.Item>
-          <Menu.Item key="/standorte">
-            <NavLink to="/standorte">Standorte</NavLink>
+          <Menu.Item key="/metadaten">
+            <NavLink to="/metadaten">Metadaten</NavLink>
+          </Menu.Item>
+          <Menu.Item key="/kulturorte">
+            <NavLink to="/kulturorte">Kulturorte</NavLink>
           </Menu.Item>
           {token && (
             <Menu.Item key="/tags">

@@ -15,21 +15,21 @@ class Organisations extends PureComponent {
     return (
       <Container>
         <HeaderArea>
-          <h1>Standorte Übersicht</h1>
+          <h1>Kulturorte Übersicht</h1>
           {this.props.token && (
             <StyledButton
               type="primary"
               icon="plus"
-              onClick={() => history.push('/standorte/neu')}
+              onClick={() => history.push('/kulturorte/neu')}
             >
-              Neuen Standort anlegen
+              Neuen Kulturort anlegen
             </StyledButton>
           )}
         </HeaderArea>
         <Table
           url={apiUrl}
           columns={columns}
-          itemIdentifier="standorte"
+          itemIdentifier="kulturorte"
           token={this.props.token}
         />
       </Container>

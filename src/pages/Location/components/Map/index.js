@@ -101,6 +101,10 @@ class LocationMap extends PureComponent {
                 radius={5}
                 icon={MarkerIcon}
                 key={entry.id}
+                fillColor="#bdbdbd"
+                fillOpacity={1}
+                color="#fff"
+                weight={1}
               >
                 <Tooltip direction="top">
                   {entry.name}

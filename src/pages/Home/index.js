@@ -1,12 +1,17 @@
 import React, { PureComponent } from 'react';
-import Container from '~/components/Container';
+
+import { ContainerBg } from '~/components/Container';
+import HeaderArea from '~/components/HeaderArea';
+import Paragraph from '~/components/Paragraph';
 
 class Home extends PureComponent {
   render() {
     return (
-      <Container>
-        <h1>TSB Admin</h1>
-        <p>
+      <ContainerBg>
+        <HeaderArea>
+          <h1>TSB Admin</h1>
+        </HeaderArea>
+        <Paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit,
           sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -14,8 +19,8 @@ class Home extends PureComponent {
           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
           deserunt mollit anim id est laborum.
-        </p>
-      </Container>
+        </Paragraph>
+      </ContainerBg>
     );
   }
 }

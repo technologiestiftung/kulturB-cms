@@ -4,7 +4,7 @@ export default {
       span: 4
     },
     md: {
-      span: 4
+      span: 5
     }
   },
   wrapperCol: {

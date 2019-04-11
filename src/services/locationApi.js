@@ -24,6 +24,12 @@ export async function get(params = {}) {
   return res.json();
 }
 
+export async function getById(id) {
+  const url = `${config.url.base}${config.url.locations.base}/${id}`;
+  const res = await fetch(url);
+  return res.json();
+}
+
 export async function create(values) {
   const url = `${config.url.base}${config.url.locations.base}`;
   const { AppState } = Store.getState();

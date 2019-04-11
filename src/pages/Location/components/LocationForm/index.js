@@ -1,13 +1,30 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import {
-  Row, Col, Button, Form
+  Row, Col, Button, Form, Collapse
 } from 'antd';
 
+import FormItem from '~/components/FormItem';
 import Map from '~/pages/Location/components/Map';
 import VenuesInput from '~/pages/Location/components/VenuesInput';
 import Upload from '~/pages/Location/components/Upload';
 import formItems from '~/pages/Location/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
+
+const TransparentCollapse = styled(Collapse)`
+  &&& {
+    background: none;
+    margin: 20px;
+
+    .ant-collapse-item {
+      border: 0;
+
+      .ant-form-item-control-wrapper {
+        width: 55.5%;
+      }
+    }
+  }
+`;
 
 class LocationForm extends PureComponent {
   renderItem(item) {
@@ -22,6 +39,16 @@ class LocationForm extends PureComponent {
 
     if (item.valuePropName) {
       fieldDecoratorOptions.valuePropName = item.valuePropName;
+    }
+
+    if (item.type === 'label') {
+      return (
+        <TransparentCollapse bordered={false} key={item.label}>
+          <Collapse.Panel header={item.label} key="1">
+            {item.childrens.map(children => this.renderItem(children))}
+          </Collapse.Panel>
+        </TransparentCollapse>
+      );
     }
 
     if (item.type === 'venues') {
@@ -42,7 +69,7 @@ class LocationForm extends PureComponent {
 
     if (item.type === 'openingHours') {
       return (
-        <Form.Item
+        <FormItem
           key={item.name}
           label={item.label}
           {...this.props.formItemLayout}
@@ -52,12 +79,12 @@ class LocationForm extends PureComponent {
               this.props.getInputComponent(item.type)
             )}
           </OpeningHoursInput>
-        </Form.Item>
+        </FormItem>
       );
     }
 
     return (
-      <Form.Item
+      <FormItem
         key={item.name}
         label={item.label}
         {...this.props.formItemLayout}
@@ -65,7 +92,7 @@ class LocationForm extends PureComponent {
         {getFieldDecorator(item.name, fieldDecoratorOptions)(
           this.props.getInputComponent(item.type)
         )}
-      </Form.Item>
+      </FormItem>
     );
   }
 
@@ -100,7 +127,7 @@ class LocationForm extends PureComponent {
                 onClick={evt => this.props.onOpenModal(evt)}
                 style={{ marginLeft: '15px' }}
               >
-                Standort löschen
+                Kulturort löschen
               </Button>
             )}
           </Col>
