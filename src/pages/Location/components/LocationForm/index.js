@@ -18,6 +18,10 @@ const TransparentCollapse = styled(Collapse)`
 
     .ant-collapse-item {
       border: 0;
+
+      .ant-form-item-control-wrapper {
+        width: 55.5%;
+      }
     }
   }
 `;
