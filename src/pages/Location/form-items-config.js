@@ -104,12 +104,9 @@ export default [{
       rules: [{
         type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
       }],
-      getInitialValue: component => (
-        component.props.item.accessibility
+      getInitialValue: component => component.props.item.accessibility
         && component.props.item.accessibility.wheelchair
-        ? component.props.item.accessibility.wheelchair.accessible
-        : 'unknown'
-      )
+        && component.props.item.accessibility.wheelchair.accessible
     }, {
       name: 'accessibility.wheelchair.toilets',
       label: 'Toilette zugänglich',
