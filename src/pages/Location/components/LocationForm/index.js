@@ -10,6 +10,7 @@ import VenuesInput from '~/pages/Location/components/VenuesInput';
 import Upload from '~/pages/Location/components/Upload';
 import formItems from '~/pages/Location/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
+import StyledButton from '~/components/Button';
 
 const TransparentCollapse = styled(Collapse)`
   &&& {
@@ -117,18 +118,22 @@ class LocationForm extends PureComponent {
         )}
         <Row style={{ marginTop: '15px' }}>
           <Col span={16} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">
-              Speichern
-            </Button>
             {!this.props.isCreateMode && (
-              <Button
+              <StyledButton href={`/metadaten/${this.props.item._id}`}>
+                Zum Metadaten Generator
+              </StyledButton>
+            )}
+            <StyledButton type="primary" htmlType="submit">
+              Speichern
+            </StyledButton>
+            {!this.props.isCreateMode && (
+              <StyledButton
                 type="danger"
                 icon="delete"
                 onClick={evt => this.props.onOpenModal(evt)}
-                style={{ marginLeft: '15px' }}
               >
                 Kulturort löschen
-              </Button>
+              </StyledButton>
             )}
           </Col>
         </Row>

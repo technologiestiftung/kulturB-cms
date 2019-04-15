@@ -6,7 +6,6 @@ import {
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
-import StyledButton from '~/components/Button';
 import LocationForm from './components/LocationForm';
 import getSelectInput from '~/components/SelectInput';
 import getAccessibilityInput from './components/AccessibiltyInput';
@@ -235,11 +234,6 @@ class Location extends PureComponent {
       <Container>
         <HeaderArea>
           <h1>Kulturort {title}</h1>
-          {!isCreateMode && (
-            <StyledButton href={`/metadaten/${this.state.item._id}`}>
-              Zum Metadaten-Generator
-            </StyledButton>
-          )}
         </HeaderArea>
         {this.state.isLoading ? <Spin /> : (
           <LocationForm
