@@ -104,7 +104,7 @@ class MetadataGenerator extends PureComponent {
                 <MetadataPreview {...this.state.location} />
               </GreyTabPane>
               <GreyTabPane tab="Metadaten" key="2">
-                <MetadataCode location={this.state.fullLocation} />
+                <MetadataCode location={this.state.fullLocation || this.state.location} />
               </GreyTabPane>
             </FullHeightTabs>
           </FullHeightCol>
