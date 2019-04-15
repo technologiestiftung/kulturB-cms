@@ -95,7 +95,7 @@ class PaginationTable extends PureComponent {
 
   onRowClick(evt, item) {
     if (this.props.token) {
-      history.push(`/${this.props.itemIdentifier}/${item.id}`);
+      history.push(`/${item.id}`);
     }
   }
 

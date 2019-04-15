@@ -25,7 +25,7 @@ function renderError() {
 
       <div style={{ marginTop: '15px' }}>
         <Button>
-          <Link to="/kulturorte">Zurück zur Übersicht</Link>
+          <Link to="/">Zurück zur Übersicht</Link>
         </Button>
       </div>
     </Container>
@@ -80,7 +80,7 @@ class Location extends PureComponent {
           this.isCreateMode = false;
             const res = await create(values);
             if (!res.id) return renderErrorMessage();
-            history.replace(`/kulturorte/${res.id}`);
+            history.replace(`/${res.id}`);
             renderSuccessMessage();
             this.props.form.setFieldsValue(res);
             return this.setState({ item: res });
@@ -165,7 +165,7 @@ class Location extends PureComponent {
     await remove(this.props.match.params.id);
     this.closeModal();
 
-    history.push('/kulturorte');
+    history.push('/');
   }
 
   onCancel() {
