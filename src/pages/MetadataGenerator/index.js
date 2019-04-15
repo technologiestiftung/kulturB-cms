@@ -82,7 +82,7 @@ class MetadataGenerator extends PureComponent {
         <FullHeightSpin spinning={this.state.loading}>
           <Col span={12}>
             <HeaderArea>
-              <h1>Metadata Generator</h1>
+              <h1>Metadaten Generator</h1>
             </HeaderArea>
             <p>
               Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
