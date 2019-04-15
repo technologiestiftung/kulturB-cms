@@ -6,7 +6,7 @@ import {
 import styled from 'styled-components';
 
 import Header from '~/components/Header';
-import Home from '~/pages/Home';
+import Footer from '~/components/Footer';
 import Location from '~/pages/Location';
 import LocationsOverview from '~/pages/LocationsOverview';
 import TagsOverview from '~/pages/TagsOverview';
@@ -54,7 +54,6 @@ class App extends PureComponent {
           <Header token={this.props.token} dispatch={this.props.dispatch} />
           <Content>
             <Switch>
-              <Route path="/" exact component={() => <Home token={this.props.token} />} />
               <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
               <Route path="/kulturorte" exact component={() => <LocationsOverview token={this.props.token} />} />
               <PrivateRoute token={this.props.token} path="/kulturorte/neu" exact isCreateMode component={Location} />
@@ -66,6 +65,7 @@ class App extends PureComponent {
               <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
             </Switch>
           </Content>
+          <Footer />
         </Layout>
       </Router>
     );
