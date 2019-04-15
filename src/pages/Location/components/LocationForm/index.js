@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
 import {
-  Row, Col, Button, Form, Collapse
+  Row, Col, Form
 } from 'antd';
 
 import FormItem from '~/components/FormItem';
@@ -12,18 +12,21 @@ import formItems from '~/pages/Location/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
 import StyledButton from '~/components/Button';
 
-const TransparentCollapse = styled(Collapse)`
+const FlexRow = styled(Row)`
   &&& {
-    background: none;
-    margin: 20px;
+    display: flex;
+    margin: 15px 0;
+  }
+`;
 
-    .ant-collapse-item {
-      border: 0;
+const FlexCol = styled(Col)`
+  &&& {
+    flex: auto;
 
-      .ant-form-item-control-wrapper {
-        width: 55.5%;
-      }
+    .ant-form-item-label, .ant-form-item-control-wrapper {
+      width: 50%;
     }
+
   }
 `;
 
@@ -44,11 +47,12 @@ class LocationForm extends PureComponent {
 
     if (item.type === 'label') {
       return (
-        <TransparentCollapse bordered={false} key={item.label}>
-          <Collapse.Panel header={item.label} key="1">
-            {item.childrens.map(children => this.renderItem(children))}
-          </Collapse.Panel>
-        </TransparentCollapse>
+        <Fragment>
+          <h3>{item.label}</h3>
+          <FlexRow key={item.label}>
+            {item.childrens.map(children => <FlexCol>{this.renderItem(children)}</FlexCol>)}
+          </FlexRow>
+        </Fragment>
       );
     }
 

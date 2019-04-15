@@ -89,10 +89,40 @@ export default [{
     : undefined
   )
 }, {
+  name: 'funded',
+  label: 'Landesgefördert',
+  type: 'switch',
+  valuePropName: 'checked',
+  getInitialValue: component => component.props.item.funded
+}, {
   name: 'venues',
   label: 'Spielstätten',
   rules: [],
   type: 'venues'
+}, {
+  label: 'ÖPVN',
+  type: 'label',
+  childrens: [{
+    name: 'transportation.tram',
+    label: 'Tram',
+    getInitialValue: component => component.props.transportation
+    && component.props.transportation.tram
+  }, {
+    name: 'transportation.bus',
+    label: 'Bus',
+    getInitialValue: component => component.props.transportation
+    && component.props.transportation.bus
+  }, {
+    name: 'transportation.subway',
+    label: 'U-Bahn',
+    getInitialValue: component => component.props.transportation
+    && component.props.transportation.subway
+  }, {
+    name: 'transportation.railway',
+    label: 'S-Bahn',
+    getInitialValue: component => component.props.transportation
+    && component.props.transportation.railway
+  }]
 }, {
   label: 'Zugänglich für Menschen im Rollstuhl und Gehbehinderte',
   type: 'label',
@@ -136,7 +166,7 @@ export default [{
   childrens: [
     {
       name: 'accessibility.blind.braille',
-      label: 'Angebote in Brailleschrift',
+      label: 'Brailleschrift',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
@@ -179,7 +209,7 @@ export default [{
   childrens: [
     {
       name: 'accessibility.deaf.subtitles',
-      label: 'Angebote mit Unter-/Übertiteln',
+      label: 'Unter-/Übertiteln',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
@@ -187,7 +217,7 @@ export default [{
       && component.props.item.accessibility.deaf.subtitles
     }, {
       name: 'accessibility.deaf.signLanguage',
-      label: 'Angebote in Gebärdensprache',
+      label: 'Gebärdensprache',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
@@ -195,7 +225,7 @@ export default [{
       && component.props.item.accessibility.deaf.signLanguage
     }, {
       name: 'accessibility.deaf.hearingAid',
-      label: 'Anlagen zur Hörunterstützung',
+      label: 'Hörunterstützungsanlage',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
