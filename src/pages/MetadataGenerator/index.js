@@ -84,11 +84,6 @@ class MetadataGenerator extends PureComponent {
             <HeaderArea>
               <h1>Metadaten Generator</h1>
             </HeaderArea>
-            <p>
-              Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
-              Ut vestibulum nesciunt ipsum etiam porta maecenas eget nonummy eget diam torquent.
-              Augue in tellus quam odio pellentesque.
-            </p>
             <LocationSelect
               location={this.state.location}
               locationName={this.state.locationName}

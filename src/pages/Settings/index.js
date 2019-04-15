@@ -31,31 +31,13 @@ class Settings extends PureComponent {
           <h1>Einstellungen</h1>
         </HeaderArea>
         <Spin spinning={this.state.loading}>
-          <div>
-            <Divider>Exportieren</Divider>
-            <p>
-              Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
-              Ut vestibulum nesciunt ipsum etiam porta maecenas eget nonummy eget diam torquent.
-              Augue in tellus quam odio pellentesque. Lectus orci sed.
-              In sodales per cursus ut curabitur condimentum aenean eget.
-              Nascetur id neque. Erat arcu habitant mattis tempor dapibus omnis vel et.
-              Duis imperdiet erat. Suscipit quisque natoque amet elementum ipsum.
-            </p>
-            <Export />
-          </div>
-          <div>
-            <Divider>Importieren</Divider>
-            <p>
-              Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
-              Ut vestibulum nesciunt ipsum etiam porta maecenas eget nonummy eget diam torquent.
-              Augue in tellus quam odio pellentesque.
-            </p>
-            <Import
-              token={this.props.token}
-              onChange={info => this.onChange(info)}
-              beforeUpload={() => this.setState({ loading: true })}
-            />
-          </div>
+          <Divider>Importieren/Exportieren</Divider>
+          <Export />
+          <Import
+            token={this.props.token}
+            onChange={info => this.onChange(info)}
+            beforeUpload={() => this.setState({ loading: true })}
+          />
         </Spin>
       </ContainerBg>
     );
