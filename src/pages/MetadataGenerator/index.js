@@ -43,6 +43,11 @@ const FullHeightSpin = styled(Spin)`
 `;
 
 class MetadataGenerator extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.form = React.createRef();
+  }
+
   state = {
     locations: [],
     location: {},
@@ -65,7 +70,17 @@ class MetadataGenerator extends PureComponent {
 
   async selectLocation(selectedLocation) {
     this.setState({ loading: true });
-    if (!selectedLocation) return this.setState({ location: {} });
+    if (!selectedLocation) {
+      history.push('/metadaten/');
+      this.form.current.resetFields();
+      const location = this.form.current.getFieldsValue();
+      return this.setState({
+        location,
+        fullLocation: location,
+        locationName: '',
+        loading: false
+      });
+    }
     const location = await getById(selectedLocation.value);
     location.tags = location.tags.map(tag => tag.name);
     this.setState({ location, locationName: location.name, loading: false });
@@ -92,6 +107,7 @@ class MetadataGenerator extends PureComponent {
             />
             <Divider />
             <MetadataForm
+              ref={this.form}
               location={this.state.location}
               onValuesChange={
                 (changedValues, allValues, fullLocation) => this.onValuesChange(changedValues, allValues, fullLocation)

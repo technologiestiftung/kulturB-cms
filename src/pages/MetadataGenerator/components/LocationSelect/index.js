@@ -17,6 +17,7 @@ class LocationSelect extends PureComponent {
         noOptionsMessage={() => 'Keinen Kulturort gefunden'}
         onChange={this.props.selectLocation}
         options={options}
+        isClearable={!!this.props.locationName}
         isSearchable
       />
     );
