@@ -50,26 +50,31 @@ export default [{
   }],
   getInitialValue: component => component.props.item.telephone
 }, {
-  name: 'address',
   label: 'Adresse',
-  rules: [{
-    type: 'string', message: 'Bitten eine Adresse eingeben'
-  }],
-  getInitialValue: component => component.props.item.address
-}, {
-  name: 'zipcode',
-  label: 'PLZ',
-  rules: [{
-    type: 'string', message: 'Bitten eine gültige PLZ eingeben', len: 5
-  }],
-  getInitialValue: component => component.props.item.zipcode
-}, {
-  name: 'city',
-  label: 'Stadt',
-  rules: [{
-    type: 'string', message: 'Bitten eine gültige URL angeben'
-  }],
-  getInitialValue: component => component.props.item.city
+  type: 'multipleinput',
+  children: [{
+    name: 'address',
+    label: 'Straße',
+    style: { width: '50%' },
+    rules: [{
+      type: 'string', message: 'Bitten eine Adresse eingeben'
+    }],
+    getInitialValue: component => component.props.item.address
+  }, {
+    name: 'zipcode',
+    label: 'PLZ',
+    rules: [{
+      type: 'string', message: 'Bitten eine gültige PLZ eingeben', len: 5
+    }],
+    getInitialValue: component => component.props.item.zipcode
+  }, {
+    name: 'city',
+    label: 'Stadt',
+    rules: [{
+      type: 'string', message: 'Bitten eine gültige URL angeben'
+    }],
+    getInitialValue: component => component.props.item.city
+  }]
 }, {
   name: 'openingHours',
   label: 'Öffnungszeiten',

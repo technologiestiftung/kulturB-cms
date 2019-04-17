@@ -148,6 +148,7 @@ class LocationForm extends PureComponent {
               <FormItem
                 key={child.name}
                 label={child.label}
+                style={child.style ? child.style : {}}
               >
                 {getFieldDecorator(child.name, fieldDecoratorOpts)(
                   this.props.getInputComponent(child.type)
