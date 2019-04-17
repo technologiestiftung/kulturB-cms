@@ -31,6 +31,10 @@ const FlexCol = styled(Col)`
 `;
 
 const FormItemMultiple = styled(FormItem)`
+  .ant-form-item-control-wrapper {
+    top: -14px;
+  }
+
   .ant-form-item-children {
     display: flex;
     flex-wrap: wrap;
