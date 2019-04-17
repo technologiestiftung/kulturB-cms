@@ -46,7 +46,7 @@ const FormItemMultiple = styled(FormItem)`
     }
 
     .ant-form-item {
-      width: 49%;
+      width: 24%;
       margin-bottom: 5px;
     }
   }
