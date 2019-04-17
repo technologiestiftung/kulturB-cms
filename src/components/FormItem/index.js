@@ -3,6 +3,6 @@ import { Form } from 'antd';
 
 export default styled(Form.Item)`
   &&& {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 `;

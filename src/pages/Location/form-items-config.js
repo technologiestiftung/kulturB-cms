@@ -101,27 +101,27 @@ export default [{
   type: 'venues'
 }, {
   label: 'ÖPVN',
-  type: 'label',
+  type: 'multipleinput',
   childrens: [{
-    name: 'transportation.tram',
-    label: 'Tram',
-    getInitialValue: component => component.props.transportation
-    && component.props.transportation.tram
-  }, {
-    name: 'transportation.bus',
-    label: 'Bus',
-    getInitialValue: component => component.props.transportation
-    && component.props.transportation.bus
-  }, {
     name: 'transportation.subway',
     label: 'U-Bahn',
-    getInitialValue: component => component.props.transportation
-    && component.props.transportation.subway
+    getInitialValue: component => component.props.item.transportation
+    && component.props.item.transportation.subway
   }, {
     name: 'transportation.railway',
     label: 'S-Bahn',
-    getInitialValue: component => component.props.transportation
-    && component.props.transportation.railway
+    getInitialValue: component => component.props.item.transportation
+    && component.props.item.transportation.railway
+  }, {
+    name: 'transportation.bus',
+    label: 'Bus',
+    getInitialValue: component => component.props.item.transportation
+    && component.props.item.transportation.bus
+  }, {
+    name: 'transportation.tram',
+    label: 'Tram',
+    getInitialValue: component => component.props.item.transportation
+    && component.props.item.transportation.tram
   }]
 }, {
   label: 'Zugänglich für Menschen im Rollstuhl und Gehbehinderte',

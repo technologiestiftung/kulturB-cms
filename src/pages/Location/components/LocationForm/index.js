@@ -30,9 +30,30 @@ const FlexCol = styled(Col)`
   }
 `;
 
+const FormItemMultiple = styled(FormItem)`
+  .ant-form-item-children {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .ant-form-item-label {
+      line-height: 1;
+
+      label {
+        color: #777;
+        font-size: 12px;
+      }
+    }
+
+    .ant-form-item {
+      width: 49%;
+      margin-bottom: 5px;
+    }
+  }
+`;
+
 class LocationForm extends PureComponent {
-  renderItem(item) {
-    const { getFieldDecorator } = this.props.form;
+  getItemFieldDecoratorOptions(item) {
     const fieldDecoratorOptions = {
       rules: item.rules || []
     };
@@ -44,6 +65,13 @@ class LocationForm extends PureComponent {
     if (item.valuePropName) {
       fieldDecoratorOptions.valuePropName = item.valuePropName;
     }
+
+    return fieldDecoratorOptions;
+  }
+
+  renderItem(item) {
+    const { getFieldDecorator } = this.props.form;
+    const fieldDecoratorOptions = this.getItemFieldDecoratorOptions(item);
 
     if (item.type === 'label') {
       return (
@@ -85,6 +113,31 @@ class LocationForm extends PureComponent {
             )}
           </OpeningHoursInput>
         </FormItem>
+      );
+    }
+
+    if (item.type === 'multipleinput') {
+      return (
+        <FormItemMultiple
+          key={item.name}
+          label={item.label}
+          {...this.props.formItemLayout}
+        >
+          {item.childrens.map((child) => {
+            const fieldDecoratorOpts = this.getItemFieldDecoratorOptions(child);
+
+            return (
+              <FormItem
+                key={child.name}
+                label={child.label}
+              >
+                {getFieldDecorator(child.name, fieldDecoratorOpts)(
+                  this.props.getInputComponent(child.type)
+                )}
+              </FormItem>
+            );
+          })}
+        </FormItemMultiple>
       );
     }
 
