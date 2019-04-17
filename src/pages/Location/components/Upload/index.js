@@ -41,7 +41,7 @@ class FileUpload extends PureComponent {
 
     return (
       <Row style={{ marginBottom: '15px' }}>
-        <Col span={16}>
+        <Col span={17}>
           {hasImage && <div>Logo:</div>}
           <Upload
             data={{

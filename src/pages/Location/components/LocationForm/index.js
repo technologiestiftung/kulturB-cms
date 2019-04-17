@@ -32,13 +32,21 @@ const FlexCol = styled(Col)`
 
 const FormItemMultiple = styled(FormItem)`
   .ant-form-item-control-wrapper {
-    top: -14px;
   }
 
   .ant-form-item-children {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+
+    .ant-select-selection,
+    input {
+      width: 95%;
+    }
+
+    &:after {
+      content: '';
+      flex: auto;
+    }
 
     .ant-form-item-label {
       line-height: 1;
@@ -50,10 +58,16 @@ const FormItemMultiple = styled(FormItem)`
     }
 
     .ant-form-item {
-      width: 24%;
+      width: 25%;
+      min-width: 25%;
       margin-bottom: 5px;
     }
   }
+`;
+
+const FormMultipleChildrenLabel = styled.div`
+  width: 100%;
+  line-height: 1.4;
 `;
 
 class LocationForm extends PureComponent {
@@ -82,7 +96,7 @@ class LocationForm extends PureComponent {
         <Fragment>
           <h3>{item.label}</h3>
           <FlexRow key={item.label}>
-            {item.childrens.map(children => <FlexCol>{this.renderItem(children)}</FlexCol>)}
+            {item.children.map(children => <FlexCol>{this.renderItem(children)}</FlexCol>)}
           </FlexRow>
         </Fragment>
       );
@@ -127,9 +141,9 @@ class LocationForm extends PureComponent {
           label={item.label}
           {...this.props.formItemLayout}
         >
-          {item.childrens.map((child) => {
+          {item.childrenLabel && <FormMultipleChildrenLabel>{item.childrenLabel}</FormMultipleChildrenLabel>}
+          {item.children.map((child) => {
             const fieldDecoratorOpts = this.getItemFieldDecoratorOptions(child);
-
             return (
               <FormItem
                 key={child.name}
@@ -178,13 +192,13 @@ class LocationForm extends PureComponent {
           />
         )}
         <Row style={{ marginTop: '15px' }}>
-          <Col span={16} style={{ textAlign: 'right' }}>
+          <Col span={17} style={{ textAlign: 'right' }}>
             {!this.props.isCreateMode && (
               <StyledButton href={`/metadaten/${this.props.item._id}`}>
                 Zum Metadaten Generator
               </StyledButton>
             )}
-            <StyledButton type="primary" htmlType="submit">
+            <StyledButton type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
               Speichern
             </StyledButton>
             {!this.props.isCreateMode && (
@@ -192,6 +206,7 @@ class LocationForm extends PureComponent {
                 type="danger"
                 icon="delete"
                 onClick={evt => this.props.onOpenModal(evt)}
+                style={{ marginLeft: '5px' }}
               >
                 Kulturort löschen
               </StyledButton>

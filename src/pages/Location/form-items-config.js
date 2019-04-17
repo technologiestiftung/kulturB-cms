@@ -102,7 +102,7 @@ export default [{
 }, {
   label: 'ÖPVN',
   type: 'multipleinput',
-  childrens: [{
+  children: [{
     name: 'transportation.subway',
     label: 'U-Bahn',
     getInitialValue: component => component.props.item.transportation
@@ -124,9 +124,10 @@ export default [{
     && component.props.item.transportation.tram
   }]
 }, {
-  label: 'Zugänglich für Menschen im Rollstuhl und Gehbehinderte',
-  type: 'label',
-  childrens: [
+  label: 'Barrierefreiheit',
+  type: 'multipleinput',
+  childrenLabel: 'Menschen im Rollstuhl und Gehbehinderte',
+  children: [
     {
       name: 'accessibility.wheelchair.accessible',
       label: 'Generell zugänglich',
@@ -139,7 +140,7 @@ export default [{
         && component.props.item.accessibility.wheelchair.accessible
     }, {
       name: 'accessibility.wheelchair.toilets',
-      label: 'Toilette zugänglich',
+      label: 'WC zugänglich',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
@@ -147,7 +148,7 @@ export default [{
       && component.props.item.accessibility.wheelchair.toilets
     }, {
       name: 'accessibility.wheelchair.description',
-      label: 'Zusätzliche Informationen',
+      label: 'Zusatz',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -161,9 +162,10 @@ export default [{
     }
   ]
 }, {
-  label: 'Zugänglich für Blinde und Sehbehinderte',
-  type: 'label',
-  childrens: [
+  label: ' ',
+  type: 'multipleinput',
+  childrenLabel: 'Blinde und Sehbehinderte',
+  children: [
     {
       name: 'accessibility.blind.braille',
       label: 'Brailleschrift',
@@ -190,7 +192,7 @@ export default [{
       && component.props.item.accessibility.blind.audioguide
     }, {
       name: 'accessibility.blind.description',
-      label: 'Zusätzliche Informationen',
+      label: 'Zusatz',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -204,12 +206,13 @@ export default [{
     }
   ],
 }, {
-  label: 'Zugänglich für Gehörlose und Hörgeschädigte',
-  type: 'label',
-  childrens: [
+  label: ' ',
+  type: 'multipleinput',
+  childrenLabel: 'Gehörlose und Hörgeschädigte',
+  children: [
     {
       name: 'accessibility.deaf.subtitles',
-      label: 'Unter-/Übertiteln',
+      label: 'Unter-/ Übertitel',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
@@ -225,7 +228,7 @@ export default [{
       && component.props.item.accessibility.deaf.signLanguage
     }, {
       name: 'accessibility.deaf.hearingAid',
-      label: 'Hörunterstützungsanlage',
+      label: 'Hörunterstützung',
       type: 'switch',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
@@ -233,7 +236,7 @@ export default [{
       && component.props.item.accessibility.deaf.hearingAid
     }, {
       name: 'accessibility.deaf.description',
-      label: 'Zusätzliche Informationen',
+      label: 'Zusatz',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
