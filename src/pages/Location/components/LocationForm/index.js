@@ -181,8 +181,18 @@ class LocationForm extends PureComponent {
           onUploadChange={this.props.onUploadChange}
           onImageRemove={this.props.onImageRemove}
           id={this.props.item.id}
-          logo={this.props.item.logo}
+          image={this.props.item.logo}
           isCreateMode={this.props.isCreateMode}
+          type="logo"
+        />
+        <Upload
+          token={this.props.token}
+          onUploadChange={this.props.onUploadChange}
+          onImageRemove={this.props.onImageRemove}
+          id={this.props.item.id}
+          image={this.props.item.teaser}
+          isCreateMode={this.props.isCreateMode}
+          type="teaser"
         />
         {formItems.map(item => this.renderItem(item))}
         {this.props.item.location && (
