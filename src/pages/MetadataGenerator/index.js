@@ -43,6 +43,11 @@ const FullHeightSpin = styled(Spin)`
 `;
 
 class MetadataGenerator extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.form = React.createRef();
+  }
+
   state = {
     locations: [],
     location: {},
@@ -65,7 +70,17 @@ class MetadataGenerator extends PureComponent {
 
   async selectLocation(selectedLocation) {
     this.setState({ loading: true });
-    if (!selectedLocation) return this.setState({ location: {} });
+    if (!selectedLocation) {
+      history.push('/metadaten/');
+      this.form.current.resetFields();
+      const location = this.form.current.getFieldsValue();
+      return this.setState({
+        location,
+        fullLocation: location,
+        locationName: '',
+        loading: false
+      });
+    }
     const location = await getById(selectedLocation.value);
     location.tags = location.tags.map(tag => tag.name);
     this.setState({ location, locationName: location.name, loading: false });
@@ -82,13 +97,8 @@ class MetadataGenerator extends PureComponent {
         <FullHeightSpin spinning={this.state.loading}>
           <Col span={12}>
             <HeaderArea>
-              <h1>Metadata Generator</h1>
+              <h1>Metadaten Generator</h1>
             </HeaderArea>
-            <p>
-              Lorem ipsum dolor. Sit amet morbi nunc posuere mus.
-              Ut vestibulum nesciunt ipsum etiam porta maecenas eget nonummy eget diam torquent.
-              Augue in tellus quam odio pellentesque.
-            </p>
             <LocationSelect
               location={this.state.location}
               locationName={this.state.locationName}
@@ -97,6 +107,7 @@ class MetadataGenerator extends PureComponent {
             />
             <Divider />
             <MetadataForm
+              ref={this.form}
               location={this.state.location}
               onValuesChange={
                 (changedValues, allValues, fullLocation) => this.onValuesChange(changedValues, allValues, fullLocation)
@@ -109,7 +120,7 @@ class MetadataGenerator extends PureComponent {
                 <MetadataPreview {...this.state.location} />
               </GreyTabPane>
               <GreyTabPane tab="Metadaten" key="2">
-                <MetadataCode location={this.state.fullLocation} />
+                <MetadataCode location={this.state.fullLocation || this.state.location} />
               </GreyTabPane>
             </FullHeightTabs>
           </FullHeightCol>

@@ -21,9 +21,6 @@ class OpeningHoursInput extends PureComponent {
     return (
       <Fragment>
         {this.props.children}
-        <p>
-          <a rel="noopener noreferrer" target="_blank" href={`http://projets.pavie.info/yohours/?oh=${openingHours}`}>Dieses Tool</a> kann dabei helfen, die Öffnungszeiten zu formattieren
-        </p>
         {isPreviewOpen && <OpeningHoursPreview openingHours={openingHoursTable} />}
         <Button onClick={() => this.togglePreview()}>
           <span>

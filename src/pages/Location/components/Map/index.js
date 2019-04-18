@@ -23,7 +23,7 @@ const MarkerIcon = icon({
 
 const MapWrapper = styled(Row)`
   &&& {
-    height: 250px;
+    height: 400px;
   }
 
   .leaflet-container {
@@ -75,8 +75,8 @@ class LocationMap extends PureComponent {
     }
 
     return (
-      <MapWrapper gutter={16}>
-        <FlexCol span={16}>
+      <MapWrapper>
+        <FlexCol span={13} offset={4}>
           <Hint>
             Verschieben Sie den Marker, um die Koordinaten zu korrigieren.
           </Hint>
