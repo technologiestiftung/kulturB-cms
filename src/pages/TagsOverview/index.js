@@ -77,6 +77,7 @@ class Tags extends PureComponent {
             onClick={this.handleAdd}
             type="primary"
             icon="plus"
+            style={{ marginLeft: 'auto' }}
           >
             Neue Kategorie anlegen
           </StyledButton>
