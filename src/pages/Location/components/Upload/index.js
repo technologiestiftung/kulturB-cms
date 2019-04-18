@@ -1,35 +1,71 @@
 import React, { PureComponent } from 'react';
 import {
-  Row, Col, Button, Icon, Upload
+  Row, Col, Button, Icon, Upload, Modal
 } from 'antd';
 
+import Cropper from '../Cropper';
 import { removeImage } from '~/services/locationApi';
 
 class FileUpload extends PureComponent {
+  state = {
+    image: '',
+    showCropper: false,
+    cropped: ''
+  }
+
   onUploadChange({ file }) {
     if (file.status === 'uploading') {
       this.props.onUploadChange(false);
     }
 
     if (file.status === 'done') {
-      this.props.onUploadChange({ file });
+      this.props.onUploadChange({ file, type: this.props.type });
     }
   }
 
   async onImageRemove() {
-    await removeImage(this.props.logo.id);
+    await removeImage(this.props.image.id);
     this.props.onImageRemove();
   }
 
   getFilesList() {
-    if (!this.props.logo) {
+    if (!this.props.image) {
       return [];
     }
 
-    this.props.logo.uid = this.props.logo.id;
-    this.props.logo.thumbUrl = this.props.logo.url;
+    this.props.image.uid = this.props.image.id;
+    this.props.image.thumbUrl = this.props.image.url;
 
-    return [this.props.logo];
+    return [this.props.image];
+  }
+
+  beforeUpload(file) {
+    if (this.props.type === 'teaser') {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        const image = reader.result;
+        this.setState({
+          showCropper: true,
+          image
+        });
+      });
+      reader.readAsDataURL(file);
+      return false;
+    }
+  }
+
+  cropped(cropped) {
+    this.setState({ cropped });
+  }
+
+  onCancel() {
+    this.setState({ image: '', showCropper: false });
+  }
+
+  onOk() {
+    this.setState({ showCropper: false });
+    this.beforeUpload(this.state.cropped);
+    // this.props.onUploadChange({ file: this.state.cropped, type: this.props.type });
   }
 
   render() {
@@ -37,17 +73,18 @@ class FileUpload extends PureComponent {
       return null;
     }
 
-    const hasImage = this.props.logo && this.props.logo.id;
+    const hasImage = this.props.image && this.props.image.id;
+    const label = this.props.type === 'logo' ? 'Logo' : 'Teaserbild';
 
     return (
       <Row style={{ marginBottom: '15px' }}>
         <Col span={17}>
-          {hasImage && <div>Logo:</div>}
+          {hasImage && <div>{label}:</div>}
           <Upload
             data={{
               relation: 'location',
               relId: this.props.id,
-              type: 'logo'
+              type: this.props.type
             }}
             name="file"
             action={`${config.url.base}${config.url.upload}`}
@@ -56,13 +93,30 @@ class FileUpload extends PureComponent {
             }}
             listType="picture"
             defaultFileList={this.getFilesList()}
-            multiple
             onChange={evt => this.onUploadChange(evt)}
             onRemove={evt => this.onImageRemove(evt)}
+            beforeUpload={(file, fileList) => this.beforeUpload(file, fileList)}
+            openFileDialogOnClick={!this.state.showCropper}
           >
+            {this.state.showCropper && (
+              <Modal
+                visible
+                title="Bild ausschneiden"
+                onCancel={() => this.onCancel()}
+                onOk={() => this.onOk()}
+              >
+                <Cropper
+                  image={this.state.image}
+                  cropped={image => this.cropped(image)}
+                />
+              </Modal>
+            )}
             {!hasImage && (
               <Button>
-                <Icon type="upload" /> Logo hochladen
+                <Icon type="upload" />
+                <span>
+                  {label} hochladen
+                </span>
               </Button>
             )}
           </Upload>

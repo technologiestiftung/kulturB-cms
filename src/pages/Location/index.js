@@ -101,13 +101,13 @@ class Location extends PureComponent {
     });
   }
 
-  onUploadChange(done) {
+  onUploadChange(done, type) {
     if (done) {
       // Get this url from response in real world.
       this.setState(prevState => ({
         item: {
           ...prevState.item,
-          logo: done.file.response
+          [type]: done.file.response
         },
         isUploading: false
       }));
