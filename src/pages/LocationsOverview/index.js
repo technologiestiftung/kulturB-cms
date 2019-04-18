@@ -21,7 +21,7 @@ class Organisations extends PureComponent {
               type="primary"
               icon="plus"
               style={{ marginLeft: 'auto' }}
-              onClick={() => history.push('/neu')}
+              onClick={() => history.push('/kulturorte/neu')}
             >
               Neuen Kulturort anlegen
             </StyledButton>

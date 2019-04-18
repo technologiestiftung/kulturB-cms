@@ -80,7 +80,7 @@ class Location extends PureComponent {
           this.isCreateMode = false;
             const res = await create(values);
             if (!res.id) return renderErrorMessage();
-            history.replace(`/${res.id}`);
+            history.replace(`/kulturorte/${res.id}`);
             renderSuccessMessage();
             this.props.form.setFieldsValue(res);
             return this.setState({ item: res });
