@@ -12,7 +12,7 @@ class VenuesInput extends PureComponent {
       <Form.Item
         key={this.props.item.name}
         label={this.props.item.label}
-        colon=""
+        colon={false}
         {...this.props.formItemLayout}
       >
         <AutoComplete
