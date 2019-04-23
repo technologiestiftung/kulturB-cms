@@ -10,7 +10,7 @@ class FileUpload extends PureComponent {
   state = {
     image: '',
     showCropper: false,
-    cropped: ''
+    cropped: null
   }
 
   onUploadChange({ file }) {
@@ -39,19 +39,21 @@ class FileUpload extends PureComponent {
     return [this.props.image];
   }
 
-  beforeUpload(file) {
-    if (this.props.type === 'teaser') {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        const image = reader.result;
-        this.setState({
-          showCropper: true,
-          image
+  beforeUpload(file, fileList) {
+    return new Promise((resolve) => {
+      if (this.props.type === 'teaser' && !this.state.cropped) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+          const image = reader.result;
+          this.setState({
+            showCropper: true,
+            image,
+            resolve
+          });
         });
-      });
-      reader.readAsDataURL(file);
-      return false;
-    }
+        reader.readAsDataURL(file);
+      }
+    });
   }
 
   cropped(cropped) {
@@ -64,7 +66,8 @@ class FileUpload extends PureComponent {
 
   onOk() {
     this.setState({ showCropper: false });
-    this.beforeUpload(this.state.cropped);
+    this.state.resolve(this.state.cropped);
+    // this.beforeUpload(this.state.cropped, [this.state.cropped]);
     // this.props.onUploadChange({ file: this.state.cropped, type: this.props.type });
   }
 
