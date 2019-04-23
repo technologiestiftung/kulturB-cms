@@ -9,8 +9,18 @@ import { addImage, removeImage } from '~/services/locationApi';
 class FileUpload extends PureComponent {
   state = {
     image: {},
+    fileList: [],
     showCropper: false,
     cropped: null
+  }
+
+  componentDidMount() {
+    if (this.props.image) {
+      this.setState({
+        image: this.props.image,
+        fileList: [{ ...this.props.image, uid: this.props.image.id }]
+      });
+    }
   }
 
   onUploadChange({ file }) {
@@ -20,12 +30,19 @@ class FileUpload extends PureComponent {
 
     if (file.status === 'done') {
       this.props.onUploadChange({ file, type: this.props.type });
+      this.setState({
+        image: file,
+        fileList: [{ ...file, uid: file.uid }]
+      });
     }
   }
 
   async onImageRemove() {
     await removeImage(this.props.image.id);
     this.props.onImageRemove();
+    this.setState({
+      fileList: []
+    });
   }
 
   getFilesList() {
@@ -40,20 +57,23 @@ class FileUpload extends PureComponent {
   }
 
   beforeUpload(file, fileList) {
-    return new Promise((resolve, reject) => {
-      if (this.props.type === 'teaser' && !this.state.cropped) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => {
-          const image = reader.result;
-          this.setState({
-            showCropper: true,
-            image,
-          });
-        });
-        reader.readAsDataURL(file);
-        reject();
-      }
+    this.setState({
+      fileList: []
     });
+
+    if (this.props.type === 'teaser' && !this.state.cropped) {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        const image = reader.result;
+        this.setState({
+          showCropper: true,
+          image,
+        });
+      });
+      reader.readAsDataURL(file);
+      return false;
+    }
+    return true;
   }
 
   cropped(cropped) {
@@ -61,23 +81,21 @@ class FileUpload extends PureComponent {
   }
 
   onCancel() {
-    this.setState({ image: '', showCropper: false });
+    this.setState({ image: {}, showCropper: false, fileList: [] });
   }
 
   async onOk() {
-    // this.state.resolve();
-    // this.beforeUpload(this.state.cropped, [this.state.cropped]);
     const res = await addImage(this.state.cropped, {
       relation: 'location',
       relId: this.props.id,
       type: this.props.type
      });
 
-     this.setState({
-       image: res,
-       showCropper: false
-     });
-    // this.props.onUploadChange({ file: this.state.cropped, type: this.props.type });
+    this.setState({
+      image: res,
+      showCropper: false,
+      fileList: [{ ...res, uid: res.id }]
+    });
   }
 
   render() {
@@ -104,7 +122,7 @@ class FileUpload extends PureComponent {
               Authorization: this.props.token
             }}
             listType="picture"
-            defaultFileList={this.getFilesList()}
+            fileList={this.state.fileList}
             onChange={evt => this.onUploadChange(evt)}
             onRemove={evt => this.onImageRemove(evt)}
             beforeUpload={(file, fileList) => this.beforeUpload(file, fileList)}
