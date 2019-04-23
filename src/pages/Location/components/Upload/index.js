@@ -4,11 +4,11 @@ import {
 } from 'antd';
 
 import Cropper from '../Cropper';
-import { removeImage } from '~/services/locationApi';
+import { addImage, removeImage } from '~/services/locationApi';
 
 class FileUpload extends PureComponent {
   state = {
-    image: '',
+    image: {},
     showCropper: false,
     cropped: null
   }
@@ -33,14 +33,14 @@ class FileUpload extends PureComponent {
       return [];
     }
 
-    this.props.image.uid = this.props.image.id;
-    this.props.image.thumbUrl = this.props.image.url;
+    this.props.image.uid = this.props.image.id || (this.state.image && this.state.image.id);
+    this.props.image.thumbUrl = this.props.image.url || (this.state.image && this.state.image.url);
 
     return [this.props.image];
   }
 
   beforeUpload(file, fileList) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (this.props.type === 'teaser' && !this.state.cropped) {
         const reader = new FileReader();
         reader.addEventListener('load', () => {
@@ -48,10 +48,10 @@ class FileUpload extends PureComponent {
           this.setState({
             showCropper: true,
             image,
-            resolve
           });
         });
         reader.readAsDataURL(file);
+        reject();
       }
     });
   }
@@ -64,10 +64,19 @@ class FileUpload extends PureComponent {
     this.setState({ image: '', showCropper: false });
   }
 
-  onOk() {
-    this.setState({ showCropper: false });
-    this.state.resolve(this.state.cropped);
+  async onOk() {
+    // this.state.resolve();
     // this.beforeUpload(this.state.cropped, [this.state.cropped]);
+    const res = await addImage(this.state.cropped, {
+      relation: 'location',
+      relId: this.props.id,
+      type: this.props.type
+     });
+
+     this.setState({
+       image: res,
+       showCropper: false
+     });
     // this.props.onUploadChange({ file: this.state.cropped, type: this.props.type });
   }
 
@@ -76,7 +85,7 @@ class FileUpload extends PureComponent {
       return null;
     }
 
-    const hasImage = this.props.image && this.props.image.id;
+    const hasImage = (this.props.image && this.props.image.id) || (this.state.image && this.state.image.id);
     const label = this.props.type === 'logo' ? 'Logo' : 'Teaserbild';
 
     return (
