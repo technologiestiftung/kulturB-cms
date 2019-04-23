@@ -9,8 +9,9 @@ class ImageCropper extends PureComponent {
   }
 
   _crop() {
-    // image in dataUrl
-    this.props.cropped(this.cropper.current.getCroppedCanvas().toDataURL());
+    return this.cropper.current
+      .getCroppedCanvas()
+      .toBlob(blob => this.props.cropped(blob));
   }
 
   render() {
