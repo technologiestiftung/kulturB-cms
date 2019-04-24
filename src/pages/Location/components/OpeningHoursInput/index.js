@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import { SimpleOpeningHours } from 'simple-opening-hours';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import OpeningHoursPreview from '~/components/OpeningHoursPreview';
 import OpeningHoursTimePicker from './components/TimePicker';
 
@@ -21,20 +21,20 @@ class OpeningHoursInput extends PureComponent {
   }
 
   onChangeOpeningHours(openingHours) {
+    this.props.form.setFieldsValue({ openingHours });
     this.setState({ openingHours });
   }
 
   render() {
     const { isPreviewOpen, isPickerOpen, openingHours } = this.state;
-    const openingHoursValues = this.props.children.props.value || openingHours;
-    const openingHoursTable = new SimpleOpeningHours(openingHoursValues).getTable();
-
-    const children = React.Children
-      .map(this.props.children, child => React.cloneElement(child, { value: openingHours }));
+    const { form, initialValue } = this.props;
+    const openingHoursTable = new SimpleOpeningHours(openingHours).getTable();
 
     return (
       <Fragment>
-        {children}
+        {form.getFieldDecorator('openingHours', { initialValue })(
+          <Input />
+        )}
         <Button onClick={() => this.togglePicker()}>
           Hilfe
         </Button>

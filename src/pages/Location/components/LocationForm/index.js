@@ -125,11 +125,10 @@ class LocationForm extends PureComponent {
           label={item.label}
           {...this.props.formItemLayout}
         >
-          <OpeningHoursInput>
-            {getFieldDecorator(item.name, fieldDecoratorOptions)(
-              this.props.getInputComponent(item.type)
-            )}
-          </OpeningHoursInput>
+          <OpeningHoursInput
+            form={this.props.form}
+            initialValue={fieldDecoratorOptions.initialValue}
+          />
         </FormItem>
       );
     }
