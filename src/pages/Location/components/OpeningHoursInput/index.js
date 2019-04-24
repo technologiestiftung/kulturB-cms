@@ -43,12 +43,12 @@ class OpeningHoursInput extends PureComponent {
           onChangeOpeningHours={res => this.onChangeOpeningHours(res)}
           onClose={() => this.togglePicker()}
         />
-        {isPreviewOpen && <OpeningHoursPreview openingHours={openingHoursTable} />}
         <Button onClick={() => this.togglePreview()}>
           <span>
             Vorschau {isPreviewOpen ? 'ausblenden' : 'anzeigen'}
           </span>
         </Button>
+        {isPreviewOpen && <OpeningHoursPreview openingHours={openingHoursTable} />}
       </Fragment>
     );
   }
