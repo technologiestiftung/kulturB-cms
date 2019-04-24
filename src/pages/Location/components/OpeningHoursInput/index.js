@@ -12,6 +12,13 @@ class OpeningHoursInput extends PureComponent {
     openingHours: ''
   }
 
+  componentDidMount() {
+    const { initialValue } = this.props;
+    if (initialValue) {
+      this.setState({ openingHours: initialValue });
+    }
+  }
+
   togglePreview() {
     this.setState(({ isPreviewOpen }) => ({ isPreviewOpen: !isPreviewOpen }));
   }
