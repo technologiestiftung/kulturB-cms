@@ -30,7 +30,7 @@ class OpeningHoursInput extends PureComponent {
     const openingHoursTable = new SimpleOpeningHours(openingHoursValues).getTable();
 
     const children = React.Children
-      .map(this.props.children, child => React.cloneElement(child, { item: { openingHours } }));
+      .map(this.props.children, child => React.cloneElement(child, { value: openingHours }));
 
     return (
       <Fragment>
