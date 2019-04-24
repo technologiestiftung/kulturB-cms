@@ -204,7 +204,10 @@ class LocationForm extends PureComponent {
         <Row style={{ marginTop: '15px' }}>
           <Col span={17} style={{ textAlign: 'right' }}>
             {!this.props.isCreateMode && (
-              <StyledButton href={`/metadaten/${this.props.item._id}`}>
+              <StyledButton
+                htmlType="submit"
+                onClick={evt => this.props.onSubmit(evt, `/metadaten/${this.props.item.id}`)}
+              >
                 Zum Metadaten Generator
               </StyledButton>
             )}
