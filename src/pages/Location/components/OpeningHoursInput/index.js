@@ -2,25 +2,47 @@ import React, { PureComponent, Fragment } from 'react';
 import { SimpleOpeningHours } from 'simple-opening-hours';
 import { Button } from 'antd';
 import OpeningHoursPreview from '~/components/OpeningHoursPreview';
+import OpeningHoursTimePicker from './components/TimePicker';
 
 
 class OpeningHoursInput extends PureComponent {
   state = {
-    isPreviewOpen: false
+    isPreviewOpen: false,
+    isPickerOpen: false,
+    openingHours: ''
   }
 
   togglePreview() {
-    this.setState(prevState => ({ isPreviewOpen: !prevState.isPreviewOpen }));
+    this.setState(({ isPreviewOpen }) => ({ isPreviewOpen: !isPreviewOpen }));
+  }
+
+  togglePicker() {
+    this.setState(({ isPickerOpen }) => ({ isPickerOpen: !isPickerOpen }));
+  }
+
+  onChangeOpeningHours(openingHours) {
+    this.setState({ openingHours });
   }
 
   render() {
-    const openingHours = this.props.children.props.value || '';
-    const { isPreviewOpen } = this.state;
-    const openingHoursTable = new SimpleOpeningHours(openingHours).getTable();
+    const { isPreviewOpen, isPickerOpen, openingHours } = this.state;
+    const openingHoursValues = this.props.children.props.value || openingHours;
+    const openingHoursTable = new SimpleOpeningHours(openingHoursValues).getTable();
+
+    const children = React.Children
+      .map(this.props.children, child => React.cloneElement(child, { item: { openingHours } }));
 
     return (
       <Fragment>
-        {this.props.children}
+        {children}
+        <Button onClick={() => this.togglePicker()}>
+          Hilfe
+        </Button>
+        <OpeningHoursTimePicker
+          visible={isPickerOpen}
+          onChangeOpeningHours={res => this.onChangeOpeningHours(res)}
+          onClose={() => this.togglePicker()}
+        />
         {isPreviewOpen && <OpeningHoursPreview openingHours={openingHoursTable} />}
         <Button onClick={() => this.togglePreview()}>
           <span>
