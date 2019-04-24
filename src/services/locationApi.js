@@ -89,6 +89,29 @@ export async function remove(id) {
   }
 }
 
+export async function addImage(file, data) {
+  const url = `${config.url.base}${config.url.upload}`;
+  const { AppState } = Store.getState();
+
+  try {
+    const formData = new FormData();
+    formData.append('file', file, 'teaser.jpg');
+    Object.keys(data)
+      .map(key => formData.append(key, data[key]));
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: AppState.token,
+      },
+      body: formData
+    }).then(r => r.json());
+
+    return res;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function removeImage(id) {
   const url = `${config.url.base}${config.url.upload}/${id}`;
   const { AppState } = Store.getState();
@@ -119,6 +142,7 @@ export default {
   create,
   update,
   remove,
+  addImage,
   removeImage,
   locationSearch
 };
