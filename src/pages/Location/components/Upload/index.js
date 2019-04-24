@@ -29,19 +29,21 @@ class FileUpload extends PureComponent {
     }
 
     if (file.status === 'done') {
-      this.props.onUploadChange({ file, type: this.props.type });
       this.setState({
-        image: file,
-        fileList: [{ ...file, uid: file.uid }]
+        image: file.response,
+        fileList: [{ ...file.response, uid: file.response.id }]
       });
+      this.props.onUploadChange({ file, type: this.props.type });
     }
   }
 
   async onImageRemove() {
-    await removeImage(this.props.image.id);
+    await removeImage(this.state.image.id);
     this.props.onImageRemove();
     this.setState({
-      fileList: []
+      image: {},
+      fileList: [],
+      cropped: null
     });
   }
 
@@ -50,8 +52,8 @@ class FileUpload extends PureComponent {
       return [];
     }
 
-    this.props.image.uid = this.props.image.id || (this.state.image && this.state.image.id);
-    this.props.image.thumbUrl = this.props.image.url || (this.state.image && this.state.image.url);
+    this.props.image.uid = this.props.image.id;
+    this.props.image.thumbUrl = this.props.image.url;
 
     return [this.props.image];
   }
@@ -103,31 +105,38 @@ class FileUpload extends PureComponent {
       return null;
     }
 
-    const hasImage = (this.props.image && this.props.image.id) || (this.state.image && this.state.image.id);
+    const hasImage = this.state.image && this.state.image.id;
     const label = this.props.type === 'logo' ? 'Logo' : 'Teaserbild';
+
+    const uploadProps = {
+      name: 'file',
+      data: {
+        relation: 'location',
+        relId: this.props.id,
+        type: this.props.type
+      },
+      action: `${config.url.base}${config.url.upload}`,
+      headers: {
+        Authorization: this.props.token
+      },
+      listType: 'picture',
+      onChange: evt => this.onUploadChange(evt),
+      onRemove: evt => this.onImageRemove(evt),
+      beforeUpload: (file, fileList) => this.beforeUpload(file, fileList),
+      openFileDialogOnClick: !this.state.showCropper
+    };
+
+    if (this.props.type === 'teaser') {
+      uploadProps.fileList = this.state.fileList;
+    } else {
+      uploadProps.defaultFileList = this.getFilesList();
+    }
 
     return (
       <Row style={{ marginBottom: '15px' }}>
         <Col span={17}>
           {hasImage && <div>{label}:</div>}
-          <Upload
-            data={{
-              relation: 'location',
-              relId: this.props.id,
-              type: this.props.type
-            }}
-            name="file"
-            action={`${config.url.base}${config.url.upload}`}
-            headers={{
-              Authorization: this.props.token
-            }}
-            listType="picture"
-            fileList={this.state.fileList}
-            onChange={evt => this.onUploadChange(evt)}
-            onRemove={evt => this.onImageRemove(evt)}
-            beforeUpload={(file, fileList) => this.beforeUpload(file, fileList)}
-            openFileDialogOnClick={!this.state.showCropper}
-          >
+          <Upload {...uploadProps}>
             {this.state.showCropper && (
               <Modal
                 visible
