@@ -91,6 +91,7 @@ class OpeningHoursModal extends PureComponent {
         visible={this.state.isModalOpen}
         onCancel={() => this.closeModal()}
         onOk={() => this.onOk()}
+        destroyOnClose
       >
         <table>
           <thead>
