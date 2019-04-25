@@ -83,7 +83,12 @@ class FileUpload extends PureComponent {
   }
 
   onCancel() {
-    this.setState({ image: {}, showCropper: false, fileList: [] });
+    this.setState({
+      cropped: null,
+      image: {},
+      showCropper: false,
+      fileList: []
+    });
   }
 
   async onOk() {
@@ -143,6 +148,7 @@ class FileUpload extends PureComponent {
                 title="Bild ausschneiden"
                 onCancel={() => this.onCancel()}
                 onOk={() => this.onOk()}
+                width={600}
               >
                 <Cropper
                   image={this.state.image}

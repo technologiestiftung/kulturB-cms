@@ -20,7 +20,11 @@ class ImageCropper extends PureComponent {
         ref={this.cropper}
         src={this.props.image}
         style={{ height: 400, width: '100%' }}
+        minCropBoxHeight={400}
         aspectRatio={16 / 9}
+        cropBoxResizable={false}
+        viewMode={3}
+        dragMode="move"
         guides={false}
         crop={() => this._crop()}
       />

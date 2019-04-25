@@ -25,20 +25,22 @@ const parseDay = (day) => {
   }
 };
 
+const initialState = {
+  isModalOpen: false,
+  openingHours: {
+    mo: '',
+    tu: '',
+    we: '',
+    th: '',
+    fr: '',
+    sa: '',
+    su: '',
+    ph: '',
+  }
+};
+
 class OpeningHoursModal extends PureComponent {
-  state = {
-    isModalOpen: false,
-    openingHours: {
-      mo: '',
-      tu: '',
-      we: '',
-      th: '',
-      fr: '',
-      sa: '',
-      su: '',
-      ph: '',
-    }
-  };
+  state = initialState;
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible) {
@@ -59,7 +61,7 @@ class OpeningHoursModal extends PureComponent {
     this.setState(({ openingHours }) => ({
       openingHours: {
         ...openingHours,
-        [day]: isOpening ? timeString.concat('-').concat(openingHours[day]) : openingHours[day].concat(timeString),
+        [day]: isOpening ? timeString.concat('-') : openingHours[day].concat(timeString),
       }
     }));
   }
@@ -72,6 +74,7 @@ class OpeningHoursModal extends PureComponent {
       .join(';');
     this.props.onChangeOpeningHours(res);
     this.closeModal();
+    this.setState(initialState);
   }
 
   renderTimePicker(day, isOpening, defaultOpenValue) {
