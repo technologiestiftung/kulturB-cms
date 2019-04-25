@@ -10,6 +10,8 @@ import Footer from '~/components/Footer';
 import Location from '~/pages/Location';
 import LocationsOverview from '~/pages/LocationsOverview';
 import TagsOverview from '~/pages/TagsOverview';
+import UsersOverview from '~/pages/UsersOverview';
+import User from '~/pages/User';
 import Login from '~/pages/Login';
 import NoMatch from '~/pages/NoMatch';
 import Settings from '~/pages/Settings';
@@ -62,6 +64,9 @@ class App extends PureComponent {
               <PrivateRoute token={this.props.token} path="/kulturorte/:id" component={Location} />
               <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
               <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
+              <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
+              <PrivateRoute token={this.props.token} path="/nutzer/:id" component={User} />
+              <PrivateRoute token={this.props.token} path="/nutzer" component={UsersOverview} />
               <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
             </Switch>
           </Content>

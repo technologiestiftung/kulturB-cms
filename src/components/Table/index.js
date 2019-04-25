@@ -9,7 +9,6 @@ import {
 } from 'antd';
 
 import history from '~/history';
-import { remove, get, locationSearch } from '~/services/locationApi';
 
 const { Column } = Table;
 const { Search } = Input;
@@ -132,7 +131,7 @@ class PaginationTable extends PureComponent {
   }
 
   async onOk() {
-    await remove(this.state.itemToDelete.id);
+    await this.props.remove(this.state.itemToDelete.id);
     await this.fetch(this.lastParams);
     this.closeModal();
   }
@@ -152,7 +151,7 @@ class PaginationTable extends PureComponent {
     this.setState({ loading: true });
     this.lastParams = params;
 
-    const { data, count } = await get(params);
+    const { data, count } = await this.props.get(params);
 
     this.setState((prevState) => {
       const { pagination } = prevState;
@@ -178,7 +177,7 @@ class PaginationTable extends PureComponent {
       return this.fetch();
     }
 
-    const { data, count } = await locationSearch(value, params);
+    const { data, count } = await this.props.search(value, params);
     this.setState({
       loading: false,
       searchTerm: value,

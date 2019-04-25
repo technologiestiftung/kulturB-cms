@@ -4,36 +4,35 @@ import Table from '~/components/Table';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import StyledButton from '~/components/Button';
-import { remove, get, locationSearch } from '~/services/locationApi';
+import { remove, find, search } from '~/services/userApi';
 
 import tableConfig from './config';
 
-
-class Organisations extends PureComponent {
+class Users extends PureComponent {
   render() {
     const { columns } = tableConfig.table;
 
     return (
       <Container>
         <HeaderArea>
-          <h1>Kulturorte Übersicht</h1>
+          <h1>Nutzer Übersicht</h1>
           {this.props.token && (
             <StyledButton
               type="primary"
               icon="plus"
               style={{ marginLeft: 'auto' }}
-              onClick={() => history.push('/kulturorte/neu')}
+              onClick={() => history.push('/nutzer/neu')}
             >
-              Neuen Kulturort anlegen
+              Neuen Nutzer anlegen
             </StyledButton>
           )}
         </HeaderArea>
         <Table
-          get={get}
+          get={find}
           remove={remove}
-          search={locationSearch}
+          search={search}
           columns={columns}
-          itemIdentifier="kulturorte"
+          itemIdentifier="nutzer"
           token={this.props.token}
         />
       </Container>
@@ -41,4 +40,4 @@ class Organisations extends PureComponent {
   }
 }
 
-export default Organisations;
+export default Users;

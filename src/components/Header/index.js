@@ -54,6 +54,11 @@ class HeaderMenu extends PureComponent {
               <NavLink to="/einstellungen">Einstellungen</NavLink>
             </Menu.Item>
           )}
+          {token && (
+            <Menu.Item key="/nutzer">
+              <NavLink to="/nutzer">Nutzer</NavLink>
+            </Menu.Item>
+          )}
           <Menu.Item style={{ float: 'right' }}>
             {token ? (
               <div
