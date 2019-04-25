@@ -1,32 +1,61 @@
 import React, { PureComponent, Fragment } from 'react';
 import { SimpleOpeningHours } from 'simple-opening-hours';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import OpeningHoursPreview from '~/components/OpeningHoursPreview';
+import OpeningHoursTimePicker from './components/TimePicker';
 
 
 class OpeningHoursInput extends PureComponent {
   state = {
-    isPreviewOpen: false
+    isPreviewOpen: false,
+    isPickerOpen: false,
+    openingHours: ''
+  }
+
+  componentDidMount() {
+    const { initialValue } = this.props;
+    if (initialValue) {
+      this.setState({ openingHours: initialValue });
+    }
   }
 
   togglePreview() {
-    this.setState(prevState => ({ isPreviewOpen: !prevState.isPreviewOpen }));
+    this.setState(({ isPreviewOpen }) => ({ isPreviewOpen: !isPreviewOpen }));
+  }
+
+  togglePicker() {
+    this.setState(({ isPickerOpen }) => ({ isPickerOpen: !isPickerOpen }));
+  }
+
+  onChangeOpeningHours(openingHours) {
+    this.props.form.setFieldsValue({ openingHours });
+    this.setState({ openingHours });
   }
 
   render() {
-    const openingHours = this.props.children.props.value || '';
-    const { isPreviewOpen } = this.state;
+    const { isPreviewOpen, isPickerOpen, openingHours } = this.state;
+    const { form, initialValue } = this.props;
     const openingHoursTable = new SimpleOpeningHours(openingHours).getTable();
 
     return (
       <Fragment>
-        {this.props.children}
-        {isPreviewOpen && <OpeningHoursPreview openingHours={openingHoursTable} />}
+        {form.getFieldDecorator('openingHours', { initialValue })(
+          <Input />
+        )}
+        <Button onClick={() => this.togglePicker()}>
+          Hilfe
+        </Button>
+        <OpeningHoursTimePicker
+          visible={isPickerOpen}
+          onChangeOpeningHours={res => this.onChangeOpeningHours(res)}
+          onClose={() => this.togglePicker()}
+        />
         <Button onClick={() => this.togglePreview()}>
           <span>
             Vorschau {isPreviewOpen ? 'ausblenden' : 'anzeigen'}
           </span>
         </Button>
+        {isPreviewOpen && <OpeningHoursPreview openingHours={openingHoursTable} />}
       </Fragment>
     );
   }

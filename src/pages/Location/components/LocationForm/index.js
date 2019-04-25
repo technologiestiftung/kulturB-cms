@@ -125,11 +125,10 @@ class LocationForm extends PureComponent {
           label={item.label}
           {...this.props.formItemLayout}
         >
-          <OpeningHoursInput>
-            {getFieldDecorator(item.name, fieldDecoratorOptions)(
-              this.props.getInputComponent(item.type)
-            )}
-          </OpeningHoursInput>
+          <OpeningHoursInput
+            form={this.props.form}
+            initialValue={fieldDecoratorOptions.initialValue}
+          />
         </FormItem>
       );
     }
@@ -181,8 +180,18 @@ class LocationForm extends PureComponent {
           onUploadChange={this.props.onUploadChange}
           onImageRemove={this.props.onImageRemove}
           id={this.props.item.id}
-          logo={this.props.item.logo}
+          image={this.props.item.logo}
           isCreateMode={this.props.isCreateMode}
+          type="logo"
+        />
+        <Upload
+          token={this.props.token}
+          onUploadChange={this.props.onUploadChange}
+          onImageRemove={this.props.onImageRemove}
+          id={this.props.item.id}
+          image={this.props.item.teaser}
+          isCreateMode={this.props.isCreateMode}
+          type="teaser"
         />
         {formItems.map(item => this.renderItem(item))}
         {this.props.item.location && (
@@ -195,7 +204,10 @@ class LocationForm extends PureComponent {
         <Row style={{ marginTop: '15px' }}>
           <Col span={17} style={{ textAlign: 'right' }}>
             {!this.props.isCreateMode && (
-              <StyledButton href={`/metadaten/${this.props.item._id}`}>
+              <StyledButton
+                htmlType="submit"
+                onClick={evt => this.props.onSubmit(evt, `/metadaten/${this.props.item.id}`)}
+              >
                 Zum Metadaten Generator
               </StyledButton>
             )}

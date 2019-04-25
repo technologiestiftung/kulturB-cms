@@ -72,7 +72,7 @@ class Location extends PureComponent {
     this.loadLocation(data);
   }
 
-  onSubmit(evt) {
+  onSubmit(evt, redirect) {
     evt.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
@@ -97,17 +97,21 @@ class Location extends PureComponent {
         // this.props.form.setFieldsValue(res);
         this.setState({ item: res });
         renderSuccessMessage();
+
+        if (redirect) {
+          history.push(redirect);
+        }
       }
     });
   }
 
-  onUploadChange(done) {
+  onUploadChange(done, type) {
     if (done) {
       // Get this url from response in real world.
       this.setState(prevState => ({
         item: {
           ...prevState.item,
-          logo: done.file.response
+          [type]: done.file.response
         },
         isUploading: false
       }));
@@ -243,7 +247,7 @@ class Location extends PureComponent {
             onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
             onDeleteItem={id => this.onDeleteItem(id)}
             getInputComponent={type => this.getInputComponent(type)}
-            onSubmit={evt => this.onSubmit(evt)}
+            onSubmit={(evt, route) => this.onSubmit(evt, route)}
             onUploadChange={evt => this.onUploadChange(evt)}
             onImageRemove={() => this.onImageRemove()}
             updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
