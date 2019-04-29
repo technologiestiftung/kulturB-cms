@@ -38,10 +38,12 @@ function renderSuccessMessage() {
   });
 }
 
-function renderErrorMessage() {
-  return notification.error({
-    message: 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.'
-  });
+function renderErrorMessage(res) {
+  let message = 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.';
+  if (res.message === 'Already Registered') {
+    message = 'Email Addresse bereits vergeben';
+  }
+  return notification.error({ message });
 }
 
 class User extends PureComponent {
@@ -83,22 +85,26 @@ class User extends PureComponent {
   }
 
   onSubmit(evt, redirect) {
+    const { form, match } = this.props;
     evt.preventDefault();
-    this.props.form.validateFields(async (err, values) => {
+    form.validateFields(async (err, values) => {
       if (!err) {
+        if (values.confirmPassword) {
+          delete values.confirmPassword;
+        }
+
         if (this.isCreateMode) {
           this.isCreateMode = false;
           const res = await create(values);
-          if (!res.id) return renderErrorMessage();
+          if (!res.id) return renderErrorMessage(res);
           history.replace(`/nutzer/${res.id}`);
           renderSuccessMessage();
-          this.props.form.setFieldsValue(res);
+          form.setFieldsValue({ ...res, password: '', confirmPassword: '' });
           return this.setState({ item: res });
         }
 
-        const res = await update(this.props.match.params.id, values);
+        const res = await update(match.params.id, values);
         if (!res.id) return renderErrorMessage();
-        // this.props.form.setFieldsValue(res);
         this.setState({ item: res });
         renderSuccessMessage();
 
@@ -122,7 +128,7 @@ class User extends PureComponent {
     await remove(this.props.match.params.id);
     this.closeModal();
 
-    history.push('/');
+    history.push('/nutzer');
   }
 
   onCancel() {
@@ -146,6 +152,15 @@ class User extends PureComponent {
 
   togglePasswordVisibility() {
     this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
+  }
+
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Passworter sind unterschiedlich!');
+    } else {
+      callback();
+    }
   }
 
   render() {
@@ -207,12 +222,32 @@ class User extends PureComponent {
             </FormItem>
 
             <FormItem
+              key="confirmPassword"
+              label="Password wiederholen"
+              {...formItemLayout}
+            >
+              {form.getFieldDecorator('confirmPassword', {
+                initialValue: isCreateMode && password,
+                rules: [{
+                  required: form.isFieldTouched('password'), message: 'Bitte password bestätigen!',
+                }, {
+                  validator: this.compareToFirstPassword,
+                }]
+              })(
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  prefix={<Icon type="eye" onClick={() => this.togglePasswordVisibility()} />}
+                />
+              )}
+            </FormItem>
+
+            <FormItem
               key="organisation"
               label="Kulturort"
               {...formItemLayout}
             >
               {form.getFieldDecorator('organisation', {
-                initialValue: item.organisation && { id: item.organisation.id, name: item.organisation.name },
+                initialValue: item.organisation && { _id: item.organisation.id, name: item.organisation.name },
                 rules: [{
                   required: true
                 }]
@@ -224,6 +259,7 @@ class User extends PureComponent {
                   options={locations}
                   getOptionValue={option => option.id}
                   getOptionLabel={option => option.name}
+                  defaultValue={item.organisation && { _id: item.organisation.id, name: item.organisation.name }}
                   isClearable={!!item.organisation}
                   isSearchable
                 />
