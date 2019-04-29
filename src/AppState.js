@@ -49,7 +49,7 @@ function loginCompleted(response) {
   storage.set(tokenStorageKey, accessToken);
   storage.set(refreshTokenStorageKey, refreshToken);
   storage.set(roleStorageKey, role);
-  storage.set(organisationStorageKey, organisation);
+  organisation && organisation.id && storage.set(organisationStorageKey, organisation.id);
 
   return {
     type: LOGIN_COMPLETED,

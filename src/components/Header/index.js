@@ -18,8 +18,9 @@ class HeaderMenu extends PureComponent {
   render() {
     const { nav } = config;
     const {
-      location, token, dispatch, role
+      location, token, dispatch, role, organisation
     } = this.props;
+    const isUser = role === 'USER';
 
     return (
       <Header
@@ -41,6 +42,14 @@ class HeaderMenu extends PureComponent {
               <Logo src={logoSrc} />
             </NavLink>
           </Menu.Item>
+
+          {isUser && organisation && (
+            <Menu.Item>
+              <NavLink to={`/kulturorte/${organisation}`}>
+                Mein Kulturort
+              </NavLink>
+            </Menu.Item>
+          )}
 
           {nav.map(({ url, label, roles }) => roles.includes(role) && (
             <Menu.Item key={url}>
