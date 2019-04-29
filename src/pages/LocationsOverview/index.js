@@ -11,13 +11,15 @@ import tableConfig from './config';
 
 class Organisations extends PureComponent {
   render() {
+    const { role, organisation, token } = this.props;
     const { columns } = tableConfig.table;
+    const isAdmin = role === 'ADMIN';
 
     return (
       <Container>
         <HeaderArea>
           <h1>Kulturorte Übersicht</h1>
-          {this.props.token && (
+          {isAdmin && (
             <StyledButton
               type="primary"
               icon="plus"
@@ -34,7 +36,9 @@ class Organisations extends PureComponent {
           search={locationSearch}
           columns={columns}
           itemIdentifier="kulturorte"
-          token={this.props.token}
+          role={role}
+          organisation={organisation}
+          token={token}
         />
       </Container>
     );

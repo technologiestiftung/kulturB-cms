@@ -93,7 +93,7 @@ class PaginationTable extends PureComponent {
   }
 
   onRowClick(evt, item) {
-    if (this.props.token) {
+    if (this.props.role === 'ADMIN' || this.props.organisation === item.id) {
       history.push(`/${this.props.itemIdentifier}/${item.id}`);
     }
   }
@@ -190,6 +190,9 @@ class PaginationTable extends PureComponent {
   }
 
   render() {
+    const { columns, role } = this.props;
+    const isAdmin = role === 'ADMIN';
+
     return (
       <Fragment>
         <SearchBar
@@ -208,8 +211,8 @@ class PaginationTable extends PureComponent {
               onClick: evt => this.onRowClick(evt, item)
             })}
           >
-            {this.props.columns.map(item => renderColumn(item))}
-            {this.props.token && (
+            {columns.map(item => renderColumn(item))}
+            {isAdmin && (
               <Column
                 key="action"
                 render={item => (

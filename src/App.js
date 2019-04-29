@@ -53,15 +53,15 @@ class App extends PureComponent {
     return (
       <Router history={history}>
         <Layout>
-          <Header token={this.props.token} dispatch={this.props.dispatch} />
+          <Header {...this.props} dispatch={this.props.dispatch} />
           <Content>
             <Switch>
-              <Route path="/" exact component={() => <LocationsOverview token={this.props.token} />} />
+              <Route path="/" exact component={() => <LocationsOverview {...this.props} />} />
               <Route path="/login" component={Login} />
               <Route path="/metadaten/:id" component={MetadataGenerator} />
               <Route path="/metadaten" component={MetadataGenerator} />
               <PrivateRoute token={this.props.token} path="/kulturorte/neu" exact isCreateMode component={Location} />
-              <PrivateRoute token={this.props.token} path="/kulturorte/:id" component={Location} />
+              <PrivateRoute {...this.props} path="/kulturorte/:id" component={Location} />
               <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
               <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
               <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
@@ -77,6 +77,4 @@ class App extends PureComponent {
   }
 }
 
-export default connect(state => ({
-  token: state.AppState.token
-}))(App);
+export default connect(state => state.AppState)(App);
