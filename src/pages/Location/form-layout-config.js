@@ -1,28 +1,34 @@
+const offsetSm = 4;
+const offsetMd = 4;
+
+const spanSm = 10;
+const spanMd = 16;
+
 export default {
   labelCol: {
     sm: {
-      span: 4
+      span: offsetSm
     },
     md: {
-      span: 4
+      span: offsetMd
     }
   },
   wrapperCol: {
     sm: {
-      span: 10
+      span: spanSm
     },
     md: {
-      span: 14
+      span: spanMd
     }
   },
   colLayout: {
     sm: {
-      offset: 4,
-      span: 10
+      offset: offsetSm,
+      span: spanSm
     },
     md: {
-      offset: 4,
-      span: 14
+      offset: offsetMd,
+      span: spanMd
     }
   }
 };

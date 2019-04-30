@@ -72,7 +72,7 @@ class User extends PureComponent {
     });
   }
 
-  onSubmit(evt, redirect) {
+  onSubmit(evt) {
     const { form, match } = this.props;
     evt.preventDefault();
     form.validateFields(async (err, values) => {
@@ -96,10 +96,6 @@ class User extends PureComponent {
         if (!res.id) return renderErrorMessage();
         this.setState({ item: res });
         renderSuccessMessage();
-
-        if (redirect) {
-          history.push(redirect);
-        }
       }
     });
   }
