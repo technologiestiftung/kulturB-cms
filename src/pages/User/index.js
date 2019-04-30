@@ -40,7 +40,7 @@ class User extends PureComponent {
     isDeleteModalVisible: false,
     isError: false,
     showPassword: false,
-    password: randomize('A0!', 14),
+    password: randomize('Aa0!', 14),
     locations: []
   }
 

@@ -25,7 +25,7 @@ export function renderSuccessMessage() {
 
 export function renderErrorMessage(res) {
   let message = 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.';
-  if (res.message === 'Already Registered') {
+  if (res && res.message === 'Already Registered') {
     message = 'Email Addresse bereits vergeben';
   }
   return notification.error({ message });
