@@ -10,6 +10,7 @@ import Export from '~/components/Export';
 import FormItem from '~/components/FormItem';
 import { update } from '~/services/userApi';
 import { renderSuccessMessage, renderErrorMessage, compareToFirstPassword } from '~/services/utils';
+import formItemLayout from '~/pages/Location/form-layout-config';
 
 class Settings extends PureComponent {
   state = {
@@ -51,7 +52,7 @@ class Settings extends PureComponent {
   }
 
   render() {
-    const { form, formItemLayout, role } = this.props;
+    const { form, role } = this.props;
     const { showPassword } = this.state;
     const isAdmin = role === 'ADMIN';
     return (
