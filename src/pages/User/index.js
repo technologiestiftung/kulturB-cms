@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Icon, Row, Col, Button, Spin, Modal, notification
+  Form, Input, Icon, Row, Col, Button, Spin, Modal
 } from 'antd';
 import Select from 'react-select';
 import randomize from 'randomatic';
@@ -16,6 +16,7 @@ import {
   findById, create, update, remove
 } from '~/services/userApi';
 import { get } from '~/services/locationApi';
+import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
 
 function renderError() {
   return (
@@ -30,20 +31,6 @@ function renderError() {
       </div>
     </Container>
   );
-}
-
-function renderSuccessMessage() {
-  return notification.success({
-    message: 'Erfolgreich gespeichert.'
-  });
-}
-
-function renderErrorMessage(res) {
-  let message = 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.';
-  if (res.message === 'Already Registered') {
-    message = 'Email Addresse bereits vergeben';
-  }
-  return notification.error({ message });
 }
 
 class User extends PureComponent {
