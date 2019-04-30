@@ -211,7 +211,7 @@ class User extends PureComponent {
                 rules: [{
                   required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
                 }, {
-                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), form.getFieldValue('confirmPassword'), cb),
+                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('confirmPassword'), form.getFieldValue('password'), cb),
                 }]
               })(
                 <Input
