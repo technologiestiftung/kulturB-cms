@@ -16,7 +16,7 @@ import {
   findById, create, update, remove
 } from '~/services/userApi';
 import { get } from '~/services/locationApi';
-import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
+import { renderSuccessMessage, renderErrorMessage, compareToFirstPassword } from '~/services/utils';
 
 function renderError() {
   return (
@@ -40,7 +40,7 @@ class User extends PureComponent {
     isDeleteModalVisible: false,
     isError: false,
     showPassword: false,
-    password: randomize('Aa0!', 14),
+    password: randomize('Aa0!', 8),
     locations: []
   }
 
@@ -141,15 +141,6 @@ class User extends PureComponent {
     this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
   }
 
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Passwörter sind unterschiedlich!');
-    } else {
-      callback();
-    }
-  }
-
   render() {
     const { isCreateMode, form, formItemLayout } = this.props;
     const {
@@ -199,6 +190,8 @@ class User extends PureComponent {
                 initialValue: isCreateMode && password,
                 rules: [{
                   required: isCreateMode, message: 'Bitte Passwort eingeben!',
+                }, {
+                  min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten'
                 }]
               })(
                 <Input
@@ -218,7 +211,7 @@ class User extends PureComponent {
                 rules: [{
                   required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
                 }, {
-                  validator: this.compareToFirstPassword,
+                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), value, cb),
                 }]
               })(
                 <Input
