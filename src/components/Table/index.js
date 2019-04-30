@@ -210,6 +210,13 @@ class PaginationTable extends PureComponent {
             onRow={item => ({
               onClick: evt => this.onRowClick(evt, item)
             })}
+            locale={{
+              sortTitle: 'Sortieren',
+              filterTitle: 'Filter',
+              filterConfirm: 'Ok',
+              filterReset: 'Zurücksetzen',
+              emptyText: 'Keine Einträge vorhanden'
+            }}
           >
             {columns.map(item => renderColumn(item))}
             {isAdmin && (
@@ -223,7 +230,7 @@ class PaginationTable extends PureComponent {
                     content="Delete"
                     onClick={evt => this.onOpenModal(evt, item)}
                   />
-                  )}
+                )}
               />
             )}
           </Table>
