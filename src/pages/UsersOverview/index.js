@@ -34,6 +34,7 @@ class Users extends PureComponent {
           columns={columns}
           itemIdentifier="nutzer"
           token={this.props.token}
+          role={this.props.role}
         />
       </Container>
     );

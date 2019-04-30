@@ -157,7 +157,7 @@ class User extends PureComponent {
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
-      callback('Passworter sind unterschiedlich!');
+      callback('Passwörter sind unterschiedlich!');
     } else {
       callback();
     }
@@ -188,14 +188,14 @@ class User extends PureComponent {
           <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
             <FormItem
               key="email"
-              label="Email"
+              label="E-Mail"
               {...formItemLayout}
             >
               {form.getFieldDecorator('email', {
                 rules: [{
-                  type: 'email', message: 'Ungültige Email Addresse',
+                  type: 'email', message: 'Ungültige E-Mail Addresse',
                 }, {
-                  required: true, message: 'Email ist erforderlich',
+                  required: true, message: 'E-Mail ist erforderlich',
                 }],
                 initialValue: item.email
               })(
@@ -205,13 +205,13 @@ class User extends PureComponent {
 
             <FormItem
               key="password"
-              label="Password"
+              label="Passwort"
               {...formItemLayout}
             >
               {form.getFieldDecorator('password', {
                 initialValue: isCreateMode && password,
                 rules: [{
-                  required: isCreateMode, message: 'Bitte password eingeben!',
+                  required: isCreateMode, message: 'Bitte Passwort eingeben!',
                 }]
               })(
                 <Input
@@ -223,13 +223,13 @@ class User extends PureComponent {
 
             <FormItem
               key="confirmPassword"
-              label="Password wiederholen"
+              label="Passwort wiederholen"
               {...formItemLayout}
             >
               {form.getFieldDecorator('confirmPassword', {
                 initialValue: isCreateMode && password,
                 rules: [{
-                  required: form.isFieldTouched('password'), message: 'Bitte password bestätigen!',
+                  required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
                 }, {
                   validator: this.compareToFirstPassword,
                 }]
@@ -249,7 +249,7 @@ class User extends PureComponent {
               {form.getFieldDecorator('organisation', {
                 initialValue: item.organisation && { _id: item.organisation.id, name: item.organisation.name },
                 rules: [{
-                  required: true
+                  required: true, message: 'Bitte ein Kulturort auswählen'
                 }]
               })(
                 <Select

@@ -66,7 +66,7 @@ class App extends PureComponent {
               <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
               <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
               <PrivateRoute token={this.props.token} path="/nutzer/:id" component={User} />
-              <PrivateRoute token={this.props.token} path="/nutzer" component={UsersOverview} />
+              <PrivateRoute {...this.props} path="/nutzer" component={UsersOverview} />
               <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
             </Switch>
           </Content>
