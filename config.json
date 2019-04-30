@@ -46,7 +46,7 @@
     {
       "label": "Einstellungen",
       "url": "/einstellungen",
-      "roles": ["ADMIN"]
+      "roles": ["ADMIN", "USER"]
     }, {
       "label": "Nutzer",
       "url": "/nutzer",
