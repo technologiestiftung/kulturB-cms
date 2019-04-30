@@ -26,5 +26,31 @@
     {"label": "Nein", "value": "no"},
     {"label": "Teilweise", "value": "limited"},
     {"label": "Unbekannt", "value": "unknown"}
+  ],
+  "nav": [
+    {
+      "label": "Kulturorte",
+      "url": "/",
+      "roles": ["ADMIN", "USER", "ANONYMOUS"]
+    },
+    {
+      "label": "Metadaten Generator",
+      "url": "/metadaten",
+      "roles": ["ADMIN", "USER", "ANONYMOUS"]
+    },
+    {
+      "label": "Kategorien",
+      "url": "/tags",
+      "roles": ["ADMIN"]
+    },
+    {
+      "label": "Einstellungen",
+      "url": "/einstellungen",
+      "roles": ["ADMIN"]
+    }, {
+      "label": "Nutzer",
+      "url": "/nutzer",
+      "roles": ["ADMIN"]
+    }
   ]
 }

@@ -10,6 +10,8 @@ import Footer from '~/components/Footer';
 import Location from '~/pages/Location';
 import LocationsOverview from '~/pages/LocationsOverview';
 import TagsOverview from '~/pages/TagsOverview';
+import UsersOverview from '~/pages/UsersOverview';
+import User from '~/pages/User';
 import Login from '~/pages/Login';
 import NoMatch from '~/pages/NoMatch';
 import Settings from '~/pages/Settings';
@@ -51,17 +53,20 @@ class App extends PureComponent {
     return (
       <Router history={history}>
         <Layout>
-          <Header token={this.props.token} dispatch={this.props.dispatch} />
+          <Header {...this.props} dispatch={this.props.dispatch} />
           <Content>
             <Switch>
-              <Route path="/" exact component={() => <LocationsOverview token={this.props.token} />} />
+              <Route path="/" exact component={() => <LocationsOverview {...this.props} />} />
               <Route path="/login" component={Login} />
               <Route path="/metadaten/:id" component={MetadataGenerator} />
               <Route path="/metadaten" component={MetadataGenerator} />
               <PrivateRoute token={this.props.token} path="/kulturorte/neu" exact isCreateMode component={Location} />
-              <PrivateRoute token={this.props.token} path="/kulturorte/:id" component={Location} />
+              <PrivateRoute {...this.props} path="/kulturorte/:id" component={Location} />
               <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
               <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
+              <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
+              <PrivateRoute token={this.props.token} path="/nutzer/:id" component={User} />
+              <PrivateRoute {...this.props} path="/nutzer" component={UsersOverview} />
               <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
             </Switch>
           </Content>
@@ -72,6 +77,4 @@ class App extends PureComponent {
   }
 }
 
-export default connect(state => ({
-  token: state.AppState.token
-}))(App);
+export default connect(state => state.AppState)(App);
