@@ -94,9 +94,10 @@ class User extends PureComponent {
         }
 
         if (this.isCreateMode) {
-          this.isCreateMode = false;
           const res = await create(values);
           if (!res.id) return renderErrorMessage(res);
+
+          this.isCreateMode = false;
           history.replace(`/nutzer/${res.id}`);
           renderSuccessMessage();
           form.setFieldsValue({ ...res, password: '', confirmPassword: '' });
