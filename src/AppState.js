@@ -15,12 +15,14 @@ const tokenStorageKey = 'accessToken';
 const refreshTokenStorageKey = 'refreshToken';
 const roleStorageKey = 'role';
 const organisationStorageKey = 'organisation';
+const userIdKey = 'userId';
 
 const initialState = {
   role: storage.get(roleStorageKey) || 'ANONYMOUS',
   organisation: storage.get(organisationStorageKey),
   token: storage.get(tokenStorageKey),
   refreshToken: storage.get(refreshTokenStorageKey),
+  userId: storage.get(userIdKey),
   loginError: null,
   isLogginIn: false
 };
@@ -30,6 +32,7 @@ function clearStorage() {
   storage.remove(refreshTokenStorageKey);
   storage.remove(organisationStorageKey);
   storage.remove(roleStorageKey);
+  storage.remove(userIdKey);
 }
 
 function loginFailed() {
@@ -40,20 +43,23 @@ function loginFailed() {
 
 function loginCompleted(response) {
   const {
+    _id: userId,
     accessToken,
     refreshToken,
     role,
-    organisation
+    organisation,
   } = response;
   if (!accessToken) return loginFailed();
   storage.set(tokenStorageKey, accessToken);
   storage.set(refreshTokenStorageKey, refreshToken);
   storage.set(roleStorageKey, role);
+  storage.set(userIdKey, userId);
   organisation && organisation.id && storage.set(organisationStorageKey, organisation.id);
 
   return {
     type: LOGIN_COMPLETED,
     payload: {
+      userId,
       role,
       organisation: organisation && organisation.id,
       token: accessToken,
@@ -109,7 +115,8 @@ function logoutCompleted() {
       token: null,
       loginError: null,
       role: 'ANONYMOUS',
-      organisation: null
+      organisation: null,
+      userId: null
     }
   };
 }

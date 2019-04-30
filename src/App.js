@@ -63,7 +63,7 @@ class App extends PureComponent {
               <PrivateRoute token={this.props.token} path="/kulturorte/neu" exact isCreateMode component={Location} />
               <PrivateRoute {...this.props} path="/kulturorte/:id" component={Location} />
               <PrivateRoute token={this.props.token} path="/tags" exact component={TagsOverview} />
-              <PrivateRoute token={this.props.token} path="/einstellungen" component={Settings} />
+              <PrivateRoute {...this.props} path="/einstellungen" component={Settings} />
               <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
               <PrivateRoute token={this.props.token} path="/nutzer/:id" component={User} />
               <PrivateRoute {...this.props} path="/nutzer" component={UsersOverview} />
