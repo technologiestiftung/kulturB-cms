@@ -23,12 +23,22 @@ const TableWrapper = styled.div`
     }
 
     .ant-table-row {
-      cursor: ${props => (props.token ? 'pointer' : 'auto') };
+      cursor: ${props => (props.role === 'ADMIN' ? 'pointer' : 'auto') };
       height: 80px;
+
+      &.hoverable {
+        cursor: pointer;
+
+        &:hover {
+          td {
+            background: #e6f7ff;
+          }
+        }
+      }
 
       &:hover {
         td {
-          background: ${props => (props.token ? '#e6f7ff' : 'none') };
+          background: ${props => (props.role === 'ADMIN' ? '#e6f7ff' : 'none') };
         }
       }
     }
@@ -190,8 +200,10 @@ class PaginationTable extends PureComponent {
   }
 
   render() {
-    const { columns, role } = this.props;
+    const { columns, role, organisation } = this.props;
     const isAdmin = role === 'ADMIN';
+
+    console.log(this.props);
 
     return (
       <Fragment>
@@ -200,7 +212,7 @@ class PaginationTable extends PureComponent {
           onSearch={value => this.search(value)}
           enterButton
         />
-        <TableWrapper token={this.props.token}>
+        <TableWrapper role={this.props.role}>
           <Table
             rowKey="id"
             dataSource={this.state.data}
@@ -208,8 +220,16 @@ class PaginationTable extends PureComponent {
             onChange={this.onTableChange}
             loading={this.state.loading}
             onRow={item => ({
-              onClick: evt => this.onRowClick(evt, item)
+              onClick: evt => this.onRowClick(evt, item),
+              className: item.id === organisation ? 'hoverable' : ''
             })}
+            locale={{
+              sortTitle: 'Sortieren',
+              filterTitle: 'Filter',
+              filterConfirm: 'Ok',
+              filterReset: 'Zurücksetzen',
+              emptyText: 'Keine Einträge vorhanden'
+            }}
           >
             {columns.map(item => renderColumn(item))}
             {isAdmin && (
@@ -223,7 +243,7 @@ class PaginationTable extends PureComponent {
                     content="Delete"
                     onClick={evt => this.onOpenModal(evt, item)}
                   />
-                  )}
+                )}
               />
             )}
           </Table>

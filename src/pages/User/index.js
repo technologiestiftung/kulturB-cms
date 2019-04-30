@@ -17,6 +17,7 @@ import {
 } from '~/services/userApi';
 import { get } from '~/services/locationApi';
 import { renderSuccessMessage, renderErrorMessage, compareToFirstPassword } from '~/services/utils';
+import formItemLayout from '~/pages/Location/form-layout-config';
 
 function renderError() {
   return (
@@ -81,9 +82,10 @@ class User extends PureComponent {
         }
 
         if (this.isCreateMode) {
-          this.isCreateMode = false;
           const res = await create(values);
           if (!res.id) return renderErrorMessage(res);
+
+          this.isCreateMode = false;
           history.replace(`/nutzer/${res.id}`);
           renderSuccessMessage();
           form.setFieldsValue({ ...res, password: '', confirmPassword: '' });
@@ -142,7 +144,7 @@ class User extends PureComponent {
   }
 
   render() {
-    const { isCreateMode, form, formItemLayout } = this.props;
+    const { isCreateMode, form } = this.props;
     const {
       isLoading,
       item,
@@ -247,8 +249,8 @@ class User extends PureComponent {
             </FormItem>
 
             <Row style={{ marginTop: '15px' }}>
-              <Col span={17} style={{ textAlign: 'right' }}>
-                <StyledButton type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
+              <Col {...formItemLayout.colLayout} style={{ textAlign: 'right' }}>
+                <StyledButton type="primary" htmlType="submit">
                   Speichern
                 </StyledButton>
                 {!isCreateMode && (
