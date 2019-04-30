@@ -17,6 +17,7 @@ import {
 } from '~/services/userApi';
 import { get } from '~/services/locationApi';
 import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
+import formItemLayout from '~/pages/Location/form-layout-config';
 
 function renderError() {
   return (
@@ -152,7 +153,7 @@ class User extends PureComponent {
   }
 
   render() {
-    const { isCreateMode, form, formItemLayout } = this.props;
+    const { isCreateMode, form } = this.props;
     const {
       isLoading,
       item,
@@ -255,8 +256,8 @@ class User extends PureComponent {
             </FormItem>
 
             <Row style={{ marginTop: '15px' }}>
-              <Col span={17} style={{ textAlign: 'right' }}>
-                <StyledButton type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
+              <Col {...formItemLayout.colLayout} style={{ textAlign: 'right' }}>
+                <StyledButton type="primary" htmlType="submit">
                   Speichern
                 </StyledButton>
                 {!isCreateMode && (
