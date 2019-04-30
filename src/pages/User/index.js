@@ -194,6 +194,8 @@ class User extends PureComponent {
                   required: isCreateMode, message: 'Bitte Passwort eingeben!',
                 }, {
                   min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten'
+                }, {
+                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), form.getFieldValue('confirmPassword'), cb),
                 }]
               })(
                 <Input
@@ -213,7 +215,7 @@ class User extends PureComponent {
                 rules: [{
                   required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
                 }, {
-                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), value, cb),
+                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), form.getFieldValue('confirmPassword'), cb),
                 }]
               })(
                 <Input

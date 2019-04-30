@@ -33,7 +33,6 @@ export function renderErrorMessage(res) {
 
 
 export function compareToFirstPassword(password, value, callback) {
-  console.log(password, value)
   if (value && value !== password) {
     callback('Passwörter sind unterschiedlich!');
   } else {
