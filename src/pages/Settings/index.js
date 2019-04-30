@@ -51,6 +51,28 @@ class Settings extends PureComponent {
     this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
   }
 
+  compareToFirstPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Passwörter sind unterschiedlich!');
+    } else {
+      callback();
+    }
+  }
+
+  validateToNextPassword = (rule, value, callback) => {
+    const { form } = this.props;
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirmPassword'], { force: true });
+    }
+    callback();
+  }
+
+  handleConfirmBlur = (e) => {
+    const { value } = e.target;
+    this.setState(prevState => ({ confirmDirty: prevState.confirmDirty || !!value }));
+  }
+
   render() {
     const { form, role } = this.props;
     const { showPassword } = this.state;
@@ -87,7 +109,7 @@ class Settings extends PureComponent {
                 }, {
                   min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten.'
                 }, {
-                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), form.getFieldValue('confirmPassword'), cb),
+                  validator: this.validateToNextPassword
                 }]
               })(
                 <Input
@@ -106,12 +128,13 @@ class Settings extends PureComponent {
                 rules: [{
                   required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
                 }, {
-                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('confirmPassword'), form.getFieldValue('password'), cb),
+                  validator: this.compareToFirstPassword
                 }]
               })(
                 <Input
                   type={showPassword ? 'text' : 'password'}
                   prefix={<Icon type="eye" onClick={() => this.togglePasswordVisibility()} />}
+                  onBlur={this.handleConfirmBlur}
                 />
               )}
             </FormItem>
