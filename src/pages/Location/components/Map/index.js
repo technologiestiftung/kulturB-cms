@@ -10,6 +10,7 @@ import 'leaflet/dist/leaflet.css';
 
 import iconUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+import formItemLayout from '~/pages/Location/form-layout-config';
 
 import { get } from '~/services/locationApi';
 
@@ -32,8 +33,8 @@ const MapWrapper = styled(Row)`
 `;
 
 const Hint = styled.div`
-  text-align: center;
   margin-bottom: 5px;
+  color: #888;
 `;
 
 const FlexCol = styled(Col)`
@@ -76,7 +77,7 @@ class LocationMap extends PureComponent {
 
     return (
       <MapWrapper>
-        <FlexCol span={13} offset={4}>
+        <FlexCol {...formItemLayout.colLayout}>
           <Hint>
             Verschieben Sie den Marker, um die Koordinaten zu korrigieren.
           </Hint>

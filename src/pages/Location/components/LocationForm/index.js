@@ -1,8 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
-import {
-  Row, Col, Form
-} from 'antd';
+import { Row, Col, Form } from 'antd';
 
 import FormItem from '~/components/FormItem';
 import Map from '~/pages/Location/components/Map';
@@ -11,6 +9,7 @@ import Upload from '~/pages/Location/components/Upload';
 import formItems from '~/pages/Location/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
 import StyledButton from '~/components/Button';
+import formItemLayout from '~/pages/Location/form-layout-config';
 
 const FlexRow = styled(Row)`
   &&& {
@@ -202,7 +201,7 @@ class LocationForm extends PureComponent {
           />
         )}
         <Row style={{ marginTop: '15px' }}>
-          <Col span={17} style={{ textAlign: 'right' }}>
+          <Col {...formItemLayout.colLayout} style={{ textAlign: 'right' }}>
             {!this.props.isCreateMode && (
               <StyledButton
                 htmlType="submit"

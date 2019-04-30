@@ -51,6 +51,7 @@ export default [{
   getInitialValue: component => component.props.item.telephone
 }, {
   label: 'Adresse',
+  name: 'address_multi',
   type: 'multipleinput',
   children: [{
     name: 'address',
@@ -107,6 +108,7 @@ export default [{
 }, {
   label: 'ÖPVN',
   type: 'multipleinput',
+  name: 'opnv_multi',
   children: [{
     name: 'transportation.subway',
     label: 'U-Bahn',
@@ -131,6 +133,7 @@ export default [{
 }, {
   label: 'Barrierefreiheit',
   type: 'multipleinput',
+  name: 'a11y_multi',
   childrenLabel: 'Menschen im Rollstuhl und Gehbehinderte',
   children: [
     {
@@ -169,6 +172,7 @@ export default [{
 }, {
   label: ' ',
   type: 'multipleinput',
+  name: 'blind_multi',
   childrenLabel: 'Blinde und Sehbehinderte',
   children: [
     {
@@ -213,6 +217,7 @@ export default [{
 }, {
   label: ' ',
   type: 'multipleinput',
+  name: 'deaf_multi',
   childrenLabel: 'Gehörlose und Hörgeschädigte',
   children: [
     {

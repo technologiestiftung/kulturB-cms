@@ -12,7 +12,17 @@ export default {
       span: 10
     },
     md: {
-      span: 13
+      span: 14
     }
-   }
+  },
+  colLayout: {
+    sm: {
+      offset: 4,
+      span: 10
+    },
+    md: {
+      offset: 4,
+      span: 14
+    }
+  }
 };
