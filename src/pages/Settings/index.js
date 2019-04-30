@@ -9,7 +9,7 @@ import Import from '~/components/Import';
 import Export from '~/components/Export';
 import FormItem from '~/components/FormItem';
 import { update } from '~/services/userApi';
-import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
+import { renderSuccessMessage, renderErrorMessage, compareToFirstPassword } from '~/services/utils';
 
 class Settings extends PureComponent {
   state = {
@@ -83,6 +83,8 @@ class Settings extends PureComponent {
               {form.getFieldDecorator('password', {
                 rules: [{
                   required: true, message: 'Bitte Passwort eingeben!',
+                }, {
+                  min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten'
                 }]
               })(
                 <Input
@@ -101,7 +103,7 @@ class Settings extends PureComponent {
                 rules: [{
                   required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
                 }, {
-                  validator: this.compareToFirstPassword,
+                  validator: (rule, value, cb) => compareToFirstPassword(form.getFieldValue('password'), value, cb),
                 }]
               })(
                 <Input
