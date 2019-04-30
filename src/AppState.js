@@ -108,7 +108,7 @@ function logoutCompleted() {
     payload: {
       token: null,
       loginError: null,
-      role: null,
+      role: 'ANONYMOUS',
       organisation: null
     }
   };

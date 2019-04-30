@@ -30,13 +30,13 @@ export async function refreshToken({ token }) {
 }
 
 export async function search(name, params) {
-  const url = parseQuery(`${config.url.base}${config.url.user.base}/search`, { name, ...params });
+  const url = parseQuery(`${config.url.base}${config.url.user.base}/search`, { role: 'USER', name, ...params });
   const res = await fetch(url);
   return res.json();
 }
 
 export async function find(params = {}) {
-  const url = parseQuery(`${config.url.base}${config.url.user.base}`, params);
+  const url = parseQuery(`${config.url.base}${config.url.user.base}`, { role: 'USER', ...params });
   const { AppState } = Store.getState();
 
   const res = await fetch(url, {
