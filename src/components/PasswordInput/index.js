@@ -42,10 +42,9 @@ class PasswordInput extends PureComponent {
   }
 
   render() {
-    const { form, isCreateMode } = this.props;
+    const { form, isCreateMode, required = true } = this.props;
     const { showPassword, password } = this.state;
 
-    console.log(!!isCreateMode);
     return (
       <Fragment>
         <FormItem
@@ -56,7 +55,7 @@ class PasswordInput extends PureComponent {
           {form.getFieldDecorator('password', {
             initialValue: isCreateMode && password,
             rules: [{
-              required: !!isCreateMode, message: 'Bitte Passwort eingeben!',
+              required, message: 'Bitte Passwort eingeben!',
             }, {
               min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten.'
             }, {
