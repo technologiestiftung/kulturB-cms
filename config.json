@@ -52,5 +52,15 @@
       "url": "/nutzer",
       "roles": ["ADMIN"]
     }
-  ]
+  ],
+  "footer": {
+    "text": "© 2019 Technologiestiftung Berlin ",
+    "nav": [{
+      "label": "Impressum",
+      "url": "https://kultur-b-digital.de/impressum"
+    }, {
+      "label": "Datenschutz",
+      "url": "https://kultur-b-digital.de/datenschutz"
+    }]
+  }
 }
