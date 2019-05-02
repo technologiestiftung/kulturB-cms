@@ -31,18 +31,8 @@ export function renderErrorMessage(res) {
   return notification.error({ message });
 }
 
-
-export function compareToFirstPassword(password, value, callback) {
-  if (value && value !== password) {
-    callback('Passwörter sind unterschiedlich!');
-  } else {
-    callback();
-  }
-}
-
 export default {
   parseQuery,
   renderSuccessMessage,
   renderErrorMessage,
-  compareToFirstPassword,
 };

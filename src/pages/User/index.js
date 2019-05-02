@@ -10,13 +10,14 @@ import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import FormItem from '~/components/FormItem';
 import StyledButton from '~/components/Button';
+import PasswordInput from '~/components/PasswordInput';
 
 import history from '~/history';
 import {
   findById, create, update, remove
 } from '~/services/userApi';
 import { get } from '~/services/locationApi';
-import { renderSuccessMessage, renderErrorMessage, compareToFirstPassword } from '~/services/utils';
+import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
 import formItemLayout from '~/pages/Location/form-layout-config';
 
 function renderError() {
@@ -135,32 +136,6 @@ class User extends PureComponent {
     }));
   }
 
-  togglePasswordVisibility() {
-    this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
-  }
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Passwörter sind unterschiedlich!');
-    } else {
-      callback();
-    }
-  }
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirmPassword'], { force: true });
-    }
-    callback();
-  }
-
-  handleConfirmBlur = (e) => {
-    const { value } = e.target;
-    this.setState(prevState => ({ confirmDirty: prevState.confirmDirty || !!value }));
-  }
-
   render() {
     const { isCreateMode, form } = this.props;
     const {
@@ -201,48 +176,7 @@ class User extends PureComponent {
               )}
             </FormItem>
 
-            <FormItem
-              key="password"
-              label="Passwort"
-              {...formItemLayout}
-            >
-              {form.getFieldDecorator('password', {
-                initialValue: isCreateMode && password,
-                rules: [{
-                  required: isCreateMode, message: 'Bitte Passwort eingeben!',
-                }, {
-                  min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten'
-                }, {
-                  validator: this.validateToNextPassword
-                }]
-              })(
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  prefix={<Icon type="eye" onClick={() => this.togglePasswordVisibility()} />}
-                />
-              )}
-            </FormItem>
-
-            <FormItem
-              key="confirmPassword"
-              label="Passwort wiederholen"
-              {...formItemLayout}
-            >
-              {form.getFieldDecorator('confirmPassword', {
-                initialValue: isCreateMode && password,
-                rules: [{
-                  required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
-                }, {
-                  validator: this.compareToFirstPassword
-                }]
-              })(
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  prefix={<Icon type="eye" onClick={() => this.togglePasswordVisibility()} />}
-                  onBlur={this.handleConfirmBlur}
-                />
-              )}
-            </FormItem>
+            <PasswordInput form={form} />
 
             <FormItem
               key="organisation"

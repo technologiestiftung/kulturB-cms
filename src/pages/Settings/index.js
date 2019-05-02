@@ -1,21 +1,19 @@
 import React, { PureComponent } from 'react';
 import {
-  Row, Col, Button, Form, Input, Icon, Spin, Divider, message
+  Row, Col, Button, Form, Spin, Divider, message
 } from 'antd';
 
 import { ContainerBg } from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import Import from '~/components/Import';
 import Export from '~/components/Export';
-import FormItem from '~/components/FormItem';
 import { update } from '~/services/userApi';
-import { renderSuccessMessage, renderErrorMessage, compareToFirstPassword } from '~/services/utils';
-import formItemLayout from '~/pages/Location/form-layout-config';
+import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
+import PasswordInput from '../../components/PasswordInput';
 
 class Settings extends PureComponent {
   state = {
     loading: false,
-    showPassword: false,
   }
 
   onChange(info) {
@@ -47,35 +45,8 @@ class Settings extends PureComponent {
     });
   }
 
-  togglePasswordVisibility() {
-    this.setState(({ showPassword }) => ({ showPassword: !showPassword }));
-  }
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Passwörter sind unterschiedlich!');
-    } else {
-      callback();
-    }
-  }
-
-  validateToNextPassword = (rule, value, callback) => {
-    const { form } = this.props;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirmPassword'], { force: true });
-    }
-    callback();
-  }
-
-  handleConfirmBlur = (e) => {
-    const { value } = e.target;
-    this.setState(prevState => ({ confirmDirty: prevState.confirmDirty || !!value }));
-  }
-
   render() {
     const { form, role } = this.props;
-    const { showPassword } = this.state;
     const isAdmin = role === 'ADMIN';
     return (
       <ContainerBg>
@@ -98,47 +69,7 @@ class Settings extends PureComponent {
           )}
           <Divider>Passwort ändern</Divider>
           <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
-            <FormItem
-              key="password"
-              label="Passwort"
-              {...formItemLayout}
-            >
-              {form.getFieldDecorator('password', {
-                rules: [{
-                  required: true, message: 'Bitte Passwort eingeben!',
-                }, {
-                  min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten.'
-                }, {
-                  validator: this.validateToNextPassword
-                }]
-              })(
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  prefix={<Icon type="eye" onClick={() => this.togglePasswordVisibility()} />}
-                />
-              )}
-            </FormItem>
-
-            <FormItem
-              key="confirmPassword"
-              label="Passwort wiederholen"
-              {...formItemLayout}
-            >
-              {form.getFieldDecorator('confirmPassword', {
-                rules: [{
-                  required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
-                }, {
-                  validator: this.compareToFirstPassword
-                }]
-              })(
-                <Input
-                  type={showPassword ? 'text' : 'password'}
-                  prefix={<Icon type="eye" onClick={() => this.togglePasswordVisibility()} />}
-                  onBlur={this.handleConfirmBlur}
-                />
-              )}
-            </FormItem>
-
+            <PasswordInput form={form} />
             <Row style={{ marginTop: '15px' }}>
               <Col style={{ textAlign: 'right' }}>
                 <Button type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
