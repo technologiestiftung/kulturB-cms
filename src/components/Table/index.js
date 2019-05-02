@@ -203,8 +203,6 @@ class PaginationTable extends PureComponent {
     const { columns, role, organisation } = this.props;
     const isAdmin = role === 'ADMIN';
 
-    console.log(this.props);
-
     return (
       <Fragment>
         <SearchBar
