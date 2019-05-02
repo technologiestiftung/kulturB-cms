@@ -7,9 +7,9 @@ import { ContainerBg } from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import Import from '~/components/Import';
 import Export from '~/components/Export';
+import PasswordInput from '~/components/PasswordInput';
 import { update } from '~/services/userApi';
 import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
-import PasswordInput from '../../components/PasswordInput';
 
 class Settings extends PureComponent {
   state = {
@@ -69,7 +69,10 @@ class Settings extends PureComponent {
           )}
           <Divider>Passwort ändern</Divider>
           <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
-            <PasswordInput form={form} />
+            <PasswordInput
+              form={form}
+              required={false}
+            />
             <Row style={{ marginTop: '15px' }}>
               <Col style={{ textAlign: 'right' }}>
                 <Button type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>

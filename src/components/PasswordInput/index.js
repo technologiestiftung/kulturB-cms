@@ -1,7 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
+import randomize from 'randomatic';
 import {
   Input, Icon
 } from 'antd';
+
 
 import FormItem from '~/components/FormItem';
 import formItemLayout from '~/pages/Location/form-layout-config';
@@ -10,6 +12,7 @@ class PasswordInput extends PureComponent {
   state = {
     showPassword: false,
     confirmDirty: false,
+    password: randomize('Aa0!', 8)
   }
 
   togglePasswordVisibility() {
@@ -39,9 +42,10 @@ class PasswordInput extends PureComponent {
   }
 
   render() {
-    const { form } = this.props;
-    const { showPassword } = this.state;
+    const { form, isCreateMode } = this.props;
+    const { showPassword, password } = this.state;
 
+    console.log(!!isCreateMode);
     return (
       <Fragment>
         <FormItem
@@ -50,8 +54,9 @@ class PasswordInput extends PureComponent {
           {...formItemLayout}
         >
           {form.getFieldDecorator('password', {
+            initialValue: isCreateMode && password,
             rules: [{
-              required: true, message: 'Bitte Passwort eingeben!',
+              required: !!isCreateMode, message: 'Bitte Passwort eingeben!',
             }, {
               min: 8, message: 'Passwort musst mindestens 8 Zeichen enthalten.'
             }, {
@@ -71,6 +76,7 @@ class PasswordInput extends PureComponent {
           {...formItemLayout}
         >
           {form.getFieldDecorator('confirmPassword', {
+            initialValue: isCreateMode && password,
             rules: [{
               required: form.isFieldTouched('password'), message: 'Bitte Passwort bestätigen!',
             }, {

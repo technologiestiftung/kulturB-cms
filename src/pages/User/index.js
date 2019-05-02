@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Icon, Row, Col, Button, Spin, Modal
+  Form, Input, Row, Col, Button, Spin, Modal
 } from 'antd';
 import Select from 'react-select';
-import randomize from 'randomatic';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
@@ -41,8 +40,6 @@ class User extends PureComponent {
     isLoading: true,
     isDeleteModalVisible: false,
     isError: false,
-    showPassword: false,
-    password: randomize('Aa0!', 8),
     locations: []
   }
 
@@ -143,8 +140,6 @@ class User extends PureComponent {
       item,
       locations,
       isDeleteModalVisible,
-      showPassword,
-      password
     } = this.state;
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
 
@@ -176,7 +171,10 @@ class User extends PureComponent {
               )}
             </FormItem>
 
-            <PasswordInput form={form} />
+            <PasswordInput
+              form={form}
+              isCreateMode={isCreateMode}
+            />
 
             <FormItem
               key="organisation"
