@@ -3,7 +3,7 @@ import {
   Form, Input
 } from 'antd';
 
-import getSelectInput from '~/components/SelectInput';
+import SelectInut from '~/components/SelectInput';
 import { getTags } from '~/services/tagsApi';
 import items from './form-items-config';
 import formItemLayout from './form-layout-config';
@@ -38,8 +38,15 @@ class MetadataForm extends PureComponent {
   getInputComponent(type) {
     switch (type) {
       case 'textarea': return <TextArea />;
-      case 'tags': return getSelectInput(this.state.tags);
-      case 'types': return getSelectInput(this.state.types);
+      case 'tags': {
+        const { tags } = this.state;
+        const options = tags.map(({ name: label, _id: value }) => ({ label, value }));
+        return <SelectInut options={options} mode="multiple" />;
+      }
+      case 'types': {
+        const { types } = this.state;
+        return <SelectInut options={types} mode="multiple" />;
+      }
       default: return <Input />;
     }
   }

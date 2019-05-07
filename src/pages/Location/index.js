@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, notification, Switch
+  Form, Input, Button, Spin, Modal, notification, Switch, Select
 } from 'antd';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import LocationForm from './components/LocationForm';
-import getSelectInput from '~/components/SelectInput';
-import getAccessibilityInput from './components/AccessibiltyInput';
+import SelectInput from '~/components/SelectInput';
 import formItemLayout from './form-layout-config';
 
 import history from '~/history';
@@ -63,13 +62,13 @@ class Location extends PureComponent {
   }
 
   async componentDidMount() {
-    const { data } = await getTags();
+    const { data: tags } = await getTags();
 
     if (this.props.isCreateMode) {
-      return this.setState({ isLoading: false, tags: data });
+      return this.setState({ isLoading: false, tags });
     }
 
-    this.loadLocation(data);
+    this.loadLocation(tags);
   }
 
   onSubmit(evt, redirect) {
@@ -184,10 +183,23 @@ class Location extends PureComponent {
 
   getInputComponent(type) {
     switch (type) {
-      case 'tags': return getSelectInput(this.state.tags);
-      case 'types': return getSelectInput(config.types);
-      case 'accessibility': return getAccessibilityInput(config.accessibility);
-      case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
+      case 'tags': {
+        const { tags } = this.state;
+        const options = tags.map(({ name: label, _id: value }) => ({ label, value }));
+        return <SelectInput options={options} mode="multiple" />;
+      }
+      case 'types': {
+        const { types } = config;
+        return <SelectInput options={types} mode="multiple" />;
+      }
+      case 'accessibility': {
+        const { accessibility } = config;
+        return <SelectInput options={accessibility} />;
+      }
+      case 'textarea': {
+        const { TextArea } = Input;
+        return <TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
+      }
       case 'switch': return <Switch />;
       default: return <Input />;
     }

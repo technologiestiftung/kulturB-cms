@@ -20,7 +20,10 @@
     "upload": "/files"
   },
   "localStoragePrefix": "tsb",
-  "types": ["organisation", "venue"],
+  "types": [
+    {"label": "organisation", "value": "organisation"},
+    {"label": "venue", "value": "venue"}
+  ],
   "accessibility": [
     {"label": "Ja", "value": "yes"},
     {"label": "Nein", "value": "no"},
