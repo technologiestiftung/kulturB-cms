@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, notification, Switch
+  Form, Input, Button, Spin, Modal, Switch
 } from 'antd';
 
 import { Link } from 'react-router-dom';
@@ -15,6 +15,7 @@ import {
   create, update, remove, locationSearch
 } from '~/services/locationApi';
 import { getTags } from '~/services/tagsApi';
+import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
 
 function renderError() {
   return (
@@ -29,18 +30,6 @@ function renderError() {
       </div>
     </Container>
   );
-}
-
-function renderSuccessMessage() {
-  return notification.success({
-    message: 'Erfolgreich gespeichert.'
-  });
-}
-
-function renderErrorMessage() {
-  return notification.error({
-    message: 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.'
-  });
 }
 
 class Location extends PureComponent {
