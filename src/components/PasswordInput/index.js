@@ -4,7 +4,6 @@ import {
   Input, Icon
 } from 'antd';
 
-
 import FormItem from '~/components/FormItem';
 import formItemLayout from '~/pages/Location/form-layout-config';
 

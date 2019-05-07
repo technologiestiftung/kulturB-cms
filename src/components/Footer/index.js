@@ -10,7 +10,16 @@ const CenteredFooter = styled(Footer)`
 `;
 
 const { text, nav } = config.footer;
-const renderLink = (label, url) => <a target="_blank" rel="noopener noreferrer" href={url}>{label}</a>;
+const renderLink = (label, url) => (
+  <a
+    target="_blank"
+    rel="noopener noreferrer"
+    href={url}
+    key={label}
+  >
+    {label}
+  </a>
+);
 
 class FooterArea extends PureComponent {
   render() {
