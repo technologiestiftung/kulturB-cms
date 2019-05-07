@@ -1,17 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
-import {
-  Table,
-  Tag,
-  Button,
-  Modal,
-  Input
-} from 'antd';
+import { Table, Tag } from 'antd';
 
 import history from '~/history';
+import DeleteModal from '~/components/DeleteModal';
+import SearchBar from '~/components/SearchBar';
 
 const { Column } = Table;
-const { Search } = Input;
 
 const TableWrapper = styled.div`
   position: relative;
@@ -43,11 +38,6 @@ const TableWrapper = styled.div`
       }
     }
   }
-`;
-
-const SearchBar = styled(Search)`
-  max-width: 400px;
-  margin-bottom: 10px;
 `;
 
 const renderColumn = (col) => {
@@ -93,8 +83,6 @@ class PaginationTable extends PureComponent {
     data: [],
     pagination: {},
     loading: false,
-    isDeleteModalVisible: false,
-    itemToDelete: {},
     searchTerm: ''
   }
 
@@ -128,33 +116,6 @@ class PaginationTable extends PureComponent {
       return this.search(searchTerm, params);
     }
     return this.fetch(params);
-  }
-
-  onOpenModal(evt, item) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
-    this.setState({
-      isDeleteModalVisible: true,
-      itemToDelete: item
-    });
-  }
-
-  async onOk() {
-    await this.props.remove(this.state.itemToDelete.id);
-    await this.fetch(this.lastParams);
-    this.closeModal();
-  }
-
-  onCancel() {
-    this.closeModal();
-  }
-
-  closeModal() {
-    this.setState({
-      isDeleteModalVisible: false,
-      itemToDelete: {}
-    });
   }
 
   fetch = async (params = {}) => {
@@ -205,11 +166,7 @@ class PaginationTable extends PureComponent {
 
     return (
       <Fragment>
-        <SearchBar
-          placeholder="Suche..."
-          onSearch={value => this.search(value)}
-          enterButton
-        />
+        <SearchBar onSearch={value => this.search(value)} />
         <TableWrapper role={this.props.role}>
           <Table
             rowKey="id"
@@ -234,29 +191,14 @@ class PaginationTable extends PureComponent {
               <Column
                 key="action"
                 render={item => (
-                  <Button
-                    type="danger"
-                    size="small"
-                    icon="delete"
-                    content="Delete"
-                    onClick={evt => this.onOpenModal(evt, item)}
+                  <DeleteModal
+                    item={item}
+                    remove={this.props.remove}
                   />
                 )}
               />
             )}
           </Table>
-          <Modal
-            title="Eintrag löschen"
-            visible={this.state.isDeleteModalVisible}
-            onOk={() => this.onOk()}
-            onCancel={() => this.onCancel()}
-          >
-            <p>
-              Sind Sie sicher, dass sie den Eintrag
-              <strong> {this.state.itemToDelete.name} </strong>
-              löschen wollen?
-            </p>
-          </Modal>
         </TableWrapper>
       </Fragment>
     );
