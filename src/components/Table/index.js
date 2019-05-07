@@ -194,6 +194,7 @@ class PaginationTable extends PureComponent {
                   <DeleteModal
                     item={item}
                     remove={this.props.remove}
+                    fetch={this.fetch}
                   />
                 )}
               />

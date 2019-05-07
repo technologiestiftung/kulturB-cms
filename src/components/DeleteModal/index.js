@@ -24,6 +24,7 @@ class DeleteModal extends PureComponent {
     evt.stopPropagation();
 
     await this.props.remove(this.state.itemToDelete.id);
+    await this.props.fetch();
     this.closeModal();
   }
 
@@ -61,7 +62,7 @@ class DeleteModal extends PureComponent {
         >
           <p>
             Sind Sie sicher, dass Sie den Eintrag
-            <strong> {itemToDelete.name} </strong>
+            <strong> {itemToDelete.name || itemToDelete.email} </strong>
             löschen wollen?
           </p>
         </Modal>
