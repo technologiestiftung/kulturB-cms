@@ -34,11 +34,8 @@ class Settings extends PureComponent {
     evt.preventDefault();
     form.validateFields(async (err, values) => {
       if (!err) {
-        if (values.confirmPassword) {
-          delete values.confirmPassword;
-        }
-
-        const res = await update(userId, values);
+        const { confirmPassword, ...updates } = values;
+        const res = await update(userId, updates);
         if (!res.id) return renderErrorMessage();
         renderSuccessMessage();
       }
@@ -55,7 +52,8 @@ class Settings extends PureComponent {
         </HeaderArea>
         <p>Lorem ipsum dolor sit amet fusce risus orci maecenas.
           Ligula curabitur malesuada. Fames dis luctus.
-          Sed donec neque. Ac ipsum id justo aptent nunc tristique viverra metus justo enim porttitor.
+          Sed donec neque. Ac ipsum id justo aptent nunc tristique
+          viverra metus justo enim porttitor.
         </p>
         <Spin spinning={this.state.loading}>
           <Divider>Importieren/Exportieren</Divider>

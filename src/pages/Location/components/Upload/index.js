@@ -71,7 +71,7 @@ class FileUpload extends PureComponent {
     return [this.props.image];
   }
 
-  beforeUpload(file, fileList) {
+  beforeUpload(file) {
     this.setState({
       fileList: []
     });
@@ -105,7 +105,8 @@ class FileUpload extends PureComponent {
   }
 
   async onOk() {
-    const res = await addImage(this.state.cropped, {
+    const { cropped } = this.state;
+    const res = await addImage(cropped, {
       relation: 'location',
       relId: this.props.id,
       type: this.props.type

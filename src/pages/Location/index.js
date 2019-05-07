@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, notification, Switch, Select
+  Form, Input, Button, Spin, Modal, notification, Switch
 } from 'antd';
 
 import { Link } from 'react-router-dom';

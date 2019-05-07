@@ -75,12 +75,10 @@ class User extends PureComponent {
     evt.preventDefault();
     form.validateFields(async (err, values) => {
       if (!err) {
-        if (values.confirmPassword) {
-          delete values.confirmPassword;
-        }
+        const { confirmPassword, ...updates } = values;
 
         if (this.isCreateMode) {
-          const res = await create(values);
+          const res = await create(updates);
           if (!res.id) return renderErrorMessage(res);
 
           this.isCreateMode = false;
@@ -90,7 +88,7 @@ class User extends PureComponent {
           return this.setState({ item: res });
         }
 
-        const res = await update(match.params.id, values);
+        const res = await update(match.params.id, updates);
         if (!res.id) return renderErrorMessage();
         this.setState({ item: res });
         renderSuccessMessage();
@@ -182,7 +180,8 @@ class User extends PureComponent {
               {...formItemLayout}
             >
               {form.getFieldDecorator('organisation', {
-                initialValue: item.organisation && { _id: item.organisation.id, name: item.organisation.name },
+                initialValue: item.organisation
+                && { _id: item.organisation.id, name: item.organisation.name },
                 rules: [{
                   required: true, message: 'Bitte ein Kulturort auswählen'
                 }]
@@ -190,11 +189,14 @@ class User extends PureComponent {
                 <Select
                   placeholder="Kulturort auswählen..."
                   noOptionsMessage={() => 'Keinen Kulturort gefunden'}
-                  onChange={({ label, value }) => this.selectLocation(value)}
+                  onChange={({ value }) => this.selectLocation(value)}
                   options={locations}
                   getOptionValue={option => option.id}
                   getOptionLabel={option => option.name}
-                  defaultValue={item.organisation && { _id: item.organisation.id, name: item.organisation.name }}
+                  defaultValue={
+                    item.organisation
+                    && { _id: item.organisation.id, name: item.organisation.name }
+                  }
                   isClearable={!!item.organisation}
                   isSearchable
                 />

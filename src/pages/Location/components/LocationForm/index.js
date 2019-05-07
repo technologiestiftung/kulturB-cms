@@ -139,7 +139,10 @@ class LocationForm extends PureComponent {
           label={item.label}
           {...this.props.formItemLayout}
         >
-          {item.childrenLabel && <FormMultipleChildrenLabel>{item.childrenLabel}</FormMultipleChildrenLabel>}
+          {
+            item.childrenLabel
+            && <FormMultipleChildrenLabel>{item.childrenLabel}</FormMultipleChildrenLabel>
+          }
           {item.children.map((child) => {
             const fieldDecoratorOpts = this.getItemFieldDecoratorOptions(child);
             return (

@@ -8,7 +8,6 @@ import { remove, get, locationSearch } from '~/services/locationApi';
 
 import tableConfig from './config';
 
-
 class Organisations extends PureComponent {
   render() {
     const { role, organisation, token } = this.props;

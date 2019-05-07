@@ -54,7 +54,9 @@ function loginCompleted(response) {
   storage.set(refreshTokenStorageKey, refreshToken);
   storage.set(roleStorageKey, role);
   storage.set(userIdKey, userId);
-  organisation && organisation.id && storage.set(organisationStorageKey, organisation.id);
+  if (organisation && organisation.id) {
+    storage.set(organisationStorageKey, organisation.id);
+  }
 
   return {
     type: LOGIN_COMPLETED,
