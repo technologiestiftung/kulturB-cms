@@ -41,6 +41,43 @@ export default [{
   }],
   getInitialValue: component => component.props.item.website
 }, {
+  label: 'Social Media',
+  name: 'social',
+  type: 'multipleinput',
+  children: [{
+    name: 'twitter',
+    label: 'Twtitter',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Twitter link eingeben'
+    }],
+    getInitialValue: component => component.props.item.twitter
+  }, {
+    name: 'facebook',
+    label: 'Facebook',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Facebook link eingeben'
+    }],
+    getInitialValue: component => component.props.item.facebook
+  }, {
+    name: 'youtube',
+    label: 'Youtube',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Youtube link eingeben'
+    }],
+    getInitialValue: component => component.props.item.youtube
+  }, {
+    name: 'instagram',
+    label: 'Instagram',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Instagram link eingeben'
+    }],
+    getInitialValue: component => component.props.item.instagram
+  }]
+ }, {
   name: 'telephone',
   label: 'Telefonnummer',
   rules: [{
