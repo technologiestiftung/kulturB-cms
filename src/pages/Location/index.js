@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, Switch
+  Form, Input, Button, Spin, Modal, Switch, Checkbox
 } from 'antd';
 
 import { Link } from 'react-router-dom';
@@ -185,11 +185,16 @@ class Location extends PureComponent {
         const { accessibility } = config;
         return <SelectInput options={accessibility} />;
       }
+      case 'languages': {
+        const languages = config.languages.map(language => ({ label: language, value: language }));
+        return <SelectInput options={languages} mode="multiple" />;
+      }
       case 'textarea': {
         const { TextArea } = Input;
         return <TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
       }
       case 'switch': return <Switch />;
+      case 'checkbox': return <Checkbox />;
       default: return <Input />;
     }
   }

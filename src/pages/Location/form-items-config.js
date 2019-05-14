@@ -186,14 +186,14 @@ export default [{
     }, {
       name: 'accessibility.wheelchair.toilets',
       label: 'WC zugänglich',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.wheelchair
       && component.props.item.accessibility.wheelchair.toilets
     }, {
       name: 'accessibility.wheelchair.description',
-      label: 'Zusatz',
+      label: 'Sonstiges',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -213,9 +213,32 @@ export default [{
   childrenLabel: 'Blinde und Sehbehinderte',
   children: [
     {
+      name: 'accessibility.blind.germanLanguage',
+      label: 'Deutsche Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.germanLanguage
+    }, {
+      name: 'accessibility.blind.otherLanguages',
+      label: 'Weitere Sprachen',
+      type: 'languages',
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.otherLanguages
+    }, {
+      name: 'accessibility.blind.easyLanguage',
+      label: 'Leichte Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.easyLanguage
+    }, {
       name: 'accessibility.blind.braille',
       label: 'Brailleschrift',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
@@ -223,7 +246,7 @@ export default [{
     }, {
       name: 'accessibility.blind.guidance',
       label: 'Taktiles Leitsystem',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
@@ -231,14 +254,14 @@ export default [{
     }, {
       name: 'accessibility.blind.audioguide',
       label: 'Audioguide',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.audioguide
     }, {
       name: 'accessibility.blind.description',
-      label: 'Zusatz',
+      label: 'Sonstiges',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -258,9 +281,25 @@ export default [{
   childrenLabel: 'Gehörlose und Hörgeschädigte',
   children: [
     {
+      name: 'accessibility.deaf.germanLanguage',
+      label: 'Deutsche Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.germanLanguage
+    }, {
+      name: 'accessibility.deaf.easyLanguage',
+      label: 'Leichte Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.easyLanguage
+    }, {
       name: 'accessibility.deaf.subtitles',
       label: 'Unter-/ Übertitel',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
@@ -268,7 +307,7 @@ export default [{
     }, {
       name: 'accessibility.deaf.signLanguage',
       label: 'Gebärdensprache',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
@@ -276,14 +315,22 @@ export default [{
     }, {
       name: 'accessibility.deaf.hearingAid',
       label: 'Hörunterstützung',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.hearingAid
     }, {
+      name: 'accessibility.deaf.videoGuide',
+      label: 'Video Guide mit Gebärdensprache oder/und Texttranskription',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.videoGuide
+    }, {
       name: 'accessibility.deaf.description',
-      label: 'Zusatz',
+      label: 'Sonstiges',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
