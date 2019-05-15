@@ -1,6 +1,8 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { Row, Col, Form } from 'antd';
+import {
+  Row, Col, Form, Divider
+} from 'antd';
 
 import FormItem from '~/components/FormItem';
 import Map from '~/pages/Location/components/Map';
@@ -11,28 +13,7 @@ import OpeningHoursInput from '../OpeningHoursInput';
 import StyledButton from '~/components/Button';
 import formItemLayout from '~/pages/Location/form-layout-config';
 
-const FlexRow = styled(Row)`
-  &&& {
-    display: flex;
-    margin: 15px 0;
-  }
-`;
-
-const FlexCol = styled(Col)`
-  &&& {
-    flex: auto;
-
-    .ant-form-item-label, .ant-form-item-control-wrapper {
-      width: 50%;
-    }
-
-  }
-`;
-
 const FormItemMultiple = styled(FormItem)`
-  .ant-form-item-control-wrapper {
-  }
-
   .ant-form-item-children {
     display: flex;
     flex-wrap: wrap;
@@ -90,17 +71,6 @@ class LocationForm extends PureComponent {
     const { getFieldDecorator } = this.props.form;
     const fieldDecoratorOptions = this.getItemFieldDecoratorOptions(item);
 
-    if (item.type === 'label') {
-      return (
-        <Fragment>
-          <h3>{item.label}</h3>
-          <FlexRow key={item.label}>
-            {item.children.map(children => <FlexCol>{this.renderItem(children)}</FlexCol>)}
-          </FlexRow>
-        </Fragment>
-      );
-    }
-
     if (item.type === 'venues') {
       return (
         <VenuesInput
@@ -157,6 +127,7 @@ class LocationForm extends PureComponent {
               </FormItem>
             );
           })}
+          <Divider />
         </FormItemMultiple>
       );
     }

@@ -180,6 +180,7 @@ export default [{
       rules: [{
         type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
       }],
+      style: { width: '70%' },
       getInitialValue: component => component.props.item.accessibility
         && component.props.item.accessibility.wheelchair
         && component.props.item.accessibility.wheelchair.accessible
@@ -201,6 +202,7 @@ export default [{
         message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
         max: 350
       }],
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.wheelchair
       && component.props.item.accessibility.wheelchair.description
@@ -217,6 +219,7 @@ export default [{
       label: 'Deutsche Sprache',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.germanLanguage
@@ -224,6 +227,7 @@ export default [{
       name: 'accessibility.blind.otherLanguages',
       label: 'Weitere Sprachen',
       type: 'languages',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.otherLanguages
@@ -232,6 +236,7 @@ export default [{
       label: 'Leichte Sprache',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.easyLanguage
@@ -240,6 +245,7 @@ export default [{
       label: 'Brailleschrift',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.braille
@@ -248,6 +254,7 @@ export default [{
       label: 'Taktiles Leitsystem',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.guidance
@@ -256,6 +263,7 @@ export default [{
       label: 'Audioguide',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.audioguide
@@ -269,6 +277,7 @@ export default [{
         message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
         max: 350
       }],
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.description
@@ -285,6 +294,7 @@ export default [{
       label: 'Deutsche Sprache',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.germanLanguage
@@ -293,6 +303,7 @@ export default [{
       label: 'Leichte Sprache',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '66%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.easyLanguage
@@ -301,6 +312,7 @@ export default [{
       label: 'Unter-/ Übertitel',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.subtitles
@@ -309,6 +321,7 @@ export default [{
       label: 'Gebärdensprache',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.signLanguage
@@ -317,6 +330,7 @@ export default [{
       label: 'Hörunterstützung',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.hearingAid
@@ -325,6 +339,7 @@ export default [{
       label: 'Video Guide mit Gebärdensprache oder/und Texttranskription',
       type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.videoGuide
@@ -338,6 +353,7 @@ export default [{
         message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
         max: 350
       }],
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.description
