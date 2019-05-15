@@ -115,14 +115,19 @@ class LocationForm extends PureComponent {
           }
           {item.children.map((child) => {
             const fieldDecoratorOpts = this.getItemFieldDecoratorOptions(child);
+            const props = {
+              key: child.name,
+              style: child.style ? child.style : {}
+            };
+
+            if (child.type !== 'checkbox') {
+              props.label = child.label;
+            }
+
             return (
-              <FormItem
-                key={child.name}
-                label={child.label}
-                style={child.style ? child.style : {}}
-              >
+              <FormItem {...props}>
                 {getFieldDecorator(child.name, fieldDecoratorOpts)(
-                  this.props.getInputComponent(child.type)
+                  this.props.getInputComponent(child.type, child.label)
                 )}
               </FormItem>
             );

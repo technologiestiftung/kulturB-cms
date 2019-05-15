@@ -170,7 +170,7 @@ class Location extends PureComponent {
     });
   }
 
-  getInputComponent(type) {
+  getInputComponent(type, inputLabel) {
     switch (type) {
       case 'tags': {
         const { tags } = this.state;
@@ -193,8 +193,10 @@ class Location extends PureComponent {
         const { TextArea } = Input;
         return <TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
       }
+      case 'checkbox': {
+        return <Checkbox>{inputLabel}</Checkbox>;
+      }
       case 'switch': return <Switch />;
-      case 'checkbox': return <Checkbox />;
       default: return <Input />;
     }
   }
@@ -252,7 +254,7 @@ class Location extends PureComponent {
             onSearchVenue={search => this.onSearchVenue(search)}
             onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
             onDeleteItem={id => this.onDeleteItem(id)}
-            getInputComponent={type => this.getInputComponent(type)}
+            getInputComponent={(type, label) => this.getInputComponent(type, label)}
             onSubmit={(evt, route) => this.onSubmit(evt, route)}
             onUploadChange={evt => this.onUploadChange(evt)}
             onImageRemove={() => this.onImageRemove()}
