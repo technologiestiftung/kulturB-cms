@@ -14,6 +14,13 @@ const Wrapper = styled(Row)`
   }
 `;
 
+const StyledUpload = styled(Upload)`
+  .ant-upload-list-picture .ant-upload-list-item-thumbnail img {
+    height: 100%;
+    width: auto;
+  }
+`;
+
 const InfoText = styled.div`
   font-size: 12px;
   color: #888;
@@ -155,7 +162,7 @@ class FileUpload extends PureComponent {
       <Wrapper style={{ marginBottom: '15px' }} showUpload={!hasImage}>
         <Col {...formItemLayout.colLayout}>
           {hasImage && <div>{label}:</div>}
-          <Upload {...uploadProps}>
+          <StyledUpload {...uploadProps}>
             {this.state.showCropper && (
               <Modal
                 visible
@@ -181,7 +188,7 @@ class FileUpload extends PureComponent {
                 <InfoText>Bitte nur Bilder bis max. 2 MB hochladen</InfoText>
               </Fragment>
             )}
-          </Upload>
+          </StyledUpload>
         </Col>
       </Wrapper>
     );
