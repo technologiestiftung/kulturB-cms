@@ -1,10 +1,30 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
+import styled from 'styled-components';
 import {
   Row, Col, Button, Icon, Upload, Modal
 } from 'antd';
 
 import Cropper from '../Cropper';
 import { addImage, removeImage } from '~/services/locationApi';
+import formItemLayout from '~/pages/Location/form-layout-config';
+
+const Wrapper = styled(Row)`
+  .ant-upload.ant-upload-select {
+    display: ${props => (props.showUpload ? 'inline-block' : 'none')};
+  }
+`;
+
+const StyledUpload = styled(Upload)`
+  .ant-upload-list-picture .ant-upload-list-item-thumbnail img {
+    height: 100%;
+    width: auto;
+  }
+`;
+
+const InfoText = styled.div`
+  font-size: 12px;
+  color: #888;
+`;
 
 class FileUpload extends PureComponent {
   state = {
@@ -58,7 +78,7 @@ class FileUpload extends PureComponent {
     return [this.props.image];
   }
 
-  beforeUpload(file, fileList) {
+  beforeUpload(file) {
     this.setState({
       fileList: []
     });
@@ -92,7 +112,8 @@ class FileUpload extends PureComponent {
   }
 
   async onOk() {
-    const res = await addImage(this.state.cropped, {
+    const { cropped } = this.state;
+    const res = await addImage(cropped, {
       relation: 'location',
       relId: this.props.id,
       type: this.props.type
@@ -138,10 +159,10 @@ class FileUpload extends PureComponent {
     }
 
     return (
-      <Row style={{ marginBottom: '15px' }}>
-        <Col span={17}>
+      <Wrapper style={{ marginBottom: '15px' }} showUpload={!hasImage}>
+        <Col {...formItemLayout.colLayout}>
           {hasImage && <div>{label}:</div>}
-          <Upload {...uploadProps}>
+          <StyledUpload {...uploadProps}>
             {this.state.showCropper && (
               <Modal
                 visible
@@ -157,16 +178,19 @@ class FileUpload extends PureComponent {
               </Modal>
             )}
             {!hasImage && (
-              <Button>
-                <Icon type="upload" />
-                <span>
-                  {label} hochladen
-                </span>
-              </Button>
+              <Fragment>
+                <Button>
+                  <Icon type="upload" />
+                  <span>
+                    {label} hochladen
+                  </span>
+                </Button>
+                <InfoText>Bitte nur Bilder bis max. 2 MB hochladen</InfoText>
+              </Fragment>
             )}
-          </Upload>
+          </StyledUpload>
         </Col>
-      </Row>
+      </Wrapper>
     );
   }
 }

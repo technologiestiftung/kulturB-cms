@@ -41,6 +41,43 @@ export default [{
   }],
   getInitialValue: component => component.props.item.website
 }, {
+  label: 'Social Media',
+  name: 'social',
+  type: 'multipleinput',
+  children: [{
+    name: 'twitter',
+    label: 'Twtitter',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Twitter link eingeben'
+    }],
+    getInitialValue: component => component.props.item.twitter
+  }, {
+    name: 'facebook',
+    label: 'Facebook',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Facebook link eingeben'
+    }],
+    getInitialValue: component => component.props.item.facebook
+  }, {
+    name: 'youtube',
+    label: 'Youtube',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Youtube link eingeben'
+    }],
+    getInitialValue: component => component.props.item.youtube
+  }, {
+    name: 'instagram',
+    label: 'Instagram',
+    style: { width: '50%' },
+    rules: [{
+      type: 'url', message: 'Instagram link eingeben'
+    }],
+    getInitialValue: component => component.props.item.instagram
+  }]
+ }, {
   name: 'telephone',
   label: 'Telefonnummer',
   rules: [{
@@ -51,6 +88,7 @@ export default [{
   getInitialValue: component => component.props.item.telephone
 }, {
   label: 'Adresse',
+  name: 'address_multi',
   type: 'multipleinput',
   children: [{
     name: 'address',
@@ -107,6 +145,7 @@ export default [{
 }, {
   label: 'ÖPVN',
   type: 'multipleinput',
+  name: 'opnv_multi',
   children: [{
     name: 'transportation.subway',
     label: 'U-Bahn',
@@ -131,6 +170,7 @@ export default [{
 }, {
   label: 'Barrierefreiheit',
   type: 'multipleinput',
+  name: 'a11y_multi',
   childrenLabel: 'Menschen im Rollstuhl und Gehbehinderte',
   children: [
     {
@@ -140,20 +180,21 @@ export default [{
       rules: [{
         type: 'string', enum: ['Ja', 'Nein', 'Teilweise', 'Unbekannt']
       }],
+      style: { width: '70%' },
       getInitialValue: component => component.props.item.accessibility
         && component.props.item.accessibility.wheelchair
         && component.props.item.accessibility.wheelchair.accessible
     }, {
       name: 'accessibility.wheelchair.toilets',
       label: 'WC zugänglich',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.wheelchair
       && component.props.item.accessibility.wheelchair.toilets
     }, {
       name: 'accessibility.wheelchair.description',
-      label: 'Zusatz',
+      label: 'Sonstiges',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -161,6 +202,7 @@ export default [{
         message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
         max: 350
       }],
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.wheelchair
       && component.props.item.accessibility.wheelchair.description
@@ -169,35 +211,65 @@ export default [{
 }, {
   label: ' ',
   type: 'multipleinput',
+  name: 'blind_multi',
   childrenLabel: 'Blinde und Sehbehinderte',
   children: [
     {
+      name: 'accessibility.blind.germanLanguage',
+      label: 'Deutsche Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      style: { width: '33%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.germanLanguage
+    }, {
+      name: 'accessibility.blind.otherLanguages',
+      label: 'Weitere Sprachen',
+      type: 'languages',
+      style: { width: '33%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.otherLanguages
+    }, {
+      name: 'accessibility.blind.easyLanguage',
+      label: 'Leichte Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      style: { width: '33%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.easyLanguage
+    }, {
       name: 'accessibility.blind.braille',
       label: 'Brailleschrift',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.braille
     }, {
       name: 'accessibility.blind.guidance',
       label: 'Taktiles Leitsystem',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.guidance
     }, {
       name: 'accessibility.blind.audioguide',
       label: 'Audioguide',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.audioguide
     }, {
       name: 'accessibility.blind.description',
-      label: 'Zusatz',
+      label: 'Sonstiges',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -205,6 +277,7 @@ export default [{
         message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
         max: 350
       }],
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.description
@@ -213,35 +286,66 @@ export default [{
 }, {
   label: ' ',
   type: 'multipleinput',
+  name: 'deaf_multi',
   childrenLabel: 'Gehörlose und Hörgeschädigte',
   children: [
     {
+      name: 'accessibility.deaf.germanLanguage',
+      label: 'Deutsche Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      style: { width: '33%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.germanLanguage
+    }, {
+      name: 'accessibility.deaf.easyLanguage',
+      label: 'Leichte Sprache',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      style: { width: '66%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.easyLanguage
+    }, {
       name: 'accessibility.deaf.subtitles',
       label: 'Unter-/ Übertitel',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.subtitles
     }, {
       name: 'accessibility.deaf.signLanguage',
       label: 'Gebärdensprache',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.signLanguage
     }, {
       name: 'accessibility.deaf.hearingAid',
       label: 'Hörunterstützung',
-      type: 'switch',
+      type: 'checkbox',
       valuePropName: 'checked',
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.hearingAid
     }, {
+      name: 'accessibility.deaf.videoGuide',
+      label: 'Video Guide mit Gebärdensprache oder/und Texttranskription',
+      type: 'checkbox',
+      valuePropName: 'checked',
+      style: { width: '100%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.videoGuide
+    }, {
       name: 'accessibility.deaf.description',
-      label: 'Zusatz',
+      label: 'Sonstiges',
       rules: [{
         message: 'Bitte eine Beschreibung angeben',
         whitespace: true
@@ -249,6 +353,7 @@ export default [{
         message: 'Die Beschreibung darf maximal 350 Zeichen enthalten',
         max: 350
       }],
+      style: { width: '100%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.description

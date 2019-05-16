@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal, TimePicker } from 'antd';
+import { Modal, TimePicker, Button } from 'antd';
 import moment from 'moment';
 
 const parseDay = (day) => {
@@ -88,10 +88,20 @@ class OpeningHoursModal extends PureComponent {
     );
   }
 
+  checkDaily() {
+    this.setState(({ openingHours }) => ({
+      openingHours: Object.keys(openingHours)
+        .map(day => ({ [day]: openingHours.mo }))
+        .reduce((prev, curr) => ({ ...prev, ...curr }))
+    }), () => this.onOk());
+  }
+
   render() {
+    const { isModalOpen, openingHours } = this.state;
+
     return (
       <Modal
-        visible={this.state.isModalOpen}
+        visible={isModalOpen}
         onCancel={() => this.closeModal()}
         onOk={() => this.onOk()}
         destroyOnClose
@@ -105,7 +115,7 @@ class OpeningHoursModal extends PureComponent {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(this.state.openingHours)
+            {Object.keys(openingHours)
               .map(day => (
                 <tr key={day}>
                   <td>
@@ -117,6 +127,13 @@ class OpeningHoursModal extends PureComponent {
                   <td>
                     {this.renderTimePicker(day, false, '18:00')}
                   </td>
+                  { day === 'mo' && (
+                    <tr>
+                      <Button onClick={() => this.checkDaily()}>
+                        Für alle übernehmen
+                      </Button>
+                    </tr>
+                  )}
                 </tr>
               ))
             }

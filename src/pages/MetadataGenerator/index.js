@@ -110,7 +110,8 @@ class MetadataGenerator extends PureComponent {
               ref={this.form}
               location={this.state.location}
               onValuesChange={
-                (changedValues, allValues, fullLocation) => this.onValuesChange(changedValues, allValues, fullLocation)
+                (changedValues, allValues, fullLocation) => this
+                  .onValuesChange(changedValues, allValues, fullLocation)
               }
             />
           </Col>

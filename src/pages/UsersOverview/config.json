@@ -1,0 +1,18 @@
+{
+  "table": {
+    "columns": [
+      {
+        "key": "email",
+        "title": "Email",
+        "dataIndex": "email",
+        "sorter": true
+      },
+      {
+        "key": "organisation.name",
+        "title": "Kulturort",
+        "dataIndex": "organisation.name",
+        "sorter": true
+      }
+    ]
+  }
+}

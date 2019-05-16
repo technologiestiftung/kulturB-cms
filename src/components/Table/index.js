@@ -1,18 +1,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import styled from 'styled-components';
-import {
-  Table,
-  Tag,
-  Button,
-  Modal,
-  Input
-} from 'antd';
+import { Table, Tag } from 'antd';
 
 import history from '~/history';
-import { remove, get, locationSearch } from '~/services/locationApi';
+import DeleteModal from '~/components/DeleteModal';
+import SearchBar from '~/components/SearchBar';
 
 const { Column } = Table;
-const { Search } = Input;
 
 const TableWrapper = styled.div`
   position: relative;
@@ -24,21 +18,26 @@ const TableWrapper = styled.div`
     }
 
     .ant-table-row {
-      cursor: ${props => (props.token ? 'pointer' : 'auto') };
+      cursor: ${props => (props.role === 'ADMIN' ? 'pointer' : 'auto') };
       height: 80px;
+
+      &.hoverable {
+        cursor: pointer;
+
+        &:hover {
+          td {
+            background: #e6f7ff;
+          }
+        }
+      }
 
       &:hover {
         td {
-          background: ${props => (props.token ? '#e6f7ff' : 'none') };
+          background: ${props => (props.role === 'ADMIN' ? '#e6f7ff' : 'none') };
         }
       }
     }
   }
-`;
-
-const SearchBar = styled(Search)`
-  max-width: 400px;
-  margin-bottom: 10px;
 `;
 
 const renderColumn = (col) => {
@@ -84,8 +83,6 @@ class PaginationTable extends PureComponent {
     data: [],
     pagination: {},
     loading: false,
-    isDeleteModalVisible: false,
-    itemToDelete: {},
     searchTerm: ''
   }
 
@@ -94,7 +91,7 @@ class PaginationTable extends PureComponent {
   }
 
   onRowClick(evt, item) {
-    if (this.props.token) {
+    if (this.props.role === 'ADMIN' || this.props.organisation === item.id) {
       history.push(`/${this.props.itemIdentifier}/${item.id}`);
     }
   }
@@ -121,38 +118,11 @@ class PaginationTable extends PureComponent {
     return this.fetch(params);
   }
 
-  onOpenModal(evt, item) {
-    evt.preventDefault();
-    evt.stopPropagation();
-
-    this.setState({
-      isDeleteModalVisible: true,
-      itemToDelete: item
-    });
-  }
-
-  async onOk() {
-    await remove(this.state.itemToDelete.id);
-    await this.fetch(this.lastParams);
-    this.closeModal();
-  }
-
-  onCancel() {
-    this.closeModal();
-  }
-
-  closeModal() {
-    this.setState({
-      isDeleteModalVisible: false,
-      itemToDelete: {}
-    });
-  }
-
   fetch = async (params = {}) => {
     this.setState({ loading: true });
     this.lastParams = params;
 
-    const { data, count } = await get(params);
+    const { data, count } = await this.props.get(params);
 
     this.setState((prevState) => {
       const { pagination } = prevState;
@@ -178,7 +148,7 @@ class PaginationTable extends PureComponent {
       return this.fetch();
     }
 
-    const { data, count } = await locationSearch(value, params);
+    const { data, count } = await this.props.search(value, params);
     this.setState({
       loading: false,
       searchTerm: value,
@@ -191,14 +161,13 @@ class PaginationTable extends PureComponent {
   }
 
   render() {
+    const { columns, role, organisation } = this.props;
+    const isAdmin = role === 'ADMIN';
+
     return (
       <Fragment>
-        <SearchBar
-          placeholder="Suche..."
-          onSearch={value => this.search(value)}
-          enterButton
-        />
-        <TableWrapper token={this.props.token}>
+        <SearchBar onSearch={value => this.search(value)} />
+        <TableWrapper role={this.props.role}>
           <Table
             rowKey="id"
             dataSource={this.state.data}
@@ -206,37 +175,31 @@ class PaginationTable extends PureComponent {
             onChange={this.onTableChange}
             loading={this.state.loading}
             onRow={item => ({
-              onClick: evt => this.onRowClick(evt, item)
+              onClick: evt => this.onRowClick(evt, item),
+              className: item.id === organisation ? 'hoverable' : ''
             })}
+            locale={{
+              sortTitle: 'Sortieren',
+              filterTitle: 'Filter',
+              filterConfirm: 'Ok',
+              filterReset: 'Zurücksetzen',
+              emptyText: 'Keine Einträge vorhanden'
+            }}
           >
-            {this.props.columns.map(item => renderColumn(item))}
-            {this.props.token && (
+            {columns.map(item => renderColumn(item))}
+            {isAdmin && (
               <Column
                 key="action"
                 render={item => (
-                  <Button
-                    type="danger"
-                    size="small"
-                    icon="delete"
-                    content="Delete"
-                    onClick={evt => this.onOpenModal(evt, item)}
+                  <DeleteModal
+                    item={item}
+                    remove={this.props.remove}
+                    fetch={this.fetch}
                   />
-                  )}
+                )}
               />
             )}
           </Table>
-          <Modal
-            title="Eintrag löschen"
-            visible={this.state.isDeleteModalVisible}
-            onOk={() => this.onOk()}
-            onCancel={() => this.onCancel()}
-          >
-            <p>
-              Sind Sie sicher, dass sie den Eintrag
-              <strong> {this.state.itemToDelete.name} </strong>
-              löschen wollen?
-            </p>
-          </Modal>
         </TableWrapper>
       </Fragment>
     );

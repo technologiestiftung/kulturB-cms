@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import {
-  Form, Input, Button, Spin, Modal, notification, Switch
+  Form, Input, Button, Spin, Modal, Switch, Checkbox
 } from 'antd';
 
 import { Link } from 'react-router-dom';
 import Container from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import LocationForm from './components/LocationForm';
-import getSelectInput from '~/components/SelectInput';
-import getAccessibilityInput from './components/AccessibiltyInput';
+import SelectInput from '~/components/SelectInput';
 import formItemLayout from './form-layout-config';
 
 import history from '~/history';
@@ -16,6 +15,7 @@ import {
   create, update, remove, locationSearch
 } from '~/services/locationApi';
 import { getTags } from '~/services/tagsApi';
+import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
 
 function renderError() {
   return (
@@ -30,18 +30,6 @@ function renderError() {
       </div>
     </Container>
   );
-}
-
-function renderSuccessMessage() {
-  return notification.success({
-    message: 'Erfolgreich gespeichert.'
-  });
-}
-
-function renderErrorMessage() {
-  return notification.error({
-    message: 'Ein Fehler ist aufgetreten. Versuchen Sie erneut.'
-  });
 }
 
 class Location extends PureComponent {
@@ -63,13 +51,13 @@ class Location extends PureComponent {
   }
 
   async componentDidMount() {
-    const { data } = await getTags();
+    const { data: tags } = await getTags();
 
     if (this.props.isCreateMode) {
-      return this.setState({ isLoading: false, tags: data });
+      return this.setState({ isLoading: false, tags });
     }
 
-    this.loadLocation(data);
+    this.loadLocation(tags);
   }
 
   onSubmit(evt, redirect) {
@@ -182,12 +170,32 @@ class Location extends PureComponent {
     });
   }
 
-  getInputComponent(type) {
+  getInputComponent(type, inputLabel) {
     switch (type) {
-      case 'tags': return getSelectInput(this.state.tags);
-      case 'types': return getSelectInput(config.types);
-      case 'accessibility': return getAccessibilityInput(config.accessibility);
-      case 'textarea': return <Input.TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
+      case 'tags': {
+        const { tags } = this.state;
+        const options = tags.map(({ name: label, _id: value }) => ({ label, value }));
+        return <SelectInput options={options} mode="multiple" />;
+      }
+      case 'types': {
+        const { types } = config;
+        return <SelectInput options={types} mode="multiple" />;
+      }
+      case 'accessibility': {
+        const { accessibility } = config;
+        return <SelectInput options={accessibility} />;
+      }
+      case 'languages': {
+        const languages = config.languages.map(language => ({ label: language, value: language }));
+        return <SelectInput options={languages} mode="multiple" />;
+      }
+      case 'textarea': {
+        const { TextArea } = Input;
+        return <TextArea autosize={{ minRows: 2, maxRows: 8 }} />;
+      }
+      case 'checkbox': {
+        return <Checkbox>{inputLabel}</Checkbox>;
+      }
       case 'switch': return <Switch />;
       default: return <Input />;
     }
@@ -246,7 +254,7 @@ class Location extends PureComponent {
             onSearchVenue={search => this.onSearchVenue(search)}
             onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
             onDeleteItem={id => this.onDeleteItem(id)}
-            getInputComponent={type => this.getInputComponent(type)}
+            getInputComponent={(type, label) => this.getInputComponent(type, label)}
             onSubmit={(evt, route) => this.onSubmit(evt, route)}
             onUploadChange={evt => this.onUploadChange(evt)}
             onImageRemove={() => this.onImageRemove()}

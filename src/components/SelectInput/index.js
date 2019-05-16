@@ -1,27 +1,32 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Select } from 'antd';
 
 const { Option } = Select;
 
-export default function getSelectInput(entries) {
-  const options = entries.map(option => (
-    <Option
-      title={option.name || option}
-      key={option._id || option}
-    >
-      {option.name || option}
-    </Option>
-  ));
+class SelectInput extends PureComponent {
+  render() {
+    const { options, mode = 'default' } = this.props;
 
-  return (
-    <Select
-      mode="multiple"
-      notFoundContent=""
-      optionFilterProp="title"
-      style={{ width: '100%' }}
-      placeholder="Wert auswählen"
-    >
-      {options}
-    </Select>
-  );
+    return (
+      <Select
+        mode={mode}
+        notFoundContent=""
+        optionFilterProp="title"
+        style={{ width: '100%' }}
+        placeholder="Wert auswählen"
+        {...this.props}
+      >
+        {options.map(option => (
+          <Option
+            title={option.label}
+            key={option.value}
+          >
+            {option.label}
+          </Option>
+        ))}
+      </Select>
+    );
+  }
 }
+
+export default SelectInput;

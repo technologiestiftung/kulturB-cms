@@ -13,30 +13,57 @@ const REFRESH_COMPLETED = 'App/AppState/REFRESH_COMPLETED';
 
 const tokenStorageKey = 'accessToken';
 const refreshTokenStorageKey = 'refreshToken';
+const roleStorageKey = 'role';
+const organisationStorageKey = 'organisation';
+const userIdKey = 'userId';
 
 const initialState = {
+  role: storage.get(roleStorageKey) || 'ANONYMOUS',
+  organisation: storage.get(organisationStorageKey),
   token: storage.get(tokenStorageKey),
   refreshToken: storage.get(refreshTokenStorageKey),
+  userId: storage.get(userIdKey),
   loginError: null,
   isLogginIn: false
 };
 
-function loginFailed() {
+function clearStorage() {
   storage.remove(tokenStorageKey);
   storage.remove(refreshTokenStorageKey);
+  storage.remove(organisationStorageKey);
+  storage.remove(roleStorageKey);
+  storage.remove(userIdKey);
+}
+
+function loginFailed() {
+  clearStorage();
 
   return { type: LOGIN_FAILED, payload: { loginError: true, isLogginIn: false } };
 }
 
 function loginCompleted(response) {
-  const { accessToken, refreshToken } = response;
+  const {
+    _id: userId,
+    accessToken,
+    refreshToken,
+    role,
+    organisation,
+  } = response;
   if (!accessToken) return loginFailed();
   storage.set(tokenStorageKey, accessToken);
   storage.set(refreshTokenStorageKey, refreshToken);
+  storage.set(roleStorageKey, role);
+  storage.set(userIdKey, userId);
+  if (organisation && organisation.id) {
+    storage.set(organisationStorageKey, organisation.id);
+  }
 
   return {
     type: LOGIN_COMPLETED,
     payload: {
+      userId,
+      role,
+      organisation: organisation && organisation.id,
       token: accessToken,
       refreshToken,
       loginError: null,
@@ -84,15 +111,23 @@ export function refreshAccessToken() {
 
 function logoutCompleted() {
   history.push('/login');
-  return { type: LOGOUT_COMPLETED, payload: { token: null, loginError: null } };
+  return {
+    type: LOGOUT_COMPLETED,
+    payload: {
+      token: null,
+      loginError: null,
+      role: 'ANONYMOUS',
+      organisation: null,
+      userId: null
+    }
+  };
 }
 
 export function logout() {
   return (dispatch) => {
     dispatch({ type: LOGOUT });
 
-    storage.remove(tokenStorageKey);
-    storage.remove(refreshTokenStorageKey);
+    clearStorage();
     dispatch(logoutCompleted());
   };
 }

@@ -16,7 +16,11 @@ const Logo = styled.img`
 
 class HeaderMenu extends PureComponent {
   render() {
-    const { location, token, dispatch } = this.props;
+    const { nav } = config;
+    const {
+      location, token, dispatch, role, organisation
+    } = this.props;
+    const isUser = role === 'USER';
 
     return (
       <Header
@@ -38,22 +42,20 @@ class HeaderMenu extends PureComponent {
               <Logo src={logoSrc} />
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="/metadaten">
-            <NavLink to="/metadaten">Metadaten Generator</NavLink>
-          </Menu.Item>
-          <Menu.Item key="/">
-            <NavLink to="/">Kulturorte</NavLink>
-          </Menu.Item>
-          {token && (
-            <Menu.Item key="/tags">
-              <NavLink to="/tags">Kategorien</NavLink>
+
+          {isUser && organisation && (
+            <Menu.Item>
+              <NavLink to={`/kulturorte/${organisation}`}>
+                Mein Kulturort
+              </NavLink>
             </Menu.Item>
           )}
-          {token && (
-            <Menu.Item key="/einstellungen">
-              <NavLink to="/einstellungen">Einstellungen</NavLink>
+
+          {nav.map(({ url, label, roles }) => roles.includes(role) && (
+            <Menu.Item key={url}>
+              <NavLink to={url}>{label}</NavLink>
             </Menu.Item>
-          )}
+          ))}
           <Menu.Item style={{ float: 'right' }}>
             {token ? (
               <div

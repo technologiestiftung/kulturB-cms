@@ -1,7 +1,7 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import {
-  Row, Col, Form
+  Row, Col, Form, Divider
 } from 'antd';
 
 import FormItem from '~/components/FormItem';
@@ -11,29 +11,9 @@ import Upload from '~/pages/Location/components/Upload';
 import formItems from '~/pages/Location/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
 import StyledButton from '~/components/Button';
-
-const FlexRow = styled(Row)`
-  &&& {
-    display: flex;
-    margin: 15px 0;
-  }
-`;
-
-const FlexCol = styled(Col)`
-  &&& {
-    flex: auto;
-
-    .ant-form-item-label, .ant-form-item-control-wrapper {
-      width: 50%;
-    }
-
-  }
-`;
+import formItemLayout from '~/pages/Location/form-layout-config';
 
 const FormItemMultiple = styled(FormItem)`
-  .ant-form-item-control-wrapper {
-  }
-
   .ant-form-item-children {
     display: flex;
     flex-wrap: wrap;
@@ -91,17 +71,6 @@ class LocationForm extends PureComponent {
     const { getFieldDecorator } = this.props.form;
     const fieldDecoratorOptions = this.getItemFieldDecoratorOptions(item);
 
-    if (item.type === 'label') {
-      return (
-        <Fragment>
-          <h3>{item.label}</h3>
-          <FlexRow key={item.label}>
-            {item.children.map(children => <FlexCol>{this.renderItem(children)}</FlexCol>)}
-          </FlexRow>
-        </Fragment>
-      );
-    }
-
     if (item.type === 'venues') {
       return (
         <VenuesInput
@@ -140,21 +109,30 @@ class LocationForm extends PureComponent {
           label={item.label}
           {...this.props.formItemLayout}
         >
-          {item.childrenLabel && <FormMultipleChildrenLabel>{item.childrenLabel}</FormMultipleChildrenLabel>}
+          {
+            item.childrenLabel
+            && <FormMultipleChildrenLabel>{item.childrenLabel}</FormMultipleChildrenLabel>
+          }
           {item.children.map((child) => {
             const fieldDecoratorOpts = this.getItemFieldDecoratorOptions(child);
+            const props = {
+              key: child.name,
+              style: child.style ? child.style : {}
+            };
+
+            if (child.type !== 'checkbox') {
+              props.label = child.label;
+            }
+
             return (
-              <FormItem
-                key={child.name}
-                label={child.label}
-                style={child.style ? child.style : {}}
-              >
+              <FormItem {...props}>
                 {getFieldDecorator(child.name, fieldDecoratorOpts)(
-                  this.props.getInputComponent(child.type)
+                  this.props.getInputComponent(child.type, child.label)
                 )}
               </FormItem>
             );
           })}
+          <Divider />
         </FormItemMultiple>
       );
     }
@@ -202,7 +180,7 @@ class LocationForm extends PureComponent {
           />
         )}
         <Row style={{ marginTop: '15px' }}>
-          <Col span={17} style={{ textAlign: 'right' }}>
+          <Col {...formItemLayout.colLayout} style={{ textAlign: 'right' }}>
             {!this.props.isCreateMode && (
               <StyledButton
                 htmlType="submit"

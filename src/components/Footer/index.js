@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import { withRouter } from 'react-router';
 import { Layout } from 'antd';
 
 const { Footer } = Layout;
@@ -10,18 +9,31 @@ const CenteredFooter = styled(Footer)`
   padding-top: 0;
 `;
 
+const { text, nav } = config.footer;
+const renderLink = (label, url) => (
+  <a
+    target="_blank"
+    rel="noopener noreferrer"
+    href={url}
+    key={label}
+  >
+    {label}
+  </a>
+);
+
 class FooterArea extends PureComponent {
   render() {
     return (
       <CenteredFooter>
-        © 2019 Technologiestiftung Berlin
-        <span> · </span>
-        <a target="_blank" rel="noopener noreferrer" href="https://kultur-b-digital.de/impressum">Impressum</a>
-        <span> · </span>
-        <a target="_blank" rel="noopener noreferrer" href="https://kultur-b-digital.de/datenschutz">Datenschutz</a>
+        <span>{text}</span>
+        {
+          nav
+            .map(({ label, url }) => renderLink(label, url))
+            .reduce((prev, curr) => [prev, ' · ', curr])
+        }
       </CenteredFooter>
     );
   }
 }
 
-export default withRouter(FooterArea);
+export default FooterArea;

@@ -6,6 +6,6 @@ export default styled.div`
 
   h1 {
     line-height: 1;
-    margin: 0 0 10px 0;
+    margin: 0 0 24px 0;
   }
 `;

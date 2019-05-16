@@ -1,14 +1,19 @@
 import React, { PureComponent } from 'react';
-import { Spin, Divider, message } from 'antd';
+import {
+  Row, Col, Button, Form, Spin, Divider, message
+} from 'antd';
 
 import { ContainerBg } from '~/components/Container';
 import HeaderArea from '~/components/HeaderArea';
 import Import from '~/components/Import';
 import Export from '~/components/Export';
+import PasswordInput from '~/components/PasswordInput';
+import { update } from '~/services/userApi';
+import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
 
 class Settings extends PureComponent {
   state = {
-    loading: false
+    loading: false,
   }
 
   onChange(info) {
@@ -24,24 +29,62 @@ class Settings extends PureComponent {
     }
   }
 
+  onSubmit(evt) {
+    const { form, userId } = this.props;
+    evt.preventDefault();
+    form.validateFields(async (err, values) => {
+      if (!err) {
+        const { confirmPassword, ...updates } = values;
+        const res = await update(userId, updates);
+        if (!res.id) return renderErrorMessage();
+        renderSuccessMessage();
+      }
+    });
+  }
+
   render() {
+    const { form, role } = this.props;
+    const isAdmin = role === 'ADMIN';
     return (
       <ContainerBg>
         <HeaderArea>
           <h1>Einstellungen</h1>
         </HeaderArea>
+        <p>Lorem ipsum dolor sit amet fusce risus orci maecenas.
+          Ligula curabitur malesuada. Fames dis luctus.
+          Sed donec neque. Ac ipsum id justo aptent nunc tristique
+          viverra metus justo enim porttitor.
+        </p>
         <Spin spinning={this.state.loading}>
           <Divider>Importieren/Exportieren</Divider>
           <Export />
-          <Import
-            token={this.props.token}
-            onChange={info => this.onChange(info)}
-            beforeUpload={() => this.setState({ loading: true })}
-          />
+          {isAdmin && (
+            <Import
+              token={this.props.token}
+              onChange={info => this.onChange(info)}
+              beforeUpload={() => this.setState({ loading: true })}
+            />
+          )}
+          <Divider>Passwort ändern</Divider>
+          <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
+            <PasswordInput
+              form={form}
+              required={false}
+            />
+            <Row style={{ marginTop: '15px' }}>
+              <Col style={{ textAlign: 'right' }}>
+                <Button type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
+                  Speichern
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </Spin>
       </ContainerBg>
     );
   }
 }
 
-export default Settings;
+const WrappedSettings = Form.create({ name: 'settings' })(Settings);
+
+export default WrappedSettings;
