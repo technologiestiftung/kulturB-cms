@@ -46,7 +46,7 @@ export default [{
   type: 'multipleinput',
   children: [{
     name: 'twitter',
-    label: 'Twtitter',
+    label: 'Twitter',
     style: { width: '50%' },
     rules: [{
       type: 'url', message: 'Twitter link eingeben'
