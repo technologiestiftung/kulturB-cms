@@ -40,7 +40,7 @@ export default [
     initialValue: 'https://example.com',
     defaultValue: '',
     rules: [{
-      type: 'url', message: 'Bitten eine gültige URL angeben'
+      type: 'url', message: 'Bitte eine gültige URL angeben'
     }],
   },
   {
@@ -49,7 +49,7 @@ export default [
     rules: [{
       max: 15,
       min: 3,
-      message: 'Bitten eine Telefonnummer angeben'
+      message: 'Bitte eine Telefonnummer angeben'
     }],
     getInitialValue: component => component.props.item.telephone
   },
@@ -59,7 +59,7 @@ export default [
     initialValue: 'Alexanderplatz 1',
     defaultValue: '',
     rules: [{
-      type: 'string', message: 'Bitten eine Adresse ein'
+      type: 'string', message: 'Bitte eine Adresse angeben'
     }],
   },
   {
@@ -68,7 +68,7 @@ export default [
     initialValue: '10178',
     defaultValue: '',
     rules: [{
-      type: 'string', message: 'Bitten eine gültige PLZ eingeben', len: 5
+      type: 'string', message: 'Bitte eine gültige PLZ eingeben', len: 5
     }],
     getInitialValue: component => component.props.item.zipcode
   },
@@ -78,7 +78,7 @@ export default [
     initialValue: 'Berlin',
     defaultValue: 'Berlin',
     rules: [{
-      type: 'string', message: 'Bitten eine gültige URL angeben'
+      type: 'string', message: 'Bitte eine gültige URL angeben'
     }],
     getInitialValue: component => component.props.item.city
   },
