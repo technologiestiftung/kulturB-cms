@@ -10,7 +10,7 @@
     "start": "webpack-dev-server --config webpack/webpack.config.dev.js"
   },
   "repository": {
-    "url": "git@github.com:wbkd/react-starter.git",
+    "url": "git@github.com:wbkd/tsb-kulturb-cms.git",
     "type": "git"
   },
   "author": "webkid.io",
