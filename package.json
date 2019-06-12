@@ -1,10 +1,10 @@
 {
-  "name": "react-starter",
+  "name": "tsb-kulturb-cms",
   "config": {
-    "appname": "my-app-name"
+    "appname": "tsb-kulturb-cms"
   },
   "version": "6.0.1",
-  "description": "lightweight react starterkit including webpack, unistore, styled components",
+  "description": "CMS UI for the KulturB project",
   "scripts": {
     "build": "BABEL_ENV=production webpack --config webpack/webpack.config.prod.js --colors",
     "start": "webpack-dev-server --config webpack/webpack.config.dev.js"

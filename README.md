@@ -1,11 +1,11 @@
-# TSB Admin UI
+# TSB KulturB CMS UI
 
-The admin UI to access data exposed by the [TSB-metadata-generator](https://github.com/wbkd/TSB-metadata-generator).
+The CMS UI can be used to access data exposed by the [tsb-kulturb-api](https://github.com/wbkd/tsb-kulturb-api).
 
 ## Requirements
 
 - Node.js (recommended => v10)
-- a running [TSB-metadata-generator](https://github.com/wbkd/TSB-metadata-generator) instance.
+- a running [TSB-metadata-generator](https://github.com/wbkd/tsb-kulturb-api) instance.
 
 ## Installation
 
@@ -34,4 +34,4 @@ $ npm run build
 
 ## Data import/export
 
-The data is served by [TSB-metadata-generator](https://github.com/wbkd/TSB-metadata-generator) and can be imported or exported using the appropriate endpoints or the UI provided in the settings view (under `/einstellungen`).
+The data is served by [TSB-metadata-generator](https://github.com/wbkd/tsb-kulturb-api) and can be imported or exported using the appropriate endpoints or the UI provided in the settings view (under `/einstellungen`).
