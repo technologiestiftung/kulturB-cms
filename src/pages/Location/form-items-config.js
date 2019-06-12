@@ -37,7 +37,7 @@ export default [{
   name: 'website',
   label: 'Webseite',
   rules: [{
-    type: 'url', message: 'Bitten eine gültige URL angeben'
+    type: 'url', message: 'Bitte eine gültige URL angeben'
   }],
   getInitialValue: component => component.props.item.website
 }, {
@@ -49,7 +49,7 @@ export default [{
     label: 'Twitter',
     style: { width: '50%' },
     rules: [{
-      type: 'url', message: 'Twitter link eingeben'
+      type: 'url', message: 'Twitter URL eingeben'
     }],
     getInitialValue: component => component.props.item.twitter
   }, {
@@ -57,7 +57,7 @@ export default [{
     label: 'Facebook',
     style: { width: '50%' },
     rules: [{
-      type: 'url', message: 'Facebook link eingeben'
+      type: 'url', message: 'Facebook URL eingeben'
     }],
     getInitialValue: component => component.props.item.facebook
   }, {
@@ -65,7 +65,7 @@ export default [{
     label: 'Youtube',
     style: { width: '50%' },
     rules: [{
-      type: 'url', message: 'Youtube link eingeben'
+      type: 'url', message: 'Youtube URL eingeben'
     }],
     getInitialValue: component => component.props.item.youtube
   }, {
@@ -73,7 +73,7 @@ export default [{
     label: 'Instagram',
     style: { width: '50%' },
     rules: [{
-      type: 'url', message: 'Instagram link eingeben'
+      type: 'url', message: 'Instagram URL eingeben'
     }],
     getInitialValue: component => component.props.item.instagram
   }]
@@ -83,7 +83,7 @@ export default [{
   rules: [{
     max: 15,
     min: 3,
-    message: 'Bitten eine Telefonnummer angeben'
+    message: 'Bitte eine Telefonnummer angeben'
   }],
   getInitialValue: component => component.props.item.telephone
 }, {
@@ -95,21 +95,21 @@ export default [{
     label: 'Straße',
     style: { width: '50%' },
     rules: [{
-      type: 'string', message: 'Bitten eine Adresse eingeben'
+      type: 'string', message: 'Bitte eine Adresse eingeben'
     }],
     getInitialValue: component => component.props.item.address
   }, {
     name: 'zipcode',
     label: 'PLZ',
     rules: [{
-      type: 'string', message: 'Bitten eine gültige PLZ eingeben', len: 5
+      type: 'string', message: 'Bitte eine gültige PLZ eingeben', len: 5
     }],
     getInitialValue: component => component.props.item.zipcode
   }, {
     name: 'city',
     label: 'Stadt',
     rules: [{
-      type: 'string', message: 'Bitten eine gültige URL angeben'
+      type: 'string', message: 'Bitte eine gültige URL angeben'
     }],
     getInitialValue: component => component.props.item.city
   }]
