@@ -35,7 +35,9 @@ class Settings extends PureComponent {
       const link = document.createElement('a');
       link.download = 'neue_nutzer.csv';
       link.href = `data:text/csv; charset=UTF-8, ${encodeURIComponent(info.file.response)}`;
+      document.body.appendChild(link);
       link.click();
+      link.remove();
       this.setState({ loading: false });
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} upload fehlgeschlagen.`);
