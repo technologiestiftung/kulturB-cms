@@ -29,6 +29,20 @@ class Settings extends PureComponent {
     }
   }
 
+  onChangeUsers(info) {
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} erfolgreich hochgeladen.`);
+      const link = document.createElement('a');
+      link.download = 'neue_nutzer.csv';
+      link.href = `data:text/csv; charset=UTF-8, ${encodeURIComponent(info.file.response)}`;
+      link.click();
+      this.setState({ loading: false });
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} upload fehlgeschlagen.`);
+      this.setState({ loading: false });
+    }
+  }
+
   onSubmit(evt) {
     const { form, userId } = this.props;
     evt.preventDefault();
@@ -56,12 +70,23 @@ class Settings extends PureComponent {
           viverra metus justo enim porttitor.
         </p>
         <Spin spinning={this.state.loading}>
-          <Divider>Importieren/Exportieren</Divider>
-          <Export />
+          <Divider>Kulturorte Importieren/Exportieren</Divider>
+          <Export type="locations" />
           {isAdmin && (
             <Import
+              type="locations"
               token={this.props.token}
               onChange={info => this.onChange(info)}
+              beforeUpload={() => this.setState({ loading: true })}
+            />
+          )}
+          <Divider>Nutzer Importieren/Exportieren</Divider>
+          <Export type="user" />
+          {isAdmin && (
+            <Import
+              type="user"
+              token={this.props.token}
+              onChange={info => this.onChangeUsers(info)}
               beforeUpload={() => this.setState({ loading: true })}
             />
           )}

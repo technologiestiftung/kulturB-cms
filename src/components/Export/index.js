@@ -3,12 +3,14 @@ import StyledButton from '~/components/Button';
 
 class Export extends PureComponent {
   render() {
-    const apiUrl = `${config.url.base}${config.url.locations.base}`;
+    const { type } = this.props;
+
+    const apiUrl = `${config.url.base}${config.url[type].base}`;
 
     return (
       <StyledButton
         icon="export"
-        href={`${apiUrl}${config.url.locations.export}`}
+        href={`${apiUrl}${config.url[type].export}`}
       >
         Exportieren
       </StyledButton>

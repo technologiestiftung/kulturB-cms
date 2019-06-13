@@ -4,15 +4,19 @@ import StyledButton from '~/components/Button';
 
 class Import extends PureComponent {
   render() {
-    const apiUrl = `${config.url.base}${config.url.locations.base}`;
+    const {
+      type, beforeUpload, onChange, token,
+    } = this.props;
+
+    const apiUrl = `${config.url.base}${config.url[type].base}`;
 
     return (
       <Upload
         name="file"
-        action={`${apiUrl}${config.url.locations.import}`}
-        beforeUpload={this.props.beforeUpload}
-        onChange={this.props.onChange}
-        headers={{ authorization: this.props.token }}
+        action={`${apiUrl}${config.url[type].import}`}
+        beforeUpload={beforeUpload}
+        onChange={onChange}
+        headers={{ authorization: token }}
         accept=".csv"
         showUploadList={false}
       >
