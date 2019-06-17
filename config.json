@@ -1,6 +1,6 @@
 {
   "meta": {
-    "description": "TSB Admin",
+    "description": "TSB KulturB CMS",
     "viewport": "width=device-width, initial-scale=1",
     "robots": "noindex,nofollow"
   },
@@ -15,7 +15,9 @@
     "user": {
       "base": "/users",
       "login": "/login",
-      "refreshToken": "/refreshToken"
+      "refreshToken": "/refreshToken",
+      "export": "/export",
+      "import": "/import"
     },
     "upload": "/files"
   },

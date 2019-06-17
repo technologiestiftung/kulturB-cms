@@ -1,14 +1,15 @@
-# React Starterkit
+# TSB KulturB CMS UI
 
-A lightweight Starterkit including [React](https://facebook.github.io/react/), [unistore](https://www.npmjs.com/package/unistore), [Styled Components](https://www.styled-components.com/) and [webpack v4](https://webpack.js.org/).
+The CMS UI can be used to access data exposed by the [tsb-kulturb-api](https://github.com/wbkd/tsb-kulturb-api).
 
-## Get the kit
+## Requirements
 
-```sh
-$ git clone git@github.com:wbkd/react-starter.git && cd react-starter
-```
+- Node.js (recommended => v10)
+- a running [tsb-kulturb-api](https://github.com/wbkd/tsb-kulturb-api) instance.
 
 ## Installation
+
+Clone the repository, enter the root project folder and then run the following:
 
 ```sh
 $ npm install
@@ -25,12 +26,12 @@ $ npm run start
 
 ## Build
 
-Builds a minified version of the application in the build folder.
+Bundles a minified version of the application in the build folder.
 
 ```sh
 $ npm run build
 ```
 
-## Contribute
+## Data import/export
 
-Feel free to dive in! [Open an issue](https://github.com/wbkd/react-starter/issues/new) or submit PRs.
+The data is served by [tsb-kulturb-api](https://github.com/wbkd/tsb-kulturb-api) and can be imported or exported using the appropriate endpoints or the UI provided in the settings view (under `/einstellungen`).

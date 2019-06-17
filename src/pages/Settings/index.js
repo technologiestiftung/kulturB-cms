@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
   Row, Col, Button, Form, Spin, Divider, message
 } from 'antd';
@@ -22,6 +22,22 @@ class Settings extends PureComponent {
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} erfolgreich hochgeladen.`);
+      this.setState({ loading: false });
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} upload fehlgeschlagen.`);
+      this.setState({ loading: false });
+    }
+  }
+
+  onChangeUsers(info) {
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} erfolgreich hochgeladen.`);
+      const link = document.createElement('a');
+      link.download = 'neue_nutzer.csv';
+      link.href = `data:text/csv; charset=UTF-8, ${encodeURIComponent(info.file.response)}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
       this.setState({ loading: false });
     } else if (info.file.status === 'error') {
       message.error(`${info.file.name} upload fehlgeschlagen.`);
@@ -56,14 +72,27 @@ class Settings extends PureComponent {
           viverra metus justo enim porttitor.
         </p>
         <Spin spinning={this.state.loading}>
-          <Divider>Importieren/Exportieren</Divider>
-          <Export />
+          <Divider>Kulturorte Importieren/Exportieren</Divider>
+          <Export type="locations" />
           {isAdmin && (
             <Import
+              type="locations"
               token={this.props.token}
               onChange={info => this.onChange(info)}
               beforeUpload={() => this.setState({ loading: true })}
             />
+          )}
+          {isAdmin && (
+            <Fragment>
+              <Divider>Nutzer Importieren/Exportieren</Divider>
+              <Export type="user" />
+              <Import
+                type="user"
+                token={this.props.token}
+                onChange={info => this.onChangeUsers(info)}
+                beforeUpload={() => this.setState({ loading: true })}
+              />
+            </Fragment>
           )}
           <Divider>Passwort ändern</Divider>
           <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">

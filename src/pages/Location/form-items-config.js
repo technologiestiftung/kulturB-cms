@@ -224,14 +224,6 @@ export default [{
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.germanLanguage
     }, {
-      name: 'accessibility.blind.otherLanguages',
-      label: 'Weitere Sprachen',
-      type: 'languages',
-      style: { width: '33%' },
-      getInitialValue: component => component.props.item.accessibility
-      && component.props.item.accessibility.blind
-      && component.props.item.accessibility.blind.otherLanguages
-    }, {
       name: 'accessibility.blind.easyLanguage',
       label: 'Leichte Sprache',
       type: 'checkbox',
@@ -240,6 +232,14 @@ export default [{
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.blind
       && component.props.item.accessibility.blind.easyLanguage
+    }, {
+      name: 'accessibility.blind.otherLanguages',
+      label: 'Weitere Sprachen',
+      type: 'languages',
+      style: { width: '33%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.blind
+      && component.props.item.accessibility.blind.otherLanguages
     }, {
       name: 'accessibility.blind.braille',
       label: 'Brailleschrift',
@@ -303,10 +303,18 @@ export default [{
       label: 'Leichte Sprache',
       type: 'checkbox',
       valuePropName: 'checked',
-      style: { width: '66%' },
+      style: { width: '33%' },
       getInitialValue: component => component.props.item.accessibility
       && component.props.item.accessibility.deaf
       && component.props.item.accessibility.deaf.easyLanguage
+    }, {
+      name: 'accessibility.deaf.otherLanguages',
+      label: 'Weitere Sprachen',
+      type: 'languages',
+      style: { width: '33%' },
+      getInitialValue: component => component.props.item.accessibility
+      && component.props.item.accessibility.deaf
+      && component.props.item.accessibility.deaf.otherLanguages
     }, {
       name: 'accessibility.deaf.subtitles',
       label: 'Unter-/ Übertitel',

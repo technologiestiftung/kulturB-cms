@@ -107,6 +107,25 @@ export async function remove(id) {
   return res.json();
 }
 
+export async function exportUsers() {
+  const url = `${config.url.base}${config.url.user.base}${config.url.user.export}`;
+  const { AppState } = Store.getState();
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: AppState.token
+    }
+  });
+
+  const blob = await res.blob();
+  const uri = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.download = 'nutzer.csv';
+  link.href = uri;
+  document.body.appendChild(link); // we need to append the element to the dom -> otherwise it will not work in firefox
+  link.click();
+  link.remove();
+}
 
 export default {
   login,
@@ -116,4 +135,5 @@ export default {
   create,
   update,
   remove,
+  exportUsers,
 };
