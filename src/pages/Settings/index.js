@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
   Row, Col, Button, Form, Spin, Divider, message
 } from 'antd';
@@ -82,15 +82,17 @@ class Settings extends PureComponent {
               beforeUpload={() => this.setState({ loading: true })}
             />
           )}
-          <Divider>Nutzer Importieren/Exportieren</Divider>
-          <Export type="user" />
           {isAdmin && (
-            <Import
-              type="user"
-              token={this.props.token}
-              onChange={info => this.onChangeUsers(info)}
-              beforeUpload={() => this.setState({ loading: true })}
-            />
+            <Fragment>
+              <Divider>Nutzer Importieren/Exportieren</Divider>
+              <Export type="user" />
+              <Import
+                type="user"
+                token={this.props.token}
+                onChange={info => this.onChangeUsers(info)}
+                beforeUpload={() => this.setState({ loading: true })}
+              />
+            </Fragment>
           )}
           <Divider>Passwort ändern</Divider>
           <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
