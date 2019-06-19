@@ -92,36 +92,42 @@ class MetadataGenerator extends PureComponent {
   }
 
   render() {
+    const {
+      loading, location, locationName, locations, fullLocation
+    } = this.state;
+
     return (
       <ContainerBg>
-        <FullHeightSpin spinning={this.state.loading}>
+        <FullHeightSpin spinning={loading}>
           <Col span={12}>
             <HeaderArea>
               <h1>Metadaten Generator</h1>
             </HeaderArea>
-            <LocationSelect
-              location={this.state.location}
-              locationName={this.state.locationName}
-              locations={this.state.locations}
-              selectLocation={selectedLocation => this.selectLocation(selectedLocation)}
-            />
+            {locationName && (
+              <LocationSelect
+                location={location}
+                locationName={locationName}
+                locations={locations}
+                selectLocation={selectedLocation => this.selectLocation(selectedLocation)}
+              />
+            )}
             <Divider />
             <MetadataForm
               ref={this.form}
-              location={this.state.location}
+              location={location}
               onValuesChange={
-                (changedValues, allValues, fullLocation) => this
-                  .onValuesChange(changedValues, allValues, fullLocation)
+                (changedValues, allValues, fullLoc) => this
+                  .onValuesChange(changedValues, allValues, fullLoc)
               }
             />
           </Col>
           <FullHeightCol span={12}>
             <FullHeightTabs defaultActiveKey="1">
               <GreyTabPane tab="Vorschau" key="1">
-                <MetadataPreview {...this.state.location} />
+                <MetadataPreview {...location} />
               </GreyTabPane>
               <GreyTabPane tab="Metadaten" key="2">
-                <MetadataCode location={this.state.fullLocation || this.state.location} />
+                <MetadataCode location={fullLocation || location} />
               </GreyTabPane>
             </FullHeightTabs>
           </FullHeightCol>

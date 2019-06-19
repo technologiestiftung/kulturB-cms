@@ -66,13 +66,19 @@ class Settings extends PureComponent {
         <HeaderArea>
           <h1>Einstellungen</h1>
         </HeaderArea>
-        <p>Lorem ipsum dolor sit amet fusce risus orci maecenas.
-          Ligula curabitur malesuada. Fames dis luctus.
-          Sed donec neque. Ac ipsum id justo aptent nunc tristique
-          viverra metus justo enim porttitor.
+        <p>
+          Hier können Sie Ihre Einstellungen ändern.
         </p>
         <Spin spinning={this.state.loading}>
           <Divider>Kulturorte Importieren/Exportieren</Divider>
+          <p>
+            Hier können Sie eine Liste aller Kulturorte herunterladen.
+            {isAdmin && ` Administratoren können die Liste anpassen und
+            erneut hochladen um mehrere Änderungen gleichzeitig durchzuführen.
+            Falls in einer Zeile Änderungen vorkommen, wird der Kulturort mit
+            der entsprechenden ID (aus der _id Spalte) angepasst.
+            Falls die Spalte _id leer bleibt, wird dafür ein neuer Kulturort angelegt.`}
+          </p>
           <Export type="locations" />
           {isAdmin && (
             <Import
@@ -85,6 +91,23 @@ class Settings extends PureComponent {
           {isAdmin && (
             <Fragment>
               <Divider>Nutzer Importieren/Exportieren</Divider>
+              <p>
+                Hier können Sie eine Liste aller Nutzer/innen herunterladen.
+                Sie können die Liste anpassen und erneut hochladen um mehrere
+                Änderungen gleichzeitig durchzuführen. Falls in einer Zeile
+                Änderungen vorkommen, wird der/die Nutzer/in mit der entsprechenden
+                ID (aus der _id Spalte) angepasst.
+              </p>
+              <p>
+              Um mehrere Nutzer/innen anzulegen, können Sie die Liste herunterladen
+              und für die jeweiligen Kulturorte eine E-Mail Adresse (in der email Spalte)
+              angeben. Wenn Sie die Liste erneut hochladen, werden neue Nutzer/innen angelegt
+              und ein Kennwort vergeben. Die Liste mit den neuen Nutzer/innen und den
+              jeweiligen Kennwörtern wird automatisch herunterladen.
+              </p>
+              <p>
+                Achten Sie darauf, dass die Datei als Semikolon getrennt CSV Datei gespeichert wird.
+              </p>
               <Export type="user" />
               <Import
                 type="user"
@@ -94,7 +117,11 @@ class Settings extends PureComponent {
               />
             </Fragment>
           )}
-          <Divider>Passwort ändern</Divider>
+          <Divider>Kennwort ändern</Divider>
+          <p>
+            Geben Sie hier Ihr neues Kennwort ein und drücken Sie auf Speichern
+            um Ihr Kennwort zu ändern.
+          </p>
           <Form onSubmit={evt => this.onSubmit(evt)} layout="horizontal">
             <PasswordInput
               form={form}
