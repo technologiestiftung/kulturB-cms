@@ -106,7 +106,7 @@ class Settings extends PureComponent {
               jeweiligen Kennwörtern wird automatisch herunterladen.
               </p>
               <p>
-                Achten Sie darauf, dass die Datei als kommagetrennte CSV Datei gespeichert wird.
+                Achten Sie darauf, dass die Datei als Semikolon getrennt CSV Datei gespeichert wird.
               </p>
               <Export type="user" />
               <Import
