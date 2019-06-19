@@ -73,12 +73,11 @@ class Settings extends PureComponent {
           <Divider>Kulturorte Importieren/Exportieren</Divider>
           <p>
             Hier können Sie eine Liste aller Kulturorte herunterladen.
-            {isAdmin && `Administratoren können die Liste anpassen
-            und wieder hochladen um Massenänderungen durchzuführen.
-            Falls in einer Zeile Änderungen vorkommen, wird das
-            Kulturort mit der entsprechende ID (aus der _id Spalte)
-            angepasst. Falls eine Zeile keine ID in der _id Spalte
-            enthält, wird dafür ein neues Kulturort angelegt.`}
+            {isAdmin && ` Administratoren können die Liste anpassen und
+            erneut hochladen um mehrere Änderungen gleichzeitig durchzuführen.
+            Falls in einer Zeile Änderungen vorkommen, wird der Kulturort mit
+            der entsprechenden ID (aus der _id Spalte) angepasst.
+            Falls die Spalte _id leer bleibt, wird dafür ein neuer Kulturort angelegt.`}
           </p>
           <Export type="locations" />
           {isAdmin && (
@@ -94,20 +93,20 @@ class Settings extends PureComponent {
               <Divider>Nutzer Importieren/Exportieren</Divider>
               <p>
                 Hier können Sie eine Liste aller Nutzer/innen herunterladen.
-                Sie können die Liste anpassen und wieder hochladen um Massenänderungen
-                durchzuführen. Falls in einer Zeile Änderungen vorkommen, wird
-                der/die Nutzer/in mit der entsprechende ID (aus der _id Spalte)
-                angepasst.
+                Sie können die Liste anpassen und erneut hochladen um mehrere
+                Änderungen gleichzeitig durchzuführen. Falls in einer Zeile
+                Änderungen vorkommen, wird der/die Nutzer/in mit der entsprechenden
+                ID (aus der _id Spalte) angepasst.
               </p>
               <p>
-                Um mehrere Nutzer/innen anzulegen, können Sie die Liste herunterladen
-                und für die jeweilige Kulturorte eine E-Mail Addresse (in der email Spalte)
-                angeben. Wenn Sie die Liste wieder hochladen, werden die neue Nutzer/innen
-                angelegt und für Sie einen Kennwort vergeben. Die Liste mit neue Nutzer/innen
-                und die jeweiligen Kennwörter wird automatisch herunterladen.
+              Um mehrere Nutzer/innen anzulegen, können Sie die Liste herunterladen
+              und für die jeweiligen Kulturorte eine E-Mail Adresse (in der email Spalte)
+              angeben. Wenn Sie die Liste erneut hochladen, werden neue Nutzer/innen angelegt
+              und ein Kennwort vergeben. Die Liste mit den neuen Nutzer/innen und den
+              jeweiligen Kennwörtern wird automatisch herunterladen.
               </p>
               <p>
-                Achten Sie darauf dass die Datei als Kommagetrennte CSV Datei gespeichert wird.
+                Achten Sie darauf, dass die Datei als kommagetrennte CSV Datei gespeichert wird.
               </p>
               <Export type="user" />
               <Import
