@@ -83,7 +83,12 @@ class MetadataGenerator extends PureComponent {
     }
     const location = await getById(selectedLocation.value);
     location.tags = location.tags.map(tag => tag.name);
-    this.setState({ location, locationName: location.name, loading: false });
+    this.setState({
+      location,
+      fullLocation: location,
+      locationName: location.name,
+      loading: false
+    });
     history.replace(`/metadaten/${location._id}`);
   }
 
