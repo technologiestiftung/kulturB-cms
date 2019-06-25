@@ -114,7 +114,7 @@ class MetadataGenerator extends PureComponent {
             <Divider />
             <MetadataForm
               ref={this.form}
-              location={location}
+              location={fullLocation || location}
               onValuesChange={
                 (changedValues, allValues, fullLoc) => this
                   .onValuesChange(changedValues, allValues, fullLoc)

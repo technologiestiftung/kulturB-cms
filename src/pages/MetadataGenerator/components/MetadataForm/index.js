@@ -40,7 +40,7 @@ class MetadataForm extends PureComponent {
       case 'textarea': return <TextArea />;
       case 'tags': {
         const { tags } = this.state;
-        const options = tags.map(({ name: label, _id: value }) => ({ label, value }));
+        const options = tags.map(({ name: label }) => ({ label, value: label }));
         return <SelectInut options={options} mode="multiple" />;
       }
       case 'types': {

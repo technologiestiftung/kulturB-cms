@@ -10,7 +10,8 @@ export default (item) => {
     address,
     zipcode,
     city,
-    openingHours
+    openingHours,
+    tags
   } = item;
 
   const res = {
@@ -18,8 +19,24 @@ export default (item) => {
     '@type': 'Organization',
     name
   };
+
+  let type = 'CivicStructure';
+  if (tags) {
+    if (tags.includes('Theater') || tags.includes('Tanz/Performance')) {
+      type = 'PerformingArtsTheater';
+    }
+
+    if (tags.includes('Konzert') || tags.includes('Musik') || tags.includes('Musikschule') || tags.includes('Oper')) {
+      type = 'MusicVenue';
+    }
+
+    if (tags.includes('Museum') || tags.includes('Bildende Kunst') || tags.includes('Galerie') || tags.includes('Ausstellungshaus')) {
+      type = 'Museum';
+    }
+  }
+
   const locationSchema = {
-    '@type': 'CivicStructure'
+    '@type': type
   };
 
   if (description) res.description = description;
@@ -43,6 +60,7 @@ export default (item) => {
 
   if (location && location.coordinates) {
     if (!res.location) res.location = locationSchema;
+
     const [latitude, longitude] = location.coordinates;
     res.location.geo = {
       '@type': 'GeoCoordinates',
