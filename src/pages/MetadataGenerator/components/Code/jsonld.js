@@ -22,6 +22,10 @@ export default (item) => {
 
   let type = 'CivicStructure';
   if (tags) {
+    if (tags.includes('Literaturhaus') || tags.includes('Bibliothek/Archiv')) {
+      type = 'Library';
+    }
+
     if (tags.includes('Theater') || tags.includes('Tanz/Performance')) {
       type = 'PerformingArtsTheater';
     }
@@ -32,6 +36,10 @@ export default (item) => {
 
     if (tags.includes('Museum') || tags.includes('Bildende Kunst') || tags.includes('Galerie') || tags.includes('Ausstellungshaus') || tags.includes('Gedenkstätte')) {
       type = 'Museum';
+    }
+
+    if (tags.includes('Bildende Kunst') || tags.includes('Galerie') || tags.includes('Ausstellungshaus')) {
+      type = 'ArtGallery';
     }
   }
 
