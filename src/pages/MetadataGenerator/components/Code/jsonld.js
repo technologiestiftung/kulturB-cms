@@ -30,7 +30,7 @@ export default (item) => {
       type = 'MusicVenue';
     }
 
-    if (tags.includes('Museum') || tags.includes('Bildende Kunst') || tags.includes('Galerie') || tags.includes('Ausstellungshaus')) {
+    if (tags.includes('Museum') || tags.includes('Bildende Kunst') || tags.includes('Galerie') || tags.includes('Ausstellungshaus') || tags.includes('Gedenkstätte')) {
       type = 'Museum';
     }
   }
