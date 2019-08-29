@@ -10,7 +10,7 @@ import 'leaflet/dist/leaflet.css';
 
 import iconUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
-import formItemLayout from '~/pages/Location/form-layout-config';
+import formItemLayout from '~/pages/Details/form-layout-config';
 
 import { get } from '~/services/locationApi';
 

@@ -17,7 +17,7 @@ import {
 } from '~/services/userApi';
 import { get } from '~/services/locationApi';
 import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
-import formItemLayout from '~/pages/Location/form-layout-config';
+import formItemLayout from '~/pages/Details/form-layout-config';
 
 function renderError() {
   return (

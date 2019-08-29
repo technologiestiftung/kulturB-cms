@@ -11,11 +11,10 @@ import SelectInput from '~/components/SelectInput';
 import formItemLayout from './form-layout-config';
 
 import history from '~/history';
-import {
-  create, update, remove, locationSearch
-} from '~/services/locationApi';
+
 import { getTags } from '~/services/tagsApi';
 import { renderSuccessMessage, renderErrorMessage } from '~/services/utils';
+import SubmissionControls from './components/SubmissionControls';
 
 function renderError() {
   return (
@@ -32,7 +31,7 @@ function renderError() {
   );
 }
 
-class Location extends PureComponent {
+class Details extends PureComponent {
   state = {
     item: {},
     isLoading: true,
@@ -57,7 +56,7 @@ class Location extends PureComponent {
       return this.setState({ isLoading: false, tags });
     }
 
-    this.loadLocation(tags);
+    this.loadDetails(tags);
   }
 
   onSubmit(evt, redirect) {
@@ -66,12 +65,19 @@ class Location extends PureComponent {
       if (!err) {
         if (this.isCreateMode) {
           this.isCreateMode = false;
-            const res = await create(values);
-            if (!res.id) return renderErrorMessage();
-            history.replace(`/kulturorte/${res.id}`);
-            renderSuccessMessage();
-            this.props.form.setFieldsValue(res);
-            return this.setState({ item: res });
+          let res;
+          if (this.props.token) {
+            res = await this.props.actions.create(values);
+          } else {
+            res = await this.props.actions.createDraft({ create: true, data: values });
+          }
+          if (!res.id) return renderErrorMessage();
+
+          const { name } = this.props.config;
+          history.replace(`/${name}/${res.id}`);
+          renderSuccessMessage();
+          this.props.form.setFieldsValue(res);
+          return this.setState({ item: res });
         }
 
         const updates = {
@@ -80,7 +86,7 @@ class Location extends PureComponent {
           ...values
         };
 
-        const res = await update(this.props.match.params.id, updates);
+        const res = await this.props.actions.update(this.props.match.params.id, updates);
         if (!res.id) return renderErrorMessage();
         // this.props.form.setFieldsValue(res);
         this.setState({ item: res });
@@ -124,15 +130,15 @@ class Location extends PureComponent {
     });
   }
 
-  async onSearchVenue(search) {
+  async onSearchVenue(searchTerm) {
     this.setState({
-      venuesAutoCompleteValue: search
+      venuesAutoCompleteValue: searchTerm
     });
-    if (search.length < 3) {
+    if (searchTerm.length < 3) {
       return null;
     }
 
-    const { data } = await locationSearch(search);
+    const { data } = await this.props.actions.search(searchTerm);
 
     this.setState({ venueAutoCompleteList: data });
   }
@@ -154,7 +160,7 @@ class Location extends PureComponent {
   }
 
   async onOk() {
-    await remove(this.props.match.params.id);
+    await this.props.actions.remove(this.props.match.params.id);
     this.closeModal();
 
     history.push('/');
@@ -201,16 +207,18 @@ class Location extends PureComponent {
     }
   }
 
-  async loadLocation(tags) {
+  async loadDetails(tags) {
     try {
       const { id } = this.props.match.params;
-      const res = await fetch(`${config.url.base}${config.url.locations.base}/${id}`);
+      let item = await this.props.actions.getById(id);
+      if (item.meta && item.data) {
+        item = item.data;
+      }
 
-      if (res.status !== 200) {
+      if (item.statusCode && item.statusCode.startsWith(4)) {
         return this.setState({ isError: true, isLoading: false });
       }
 
-      const item = await res.json();
       this.setState({
         item,
         tags,
@@ -235,7 +243,8 @@ class Location extends PureComponent {
   }
 
   render() {
-    const { isCreateMode } = this.props;
+    const { isCreateMode, config: tableConfig } = this.props;
+    const { label } = tableConfig;
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
 
     if (this.state.isError) {
@@ -245,28 +254,40 @@ class Location extends PureComponent {
     return (
       <Container>
         <HeaderArea>
-          <h1>Kulturort {title}</h1>
+          <h1>{label} {title}</h1>
         </HeaderArea>
         {this.state.isLoading ? <Spin /> : (
-          <LocationForm
-            form={this.props.form}
-            formItemLayout={formItemLayout}
-            onSearchVenue={search => this.onSearchVenue(search)}
-            onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
-            onDeleteItem={id => this.onDeleteItem(id)}
-            getInputComponent={(type, label) => this.getInputComponent(type, label)}
-            onSubmit={(evt, route) => this.onSubmit(evt, route)}
-            onUploadChange={evt => this.onUploadChange(evt)}
-            onImageRemove={() => this.onImageRemove()}
-            updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
-            onOpenModal={evt => this.onOpenModal(evt)}
-            venueList={this.state.venueList}
-            venueAutoCompleteList={this.state.venueAutoCompleteList}
-            venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
-            token={this.props.token}
-            item={this.state.item}
-            isCreateMode={this.props.isCreateMode}
-          />
+          <>
+            <LocationForm
+              form={this.props.form}
+              formItemLayout={formItemLayout}
+              onSearchVenue={searchTerm => this.onSearchVenue(searchTerm)}
+              onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
+              onDeleteItem={id => this.onDeleteItem(id)}
+              getInputComponent={(type, name) => this.getInputComponent(type, name)}
+              onSubmit={(evt, route) => this.onSubmit(evt, route)}
+              onUploadChange={evt => this.onUploadChange(evt)}
+              onImageRemove={() => this.onImageRemove()}
+              updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
+              venueList={this.state.venueList}
+              venueAutoCompleteList={this.state.venueAutoCompleteList}
+              venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
+              token={this.props.token}
+              item={this.state.item.data ? this.state.item.data : this.state.item}
+              isCreateMode={this.props.isCreateMode}
+              controls={(
+                <SubmissionControls
+                  label={label}
+                  isCreateMode={this.props.isCreateMode}
+                  item={this.state.item}
+                  onSubmit={(evt, route) => this.onSubmit(evt, route)}
+                  onOpenModal={evt => this.onOpenModal(evt)}
+                  formItemLayout={formItemLayout}
+                  token={this.props.token}
+                />
+              )}
+            />
+          </>
         )}
         <Modal
           title="Eintrag löschen"
@@ -285,6 +306,6 @@ class Location extends PureComponent {
   }
 }
 
-const WrappedLocation = Form.create({ name: 'location' })(Location);
+const WrappedDetails = Form.create({ name: 'details' })(Details);
 
-export default WrappedLocation;
+export default WrappedDetails;
