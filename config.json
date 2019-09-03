@@ -135,12 +135,6 @@
             "sorter": true
           },
           {
-            "title": "Kategorien",
-            "key": "data.tags",
-            "dataIndex": "tags",
-            "sorter": true
-          },
-          {
             "key": "data.website",
             "title": "Website",
             "dataIndex": "website",

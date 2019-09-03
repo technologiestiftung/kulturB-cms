@@ -20,7 +20,7 @@ export default ({
       <Button type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
         {token ? `${label} speichern` : 'Änderungsvorschlag einreichen' }
       </Button>
-      {!isCreateMode && (
+      {!isCreateMode && token && (
         <Button
           type="danger"
           icon="delete"

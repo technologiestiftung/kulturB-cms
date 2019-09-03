@@ -31,6 +31,41 @@ function renderError() {
   );
 }
 
+const create = async (createEntry, createSubmission, data, token) => {
+  let res;
+  if (token) {
+    res = await createEntry(data);
+  } else {
+    res = await createSubmission({ data });
+  }
+  if (!res.id) return renderErrorMessage();
+
+  renderSuccessMessage();
+  return res;
+};
+
+const update = async (updateEntry, createChange, data, venueList, item, id, token) => {
+  const updates = {
+    venues: venueList.map(v => v.id),
+    location: item.location,
+    ...data
+  };
+
+  let res;
+  if (token) {
+    res = await updateEntry(id, updates);
+  } else {
+    res = await createChange({
+      meta: { organisation: item.id },
+      data
+    });
+  }
+  if (!res.id) return renderErrorMessage();
+
+  renderSuccessMessage();
+  return res;
+};
+
 class Details extends PureComponent {
   state = {
     item: {},
@@ -63,34 +98,37 @@ class Details extends PureComponent {
     evt.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
+        const {
+          actions, token, form, match, config, role,
+        } = this.props;
+        const [type] = Object.keys(config);
+
         if (this.isCreateMode) {
           this.isCreateMode = false;
-          let res;
-          if (this.props.token) {
-            res = await this.props.actions.create(values);
-          } else {
-            res = await this.props.actions.createDraft({ create: true, data: values });
-          }
-          if (!res.id) return renderErrorMessage();
-
-          const { name } = this.props.config;
-          history.replace(`/${name}/${res.id}`);
-          renderSuccessMessage();
-          this.props.form.setFieldsValue(res);
+          const res = await create(actions[type].create, actions.submissions.create, values, token);
+          form.setFieldsValue(res);
           return this.setState({ item: res });
         }
 
-        const updates = {
-          venues: this.state.venueList.map(v => v.id),
-          location: this.state.item.location,
-          ...values
-        };
-
-        const res = await this.props.actions.update(this.props.match.params.id, updates);
-        if (!res.id) return renderErrorMessage();
-        // this.props.form.setFieldsValue(res);
+        const { item, venueList } = this.state;
+        if (type === 'changes' && role === 'ADMIN') {
+          // @TODO: handle changes (updates)
+          // @TODO: delete accepted change
+          const res = await create(
+            actions.locations.create,
+            actions.submissions.create,
+            values,
+            token
+          );
+          return this.setState({ item: res });
+        }
+        const res = await update(
+          actions[type].update, actions.changes.create,
+          values,
+          venueList, item,
+          match.params.id, token
+        );
         this.setState({ item: res });
-        renderSuccessMessage();
 
         if (redirect) {
           history.push(redirect);
@@ -138,7 +176,7 @@ class Details extends PureComponent {
       return null;
     }
 
-    const { data } = await this.props.actions.search(searchTerm);
+    const { data } = await this.props.actions.locations.search(searchTerm);
 
     this.setState({ venueAutoCompleteList: data });
   }
@@ -160,7 +198,9 @@ class Details extends PureComponent {
   }
 
   async onOk() {
-    await this.props.actions.remove(this.props.match.params.id);
+    const { actions, config, match } = this.props;
+    const [type] = Object.keys(config);
+    await actions[type].remove(match.params.id);
     this.closeModal();
 
     history.push('/');
@@ -209,8 +249,10 @@ class Details extends PureComponent {
 
   async loadDetails(tags) {
     try {
-      const { id } = this.props.match.params;
-      let item = await this.props.actions.getById(id);
+      const { actions, config, match } = this.props;
+      const { id } = match.params;
+      const [type] = Object.keys(config);
+      let item = await actions[type].getById(id);
       if (item.meta && item.data) {
         item = item.data;
       }
@@ -243,8 +285,10 @@ class Details extends PureComponent {
   }
 
   render() {
+    console.log(this.state, this.props);
     const { isCreateMode, config: tableConfig } = this.props;
-    const { label } = tableConfig;
+    const [type] = Object.keys(tableConfig);
+    const { label } = tableConfig[type];
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
 
     if (this.state.isError) {

@@ -144,7 +144,7 @@ class PaginationTable extends PureComponent {
     return (
       <Fragment>
         <SearchBar onSearch={value => this.search(value)} />
-        <TableWrapper role={user.role}>
+        <TableWrapper role={user && user.role}>
           <Table
             rowKey="id"
             dataSource={this.state.data}
