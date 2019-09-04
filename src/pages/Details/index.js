@@ -69,6 +69,7 @@ const update = async (updateEntry, createChange, data, venueList, item, id, toke
 class Details extends PureComponent {
   state = {
     item: {},
+    meta: {},
     isLoading: true,
     tags: [],
     isDeleteModalVisible: false,
@@ -110,16 +111,27 @@ class Details extends PureComponent {
           return this.setState({ item: res });
         }
 
-        const { item, venueList } = this.state;
+        const { item, meta, venueList } = this.state;
         if (type === 'changes' && role === 'ADMIN') {
-          // @TODO: handle changes (updates)
-          // @TODO: delete accepted change
+          if (meta && meta.organisation && meta.organisation.id) {
+            const res = await update(
+              actions.locations.update, actions.locations.create,
+              values,
+              venueList, item,
+              meta.organisation.id, token
+            );
+
+            await actions.changes.remove(match.params.id);
+            return this.setState({ item: res });
+          }
+
           const res = await create(
             actions.locations.create,
             actions.submissions.create,
             values,
             token
           );
+          await actions.submissions.remove(item.id);
           return this.setState({ item: res });
         }
         const res = await update(
@@ -254,6 +266,7 @@ class Details extends PureComponent {
       const [type] = Object.keys(config);
       let item = await actions[type].getById(id);
       if (item.meta && item.data) {
+        this.setState({ meta: item.meta });
         item = item.data;
       }
 
@@ -285,7 +298,6 @@ class Details extends PureComponent {
   }
 
   render() {
-    console.log(this.state, this.props);
     const { isCreateMode, config: tableConfig } = this.props;
     const [type] = Object.keys(tableConfig);
     const { label } = tableConfig[type];
