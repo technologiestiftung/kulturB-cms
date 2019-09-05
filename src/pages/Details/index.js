@@ -101,6 +101,10 @@ class Details extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
+    if (!this.props || !this.props.match) {
+      return;
+    }
+
     if (this.props.match.params.id !== prevProps.match.params.id) {
       this.loadFullDetails();
     }
