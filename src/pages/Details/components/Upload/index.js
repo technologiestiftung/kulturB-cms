@@ -6,7 +6,7 @@ import {
 
 import Cropper from '../Cropper';
 import { addImage, removeImage } from '~/services/locationApi';
-import formItemLayout from '~/pages/Location/form-layout-config';
+import formItemLayout from '~/pages/Details/form-layout-config';
 
 const Wrapper = styled(Row)`
   .ant-upload.ant-upload-select {

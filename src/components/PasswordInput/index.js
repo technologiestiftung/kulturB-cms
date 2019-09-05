@@ -5,7 +5,7 @@ import {
 } from 'antd';
 
 import FormItem from '~/components/FormItem';
-import formItemLayout from '~/pages/Location/form-layout-config';
+import formItemLayout from '~/pages/Details/form-layout-config';
 
 class PasswordInput extends PureComponent {
   state = {

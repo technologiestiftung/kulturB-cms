@@ -25,6 +25,7 @@ const FullHeightTabs = styled(Tabs)`
 `;
 
 const FullHeightCol = styled(Col)`
+  top: 32px;
   height: 100%;
 `;
 

@@ -16,27 +16,6 @@ const TableWrapper = styled.div`
     .ant-table-pagination {
       margin: 16px;
     }
-
-    .ant-table-row {
-      cursor: ${props => (props.role === 'ADMIN' ? 'pointer' : 'auto') };
-      height: 80px;
-
-      &.hoverable {
-        cursor: pointer;
-
-        &:hover {
-          td {
-            background: #e6f7ff;
-          }
-        }
-      }
-
-      &:hover {
-        td {
-          background: ${props => (props.role === 'ADMIN' ? '#e6f7ff' : 'none') };
-        }
-      }
-    }
   }
 `;
 
@@ -91,9 +70,7 @@ class PaginationTable extends PureComponent {
   }
 
   onRowClick(evt, item) {
-    if (this.props.role === 'ADMIN' || this.props.organisation === item.id) {
-      history.push(`/${this.props.itemIdentifier}/${item.id}`);
-    }
+    history.push(`/${this.props.itemIdentifier}/${item.id}`);
   }
 
   onTableChange = (pagination, filters, sorter) => {
@@ -161,13 +138,13 @@ class PaginationTable extends PureComponent {
   }
 
   render() {
-    const { columns, role, organisation } = this.props;
-    const isAdmin = role === 'ADMIN';
+    const { columns, user } = this.props;
+    const isAdmin = user && user.role === 'ADMIN';
 
     return (
       <Fragment>
         <SearchBar onSearch={value => this.search(value)} />
-        <TableWrapper role={this.props.role}>
+        <TableWrapper role={user && user.role}>
           <Table
             rowKey="id"
             dataSource={this.state.data}
@@ -176,7 +153,6 @@ class PaginationTable extends PureComponent {
             loading={this.state.loading}
             onRow={item => ({
               onClick: evt => this.onRowClick(evt, item),
-              className: item.id === organisation ? 'hoverable' : ''
             })}
             locale={{
               sortTitle: 'Sortieren',

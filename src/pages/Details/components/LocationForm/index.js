@@ -1,17 +1,15 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import {
-  Row, Col, Form, Divider
+  Form, Divider
 } from 'antd';
 
 import FormItem from '~/components/FormItem';
-import Map from '~/pages/Location/components/Map';
-import VenuesInput from '~/pages/Location/components/VenuesInput';
-import Upload from '~/pages/Location/components/Upload';
-import formItems from '~/pages/Location/form-items-config';
+import Map from '~/pages/Details/components/Map';
+import VenuesInput from '~/pages/Details/components/VenuesInput';
+import Upload from '~/pages/Details/components/Upload';
+import formItems from '~/pages/Details/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
-import StyledButton from '~/components/Button';
-import formItemLayout from '~/pages/Location/form-layout-config';
 
 const FormItemMultiple = styled(FormItem)`
   .ant-form-item-children {
@@ -179,31 +177,7 @@ class LocationForm extends PureComponent {
             location={this.props.item.location}
           />
         )}
-        <Row style={{ marginTop: '15px' }}>
-          <Col {...formItemLayout.colLayout} style={{ textAlign: 'right' }}>
-            {!this.props.isCreateMode && (
-              <StyledButton
-                htmlType="submit"
-                onClick={evt => this.props.onSubmit(evt, `/metadaten/${this.props.item.id}`)}
-              >
-                Zum Metadaten Generator
-              </StyledButton>
-            )}
-            <StyledButton type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
-              Speichern
-            </StyledButton>
-            {!this.props.isCreateMode && (
-              <StyledButton
-                type="danger"
-                icon="delete"
-                onClick={evt => this.props.onOpenModal(evt)}
-                style={{ marginLeft: '5px' }}
-              >
-                Kulturort löschen
-              </StyledButton>
-            )}
-          </Col>
-        </Row>
+        {this.props.controls}
       </Form>
     );
   }

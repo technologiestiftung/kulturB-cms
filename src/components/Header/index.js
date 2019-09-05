@@ -53,7 +53,11 @@ class HeaderMenu extends PureComponent {
 
           {nav.map(({ url, label, roles }) => roles.includes(role) && (
             <Menu.Item key={url}>
-              <NavLink to={url}>{label}</NavLink>
+              {
+                url.startsWith('http')
+                ? <a href={url}>{label}</a>
+                : <NavLink to={url}>{label}</NavLink>
+              }
             </Menu.Item>
           ))}
           <Menu.Item style={{ float: 'right' }}>
