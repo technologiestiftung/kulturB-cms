@@ -298,14 +298,32 @@ class Details extends PureComponent {
   }
 
   render() {
-    const { isCreateMode, config: tableConfig } = this.props;
+    const {
+      isCreateMode,
+      config: tableConfig,
+      form,
+      role,
+      organisation,
+      token
+    } = this.props;
+    const {
+      item,
+      venueList,
+      venueAutoCompleteList,
+      venuesAutoCompleteValue
+    } = this.state;
+
     const [typeName] = Object.keys(tableConfig);
     const { label } = tableConfig[typeName];
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
+    const entry = item.data ? item.data : item;
 
     if (this.state.isError) {
       return renderError();
     }
+
+    const isAdmin = role === 'ADMIN';
+    const isOwnOrganisation = entry._id === organisation;
 
     return (
       <Container>
@@ -315,7 +333,7 @@ class Details extends PureComponent {
         {this.state.isLoading ? <Spin /> : (
           <>
             <LocationForm
-              form={this.props.form}
+              form={form}
               formItemLayout={formItemLayout}
               onSearchVenue={searchTerm => this.onSearchVenue(searchTerm)}
               onSelectItem={(selectedItem, option) => this.onSelectItem(selectedItem, option)}
@@ -325,21 +343,22 @@ class Details extends PureComponent {
               onUploadChange={evt => this.onUploadChange(evt)}
               onImageRemove={() => this.onImageRemove()}
               updatePosition={(lat, lng) => this.updatePosition(lat, lng)}
-              venueList={this.state.venueList}
-              venueAutoCompleteList={this.state.venueAutoCompleteList}
-              venuesAutoCompleteValue={this.state.venuesAutoCompleteValue}
-              token={this.props.token}
-              item={this.state.item.data ? this.state.item.data : this.state.item}
-              isCreateMode={this.props.isCreateMode}
+              venueList={venueList}
+              venueAutoCompleteList={venueAutoCompleteList}
+              venuesAutoCompleteValue={venuesAutoCompleteValue}
+              token={token}
+              item={entry}
+              isCreateMode={isCreateMode}
               controls={(
                 <SubmissionControls
                   label={label}
-                  isCreateMode={this.props.isCreateMode}
-                  item={this.state.item}
+                  isCreateMode={isCreateMode}
+                  item={item}
                   onSubmit={(evt, route) => this.onSubmit(evt, route)}
                   onOpenModal={evt => this.onOpenModal(evt)}
                   formItemLayout={formItemLayout}
-                  token={this.props.token}
+                  isAdmin={isAdmin}
+                  isOwnOrganisation={isOwnOrganisation}
                 />
               )}
             />
@@ -353,7 +372,7 @@ class Details extends PureComponent {
         >
           <p>
             Sind Sie sicher, dass sie den Eintrag
-            <strong> {this.state.item.name} </strong>
+            <strong> {entry.name} </strong>
             löschen wollen?
           </p>
         </Modal>
