@@ -84,10 +84,10 @@ class App extends PureComponent {
               <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
               <PrivateRoute token={this.props.token} path="/nutzer/:id" component={User} />
               <PrivateRoute {...this.props} path="/nutzer" component={UsersOverview} />
-              <PrivateRoute {...this.props} path="/changes/:id" component={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
-              <PrivateRoute {...this.props} path="/changes" render={() => <Overview {...this.props} actions={api.changes} config={changes} />} />
-              <PrivateRoute {...this.props} path="/submissions/:id" component={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
-              <PrivateRoute {...this.props} path="/submissions" component={() => <Overview {...this.props} actions={api.submissions} config={changes} />} />
+              <PrivateRoute {...this.props} path="/korrekturen/:id" component={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
+              <PrivateRoute {...this.props} path="/korrekturen" render={() => <Overview {...this.props} actions={api.changes} config={changes} />} />
+              <PrivateRoute {...this.props} path="/einreichungen/:id" component={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
+              <PrivateRoute {...this.props} path="/einreichungen" component={() => <Overview {...this.props} actions={api.submissions} config={changes} />} />
               <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
             </Switch>
           </Content>

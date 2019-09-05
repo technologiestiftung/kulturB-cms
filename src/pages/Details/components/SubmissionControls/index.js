@@ -18,7 +18,7 @@ export default ({
         </Button>
       )}
       <Button type="primary" htmlType="submit" style={{ marginLeft: '5px' }}>
-        {token ? `${label} speichern` : 'Änderungsvorschlag einreichen' }
+        {token ? `${label} speichern` : 'Korrektur einreichen' }
       </Button>
       {!isCreateMode && token && (
         <Button

@@ -299,8 +299,8 @@ class Details extends PureComponent {
 
   render() {
     const { isCreateMode, config: tableConfig } = this.props;
-    const [type] = Object.keys(tableConfig);
-    const { label } = tableConfig[type];
+    const [typeName] = Object.keys(tableConfig);
+    const { label } = tableConfig[typeName];
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
 
     if (this.state.isError) {

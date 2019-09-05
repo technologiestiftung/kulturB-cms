@@ -23,7 +23,7 @@
       "base": "/files"
     },
     "changes": {
-      "base": "/changes"
+      "base": "/korrekturen"
     }
   },
   "localStoragePrefix": "tsb",
@@ -63,13 +63,17 @@
       "url": "/nutzer",
       "roles": ["ADMIN"]
     }, {
-      "label": "Änderungen",
-      "url": "/changes",
+      "label": "Korrekturen",
+      "url": "/korrekturen",
       "roles": ["ADMIN"]
     }, {
       "label": "Einreichungen",
-      "url": "/submissions",
+      "url": "/einreichungen",
       "roles": ["ADMIN"]
+    }, {
+      "label": "Datenvisualisierung",
+      "url": "https://tsb-culture-map.netlify.com/",
+      "roles": ["ADMIN", "USER", "ANONYMOUS"]
     }
   ],
   "footer": {
@@ -126,7 +130,7 @@
     },
     "changes": {
       "name": "changes",
-      "label": "Änderungen",
+      "label": "Korrekturen",
       "table": {
         "columns": [{
             "key": "data.name",
