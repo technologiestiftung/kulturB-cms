@@ -23,7 +23,7 @@
       "base": "/files"
     },
     "changes": {
-      "base": "/korrekturen"
+      "base": "/changes"
     }
   },
   "localStoragePrefix": "tsb",
