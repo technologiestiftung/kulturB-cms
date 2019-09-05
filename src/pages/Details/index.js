@@ -85,7 +85,12 @@ class Details extends PureComponent {
     this.isCreateMode = props.isCreateMode;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.loadFullDetails();
+  }
+
+  async loadFullDetails() {
+    this.setState({ isLoading: true });
     const { data: tags } = await getTags();
 
     if (this.props.isCreateMode) {
@@ -93,6 +98,12 @@ class Details extends PureComponent {
     }
 
     this.loadDetails(tags);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.loadFullDetails();
+    }
   }
 
   onSubmit(evt, redirect) {
