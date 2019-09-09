@@ -9,10 +9,26 @@ const { TextArea } = Input;
 const MarginedButton = styled(Button)`
   margin: 10px;
 `;
+
+const InstructionsBox = styled.p`
+  padding-bottom: 15px;
+  margin-bottom: 0;
+  background-color: white;
+`;
+
+const Instructions = () => (
+  <InstructionsBox>
+    Um die Metadaten nutzen zu können,
+    müssen Sie diese in den Head-Bereich
+    Ihrer Webseite kopieren.
+  </InstructionsBox>
+);
+
 class MetadataCode extends PureComponent {
   render() {
     return (
       <Fragment>
+        <Instructions />
         <TextArea value={jsonld(this.props.location)} rows={20} readOnly />
         <CopyToClipboard
           text={jsonld(this.props.location)}

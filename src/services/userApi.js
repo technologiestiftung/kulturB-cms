@@ -122,7 +122,8 @@ export async function exportUsers() {
   const link = document.createElement('a');
   link.download = 'nutzer.csv';
   link.href = uri;
-  document.body.appendChild(link); // we need to append the element to the dom -> otherwise it will not work in firefox
+  // we need to append the element to the dom -> otherwise it will not work in firefox
+  document.body.appendChild(link);
   link.click();
   link.remove();
 }

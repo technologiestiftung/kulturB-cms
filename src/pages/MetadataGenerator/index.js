@@ -25,6 +25,7 @@ const FullHeightTabs = styled(Tabs)`
 `;
 
 const FullHeightCol = styled(Col)`
+  top: 32px;
   height: 100%;
 `;
 
@@ -83,7 +84,12 @@ class MetadataGenerator extends PureComponent {
     }
     const location = await getById(selectedLocation.value);
     location.tags = location.tags.map(tag => tag.name);
-    this.setState({ location, locationName: location.name, loading: false });
+    this.setState({
+      location,
+      fullLocation: location,
+      locationName: location.name,
+      loading: false
+    });
     history.replace(`/metadaten/${location._id}`);
   }
 
@@ -114,7 +120,7 @@ class MetadataGenerator extends PureComponent {
             <Divider />
             <MetadataForm
               ref={this.form}
-              location={location}
+              location={fullLocation || location}
               onValuesChange={
                 (changedValues, allValues, fullLoc) => this
                   .onValuesChange(changedValues, allValues, fullLoc)

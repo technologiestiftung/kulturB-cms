@@ -108,6 +108,26 @@ class Settings extends PureComponent {
               <p>
                 Achten Sie darauf, dass die Datei als Semikolon getrennt CSV Datei gespeichert wird.
               </p>
+              <p>
+                Um neue Nutzern anzulegen:
+              </p>
+              <ol>
+                <li> Nutzerliste exportieren </li>
+                <li> Spalten email, verified und organisation (_id) ausfüllen </li>
+                <li> Geänderte Nutzerliste importieren </li>
+                <li> Nutzerkennworter aus dem generierte File kopieren </li>
+              </ol>
+              <p>
+                Um bestehende Nutzern zu bearbeiten:
+              </p>
+              <ol>
+                <li> Nutzerliste exportieren </li>
+                <li> Betroffene Zeile ändern </li>
+                <li>
+                  Geänderte Liste (am besten bestehend
+                  aus nur die geänderte Zeilen) importieren
+                </li>
+              </ol>
               <Export type="user" />
               <Import
                 type="user"

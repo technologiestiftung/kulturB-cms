@@ -19,7 +19,12 @@
       "export": "/export",
       "import": "/import"
     },
-    "upload": "/files"
+    "upload": {
+      "base": "/files"
+    },
+    "changes": {
+      "base": "/changes"
+    }
   },
   "localStoragePrefix": "tsb",
   "types": [
@@ -57,6 +62,18 @@
       "label": "Nutzer",
       "url": "/nutzer",
       "roles": ["ADMIN"]
+    }, {
+      "label": "Korrekturen",
+      "url": "/korrekturen",
+      "roles": ["ADMIN"]
+    }, {
+      "label": "Einreichungen",
+      "url": "/einreichungen",
+      "roles": ["ADMIN"]
+    }, {
+      "label": "Datenvisualisierung",
+      "url": "https://tsb-culture-map.netlify.com/",
+      "roles": ["ADMIN", "USER", "ANONYMOUS"]
     }
   ],
   "footer": {
@@ -68,5 +85,83 @@
       "label": "Datenschutz",
       "url": "https://kultur-b-digital.de/datenschutz"
     }]
+  },
+  "tables": {
+    "locations": {
+      "name": "kulturorte",
+      "label": "Kulturorte",
+      "table": {
+        "columns": [{
+            "key": "name",
+            "title": "Name",
+            "dataIndex": "name",
+            "sorter": true
+          },
+          {
+            "title": "Kategorien",
+            "key": "tags",
+            "dataIndex": "tags",
+            "sorter": true
+          },
+          {
+            "key": "website",
+            "title": "Website",
+            "dataIndex": "website",
+            "sorter": true
+          },
+          {
+            "key": "types",
+            "title": "Typ",
+            "dataIndex": "types",
+            "sorter": true,
+            "filters": [{
+                "text": "Organisation",
+                "value": "organisation"
+              },
+              {
+                "text": "Venue",
+                "value": "venue"
+              }
+            ],
+            "filterMultiple": true
+          }
+        ]
+      }
+    },
+    "changes": {
+      "name": "korrekturen",
+      "label": "Korrekturen",
+      "table": {
+        "columns": [{
+            "key": "data.name",
+            "title": "Name",
+            "dataIndex": "name",
+            "sorter": true
+          },
+          {
+            "key": "data.website",
+            "title": "Website",
+            "dataIndex": "website",
+            "sorter": true
+          },
+          {
+            "key": "data.types",
+            "title": "Typ",
+            "dataIndex": "types",
+            "sorter": true,
+            "filters": [{
+                "text": "Organisation",
+                "value": "organisation"
+              },
+              {
+                "text": "Venue",
+                "value": "venue"
+              }
+            ],
+            "filterMultiple": true
+          }
+        ]
+      }
+    }
   }
 }
