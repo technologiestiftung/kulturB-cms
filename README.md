@@ -35,3 +35,8 @@ $ npm run build
 ## Data import/export
 
 The data is served by [technologiestiftung/kulturB-api](https://github.com/technologiestiftung/kulturB-cms) and can be imported or exported using the appropriate endpoints or the UI provided in the settings view (under `/einstellungen`).
+
+## See also
+
+* [technologiestiftung/kulturB-karte](https://github.com/technologiestiftung/kulturB-karte) - an interactive visualisation of the data managed by this cms
+* [technologiestiftung/kulturB-api](https://github.com/technologiestiftung/kulturB-api) - the api that drives the cms and map application
