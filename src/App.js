@@ -26,8 +26,17 @@ import submissionsApi from '~/services/submissionsApi';
 
 const { tables } = config;
 
-const PrivateRoute = ({ component: Component, render, token = false, ...rest }) => {
-  let renderComponent = props => <Redirect to={{ pathname: '/login', state: { from: props.location }}} />;
+const PrivateRoute = ({
+  component: Component,
+  render,
+  token = false,
+  ...rest
+}) => {
+  let renderComponent = props => (
+    <Redirect
+      to={{ pathname: '/login', state: { from: props.location } }}
+    />
+  );
 
   if (token && render) {
     renderComponent = render;
