@@ -123,6 +123,7 @@ class Details extends PureComponent {
           this.isCreateMode = false;
           const res = await create(actions[type].create, actions.submissions.create, values, token);
           form.setFieldsValue(res);
+          history.push('/');
           return this.setState({ item: res });
         }
 
@@ -137,6 +138,7 @@ class Details extends PureComponent {
             );
 
             await actions.changes.remove(match.params.id);
+            history.push('/');
             return this.setState({ item: res });
           }
 
@@ -147,6 +149,7 @@ class Details extends PureComponent {
             token
           );
           await actions.submissions.remove(item.id);
+          history.push('/');
           return this.setState({ item: res });
         }
         const res = await update(
