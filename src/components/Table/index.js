@@ -13,6 +13,11 @@ const TableWrapper = styled.div`
   background: white;
 
   .ant-table-wrapper {
+    .ant-table-row {
+      min-height: 100px;
+      height: 100px;
+    }
+
     .ant-table-pagination {
       margin: 16px;
     }

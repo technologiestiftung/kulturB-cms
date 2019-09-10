@@ -101,13 +101,16 @@
             "title": "Kategorien",
             "key": "tags",
             "dataIndex": "tags",
-            "sorter": true
+            "sorter": true,
+            "width": 200
           },
           {
             "key": "website",
             "title": "Website",
             "dataIndex": "website",
-            "sorter": true
+            "sorter": true,
+            "width": 400
+
           },
           {
             "key": "types",
@@ -123,7 +126,9 @@
                 "value": "venue"
               }
             ],
-            "filterMultiple": true
+            "filterMultiple": true,
+            "width": 200
+
           }
         ]
       }
