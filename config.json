@@ -89,7 +89,7 @@
   "tables": {
     "locations": {
       "name": "kulturorte",
-      "label": "Kulturorte",
+      "labels": ["Kulturort", "Kulturorte"],
       "table": {
         "columns": [{
             "key": "name",
@@ -135,7 +135,7 @@
     },
     "changes": {
       "name": "korrekturen",
-      "label": "Korrekturen",
+      "labels": ["Korrektur", "korrekturen"],
       "table": {
         "columns": [{
             "key": "data.name",

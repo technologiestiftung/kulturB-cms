@@ -8,26 +8,26 @@ import HeaderArea from '~/components/HeaderArea';
 import Button from '~/components/Button';
 
 const Overview = ({
-  actions, user, config
+  actions, user, config: { name, table, labels: [labelSing, labelPl] }
 }) => (
   <Container>
     <HeaderArea>
-      <h1>{config.label} Übersicht</h1>
+      <h1>{labelPl} Übersicht</h1>
       <Button
         type="primary"
         icon="plus"
         style={{ marginLeft: 'auto' }}
-        onClick={() => history.push(`/${config.name}/neu`)}
+        onClick={() => history.push(`/${name}/neu`)}
       >
-        <span>Neuen {config.label} anlegen</span>
+        <span>Neuen {labelSing} anlegen</span>
       </Button>
     </HeaderArea>
     <Table
       get={actions.get}
       remove={actions.remove}
       search={actions.search}
-      columns={config.table.columns}
-      itemIdentifier={config.name}
+      columns={table.columns}
+      itemIdentifier={name}
       user={user}
     />
   </Container>

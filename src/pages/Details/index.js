@@ -329,7 +329,8 @@ class Details extends PureComponent {
     } = this.state;
 
     const [typeName] = Object.keys(tableConfig);
-    const { label } = tableConfig[typeName];
+    const { labels } = tableConfig[typeName];
+    const [label] = labels;
     const title = isCreateMode ? 'anlegen' : 'bearbeiten';
     const entry = item.data ? item.data : item;
 
