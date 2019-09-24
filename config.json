@@ -72,7 +72,7 @@
       "roles": ["ADMIN"]
     }, {
       "label": "Datenvisualisierung",
-      "url": "https://tsb-culture-map.netlify.com/",
+      "url": "https://kultur-b-digital-karte.netlify.com",
       "roles": ["ADMIN", "USER", "ANONYMOUS"]
     }
   ],
