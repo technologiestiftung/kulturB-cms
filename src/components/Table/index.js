@@ -5,6 +5,7 @@ import { Table, Tag } from 'antd';
 import history from '~/history';
 import DeleteModal from '~/components/DeleteModal';
 import SearchBar from '~/components/SearchBar';
+import Button from '~/components/Button';
 
 const { Column } = Table;
 
@@ -23,6 +24,11 @@ const TableWrapper = styled.div`
     }
   }
 `;
+
+const goToPreview = (evt, id) => {
+  evt.stopPropagation();
+  history.push(`/vorschau/${id}`);
+};
 
 const renderColumn = (col) => {
   const column = col;
@@ -143,7 +149,7 @@ class PaginationTable extends PureComponent {
   }
 
   render() {
-    const { columns, user } = this.props;
+    const { columns, user, itemIdentifier } = this.props;
     const isAdmin = user && user.role === 'ADMIN';
 
     return (
@@ -176,6 +182,18 @@ class PaginationTable extends PureComponent {
                     item={item}
                     remove={this.props.remove}
                     fetch={this.fetch}
+                  />
+                )}
+              />
+            )}
+            {itemIdentifier === 'korrekturen' && (
+              <Column
+                key="action"
+                title="Vorschau"
+                render={item => (
+                  <Button
+                    icon="eye"
+                    onClick={evt => goToPreview(evt, item.id)}
                   />
                 )}
               />
