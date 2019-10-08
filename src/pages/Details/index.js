@@ -36,7 +36,13 @@ const create = async (createEntry, createSubmission, data, token) => {
   if (token) {
     res = await createEntry(data);
   } else {
-    res = await createSubmission({ data });
+    const params = { data };
+    if (data.meta) {
+      params.meta = data.meta;
+      delete data.meta;
+    }
+
+    res = await createSubmission(params);
   }
   if (!res.id) return renderErrorMessage();
 
@@ -55,8 +61,17 @@ const update = async (updateEntry, createChange, data, venueList, item, id, toke
   if (token) {
     res = await updateEntry(id, updates);
   } else {
+    const meta = {
+      organisation: item.id
+    };
+
+    if (data.meta) {
+      Object.assign(meta, data.meta);
+      delete data.meta;
+    }
+
     res = await createChange({
-      meta: { organisation: item.id },
+      meta,
       data
     });
   }

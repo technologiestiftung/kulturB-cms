@@ -148,6 +148,22 @@ class LocationForm extends PureComponent {
     );
   }
 
+  componentWillMount() {
+    const { token } = this.props;
+    if (!token) {
+      formItems.unshift({
+        name: 'meta.email',
+        label: 'Email',
+        rules: [{
+          required: true,
+          message: 'Bitte Email angeben',
+          whitespace: true,
+          type: 'email'
+        }]
+      });
+    }
+  }
+
   render() {
     return (
       <Form onSubmit={evt => this.props.onSubmit(evt)} layout="horizontal">
