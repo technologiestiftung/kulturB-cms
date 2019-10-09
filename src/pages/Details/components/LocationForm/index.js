@@ -69,6 +69,24 @@ class LocationForm extends PureComponent {
     const { getFieldDecorator } = this.props.form;
     const fieldDecoratorOptions = this.getItemFieldDecoratorOptions(item);
 
+    const { diff } = this.props;
+    let validateStatus;
+    if (diff) {
+      if (item.type === 'multipleinput') {
+        item.children.map((child) => {
+          const res = child;
+          if (diff.find(d => d.path === `/${child.name.replace(/\./g, '/')}`)) {
+            res.validateStatus = 'warning';
+          }
+          return res;
+        });
+      }
+      const found = diff.find(d => d.path.includes(item.name));
+      if (found) {
+        validateStatus = 'warning';
+      }
+    }
+
     if (item.type === 'venues') {
       return (
         <VenuesInput
@@ -90,6 +108,7 @@ class LocationForm extends PureComponent {
         <FormItem
           key={item.name}
           label={item.label}
+          validateStatus={validateStatus}
           {...this.props.formItemLayout}
         >
           <OpeningHoursInput
@@ -123,7 +142,7 @@ class LocationForm extends PureComponent {
             }
 
             return (
-              <FormItem {...props}>
+              <FormItem {...props} validateStatus={child.validateStatus}>
                 {getFieldDecorator(child.name, fieldDecoratorOpts)(
                   this.props.getInputComponent(child.type, child.label)
                 )}
@@ -139,6 +158,7 @@ class LocationForm extends PureComponent {
       <FormItem
         key={item.name}
         label={item.label}
+        validateStatus={validateStatus}
         {...this.props.formItemLayout}
       >
         {getFieldDecorator(item.name, fieldDecoratorOptions)(

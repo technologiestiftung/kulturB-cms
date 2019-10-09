@@ -81,8 +81,14 @@ class MetadataGenerator extends PureComponent {
         loading: false
       });
     }
+
     let location = await this.props.actions.getById(selectedLocation.value);
-    if (location.meta && location.data) location = location.data;
+    if (location.meta && location.data) {
+      const id = location._id;
+      location = location.data;
+      location._id = id;
+    }
+
     location.tags = location.tags.map(tag => tag.name);
     this.setState({
       location,

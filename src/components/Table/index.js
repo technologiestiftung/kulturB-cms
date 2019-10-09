@@ -25,11 +25,6 @@ const TableWrapper = styled.div`
   }
 `;
 
-const goToPreview = (evt, id) => {
-  evt.stopPropagation();
-  history.push(`/vorschau/${id}`);
-};
-
 const renderColumn = (col) => {
   const column = col;
   if (column.key === 'tags') {
@@ -191,10 +186,16 @@ class PaginationTable extends PureComponent {
                 key="action"
                 title="Vorschau"
                 render={item => (
-                  <Button
-                    icon="eye"
-                    onClick={evt => goToPreview(evt, item.id)}
-                  />
+                  <a
+                    href={`/vorschau/${item.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={evt => evt.stopPropagation()}
+                  >
+                    <Button
+                      icon="eye"
+                    />
+                  </a>
                 )}
               />
             )}
