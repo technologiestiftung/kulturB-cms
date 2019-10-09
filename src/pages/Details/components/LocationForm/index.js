@@ -185,35 +185,45 @@ class LocationForm extends PureComponent {
   }
 
   render() {
+    const {
+      onSubmit,
+      onUploadChange,
+      onImageRemove,
+      item,
+      token,
+      isCreateMode,
+      controls,
+    } = this.props;
+
     return (
-      <Form onSubmit={evt => this.props.onSubmit(evt)} layout="horizontal">
+      <Form onSubmit={evt => onSubmit(evt)} layout="horizontal">
         <Upload
-          token={this.props.token}
-          onUploadChange={this.props.onUploadChange}
-          onImageRemove={this.props.onImageRemove}
-          id={this.props.item.id}
-          image={this.props.item.logo}
-          isCreateMode={this.props.isCreateMode}
+          token={token}
+          onUploadChange={onUploadChange}
+          onImageRemove={onImageRemove}
+          id={item.id}
+          image={item.logo}
+          isCreateMode={isCreateMode}
           type="logo"
         />
         <Upload
-          token={this.props.token}
-          onUploadChange={this.props.onUploadChange}
-          onImageRemove={this.props.onImageRemove}
-          id={this.props.item.id}
-          image={this.props.item.teaser}
-          isCreateMode={this.props.isCreateMode}
+          token={token}
+          onUploadChange={onUploadChange}
+          onImageRemove={onImageRemove}
+          id={item.id}
+          image={item.teaser}
+          isCreateMode={isCreateMode}
           type="teaser"
         />
-        {formItems.map(item => this.renderItem(item))}
-        {this.props.item.location && (
+        {formItems.map(i => this.renderItem(i))}
+        {item.location && (
           <Map
             updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
-            id={this.props.item.id}
-            location={this.props.item.location}
+            id={item.id}
+            location={item.location}
           />
         )}
-        {this.props.controls}
+        {controls}
       </Form>
     );
   }

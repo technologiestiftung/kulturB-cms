@@ -136,7 +136,7 @@
     },
     "changes": {
       "name": "korrekturen",
-      "labels": ["Korrektur", "korrekturen"],
+      "labels": ["Korrektur", "Korrekturen"],
       "table": {
         "columns": [{
             "key": "data.name",
