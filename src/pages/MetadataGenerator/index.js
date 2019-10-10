@@ -64,8 +64,10 @@ class MetadataGenerator extends PureComponent {
   }
 
   async componentWillMount() {
-    const { data: locations } = await this.props.actions.get({ limit: 0, fields: ['_id', 'name'] });
-    this.setState({ locations });
+    if (this.props.actions) {
+      const { data: locations } = await this.props.actions.get({ limit: 0, fields: ['_id', 'name'] });
+      this.setState({ locations });
+    }
   }
 
   async selectLocation(selectedLocation) {

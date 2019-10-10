@@ -11,6 +11,18 @@ import Upload from '~/pages/Details/components/Upload';
 import formItems from '~/pages/Details/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
 
+const WarningWrapper = styled.div`
+  border: 1px solid #faad14;
+  padding: 5px;
+  margin: 2px;
+
+  > .ant-form-item {
+    width: 100% !important;
+  }
+`;
+
+const ConditionalWrap = ({condition, wrap, children}) => condition ? wrap(children) : children;
+
 const FormItemMultiple = styled(FormItem)`
   .ant-form-item-children {
     display: flex;
@@ -70,20 +82,20 @@ class LocationForm extends PureComponent {
     const fieldDecoratorOptions = this.getItemFieldDecoratorOptions(item);
 
     const { diff } = this.props;
-    let validateStatus;
+    let hasChanged;
     if (diff) {
       if (item.type === 'multipleinput') {
         item.children.map((child) => {
           const res = child;
           if (diff.find(d => d.path === `/${child.name.replace(/\./g, '/')}`)) {
-            res.validateStatus = 'warning';
+            child.hasChanged = 'warning';
           }
           return res;
         });
       }
       const found = diff.find(d => d.path.includes(item.name));
       if (found) {
-        validateStatus = 'warning';
+        hasChanged = 'warning';
       }
     }
 
@@ -108,7 +120,7 @@ class LocationForm extends PureComponent {
         <FormItem
           key={item.name}
           label={item.label}
-          validateStatus={validateStatus}
+          validateStatus={hasChanged}
           {...this.props.formItemLayout}
         >
           <OpeningHoursInput
@@ -142,11 +154,16 @@ class LocationForm extends PureComponent {
             }
 
             return (
-              <FormItem {...props} validateStatus={child.validateStatus}>
-                {getFieldDecorator(child.name, fieldDecoratorOpts)(
-                  this.props.getInputComponent(child.type, child.label)
-                )}
-              </FormItem>
+              <ConditionalWrap
+                condition={!!child.hasChanged}
+                wrap={children => <WarningWrapper>{children}</WarningWrapper>}
+              >
+                <FormItem {...props}>
+                  {getFieldDecorator(child.name, fieldDecoratorOpts)(
+                    this.props.getInputComponent(child.type, child.label)
+                  )}
+                </FormItem>
+              </ConditionalWrap>
             );
           })}
           <Divider />
@@ -158,7 +175,7 @@ class LocationForm extends PureComponent {
       <FormItem
         key={item.name}
         label={item.label}
-        validateStatus={validateStatus}
+        validateStatus={hasChanged}
         {...this.props.formItemLayout}
       >
         {getFieldDecorator(item.name, fieldDecoratorOptions)(

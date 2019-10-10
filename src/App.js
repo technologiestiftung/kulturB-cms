@@ -93,11 +93,11 @@ class App extends PureComponent {
               <PrivateRoute token={this.props.token} path="/nutzer/neu" exact isCreateMode component={User} />
               <PrivateRoute token={this.props.token} path="/nutzer/:id" component={User} />
               <PrivateRoute {...this.props} path="/nutzer" component={UsersOverview} />
-              <PrivateRoute {...this.props} path="/korrekturen/:id" component={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
+              <PrivateRoute {...this.props} path="/korrekturen/:id" render={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
               <PrivateRoute {...this.props} path="/korrekturen" render={() => <Overview {...this.props} actions={api.changes} config={changes} />} />
               <PrivateRoute {...this.props} path="/einreichungen/:id" component={props => <Details actions={api} config={{ changes }} {...props} {...this.props} />} />
               <PrivateRoute {...this.props} path="/einreichungen" component={() => <Overview {...this.props} actions={api.submissions} config={changes} />} />
-              <PrivateRoute {...this.props} path="/vorschau/:id" component={props => <MetadataGenerator actions={api.changes} config={{ name: 'vorschau' }} {...props} {...this.props} />} />
+              <PrivateRoute {...this.props} path="/vorschau/:id" render={props => <MetadataGenerator actions={api.changes} config={{ name: 'vorschau' }} {...props} {...this.props} />} />
               <PrivateRoute token={this.props.token} path="*" component={NoMatch} />
             </Switch>
           </Content>
