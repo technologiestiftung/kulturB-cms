@@ -168,22 +168,6 @@ class LocationForm extends PureComponent {
     );
   }
 
-  componentWillMount() {
-    const { token } = this.props;
-    if (!token) {
-      formItems.unshift({
-        name: 'meta.email',
-        label: 'Email',
-        rules: [{
-          required: true,
-          message: 'Bitte Email angeben',
-          whitespace: true,
-          type: 'email'
-        }]
-      });
-    }
-  }
-
   render() {
     const {
       onSubmit,
@@ -194,6 +178,17 @@ class LocationForm extends PureComponent {
       isCreateMode,
       controls,
     } = this.props;
+
+    const formItemsExtended = token ? formItems : [{
+      name: 'meta.email',
+      label: 'Email',
+      rules: [{
+        required: true,
+        message: 'Bitte Email angeben',
+        whitespace: true,
+        type: 'email'
+      }]
+    }, ...formItems];
 
     return (
       <Form onSubmit={evt => onSubmit(evt)} layout="horizontal">
@@ -215,7 +210,7 @@ class LocationForm extends PureComponent {
           isCreateMode={isCreateMode}
           type="teaser"
         />
-        {formItems.map(i => this.renderItem(i))}
+        {formItemsExtended.map(i => this.renderItem(i))}
         {item.location && (
           <Map
             updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
