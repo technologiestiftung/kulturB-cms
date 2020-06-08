@@ -54,7 +54,7 @@
   "dependencies": {
     "@babel/polyfill": "7.0.0",
     "antd": "3.13.2",
-    "cropperjs": "1.5.1",
+    "cropperjs": "1.5.7",
     "history": "4.7.2",
     "leaflet": "1.4.0",
     "moment": "2.24.0",
