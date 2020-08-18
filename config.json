@@ -182,7 +182,7 @@
     },
     {
       "label": "Datenvisualisierung",
-      "url": "https://kultur-b-digital-karte.netlify.com",
+      "url": "https://kulturb-karte.netlify.com",
       "roles": ["ADMIN", "USER", "ANONYMOUS"]
     }
   ],
