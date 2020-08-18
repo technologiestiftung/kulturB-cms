@@ -5,7 +5,7 @@
     "robots": "noindex,nofollow"
   },
   "url": {
-    "base": "https://tsb-metadata-generator.herokuapp.com/api/v1",
+    "base": "https://tsb-kulturb-api.herokuapp.com/api/v1",
     "locations": {
       "base": "/locations",
       "export": "/export",
@@ -28,16 +28,122 @@
   },
   "localStoragePrefix": "tsb",
   "types": [
-    {"label": "organisation", "value": "organisation"},
-    {"label": "venue", "value": "venue"}
+    { "label": "organisation", "value": "organisation" },
+    { "label": "venue", "value": "venue" }
   ],
   "accessibility": [
-    {"label": "Ja", "value": "yes"},
-    {"label": "Nein", "value": "no"},
-    {"label": "Teilweise", "value": "limited"},
-    {"label": "Unbekannt", "value": "unknown"}
+    { "label": "Ja", "value": "yes" },
+    { "label": "Nein", "value": "no" },
+    { "label": "Teilweise", "value": "limited" },
+    { "label": "Unbekannt", "value": "unknown" }
   ],
-  "languages": ["Dari","Paschtu","Arabisch","Albanisch","Französisch","Katalanisch","Portugiesisch","Englisch","Spanisch","Armenisch","Russisch","Aserbaidschanisch","Amharisch","Bengalisch","Niederländisch","Bhutanisch","Bosnisch","Tsuana","Malaiisch","Bulgarisch","Kirundi","Chinesisch","Dänisch","Tigrinja","Estnisch","Fidschianisch","Finnisch","Schwedisch","Georgisch","Griechisch","Haitianisch","Hindi","Indonesisch","Kurdisch","Persisch","Irisch","Isländisch","Hebräisch","Italienisch","Japanisch","Kambodschanisch","Kasachisch","Suaheli","Kirgisisch","Gilbertesisch","Koreanisch","Serbisch","Kroatisch","Laotisch","Sotho","Lettisch","Deutsch","Litauisch","Madagassisch","Chichewa","Maledivisch","Maltesisch","Marshallesisch","Mazedonisch","Rumänisch","Mongolisch","Montenegrinisch","Birmanisch","Nauruisch","Nepalesisch","Maori","Norwegisch","Urdu","Palauisch","Guaraní","Filipino (Tagalog)","Polnisch","Samoanisch","Rätoromanisch","Tamilisch","Slowakisch","Slowenisch","Somali","Singhalesisch","Afrikaans","Ndebele","Nordsotho","Südsotho","Swasi","Tsonga","Venda","Xhosa","Zulu","Tadschikisch","Thailändisch","Tetum","Tongaisch","Tschechisch","Türkisch","Turkmenisch","Tuvalu(isch)","Ukrainisch","Ungarisch","Usbekisch","Bislama","Lateinisch","Northern Ireland","Vietnamesisch","Weißrussisch","Sango"],
+  "languages": [
+    "Dari",
+    "Paschtu",
+    "Arabisch",
+    "Albanisch",
+    "Französisch",
+    "Katalanisch",
+    "Portugiesisch",
+    "Englisch",
+    "Spanisch",
+    "Armenisch",
+    "Russisch",
+    "Aserbaidschanisch",
+    "Amharisch",
+    "Bengalisch",
+    "Niederländisch",
+    "Bhutanisch",
+    "Bosnisch",
+    "Tsuana",
+    "Malaiisch",
+    "Bulgarisch",
+    "Kirundi",
+    "Chinesisch",
+    "Dänisch",
+    "Tigrinja",
+    "Estnisch",
+    "Fidschianisch",
+    "Finnisch",
+    "Schwedisch",
+    "Georgisch",
+    "Griechisch",
+    "Haitianisch",
+    "Hindi",
+    "Indonesisch",
+    "Kurdisch",
+    "Persisch",
+    "Irisch",
+    "Isländisch",
+    "Hebräisch",
+    "Italienisch",
+    "Japanisch",
+    "Kambodschanisch",
+    "Kasachisch",
+    "Suaheli",
+    "Kirgisisch",
+    "Gilbertesisch",
+    "Koreanisch",
+    "Serbisch",
+    "Kroatisch",
+    "Laotisch",
+    "Sotho",
+    "Lettisch",
+    "Deutsch",
+    "Litauisch",
+    "Madagassisch",
+    "Chichewa",
+    "Maledivisch",
+    "Maltesisch",
+    "Marshallesisch",
+    "Mazedonisch",
+    "Rumänisch",
+    "Mongolisch",
+    "Montenegrinisch",
+    "Birmanisch",
+    "Nauruisch",
+    "Nepalesisch",
+    "Maori",
+    "Norwegisch",
+    "Urdu",
+    "Palauisch",
+    "Guaraní",
+    "Filipino (Tagalog)",
+    "Polnisch",
+    "Samoanisch",
+    "Rätoromanisch",
+    "Tamilisch",
+    "Slowakisch",
+    "Slowenisch",
+    "Somali",
+    "Singhalesisch",
+    "Afrikaans",
+    "Ndebele",
+    "Nordsotho",
+    "Südsotho",
+    "Swasi",
+    "Tsonga",
+    "Venda",
+    "Xhosa",
+    "Zulu",
+    "Tadschikisch",
+    "Thailändisch",
+    "Tetum",
+    "Tongaisch",
+    "Tschechisch",
+    "Türkisch",
+    "Turkmenisch",
+    "Tuvalu(isch)",
+    "Ukrainisch",
+    "Ungarisch",
+    "Usbekisch",
+    "Bislama",
+    "Lateinisch",
+    "Northern Ireland",
+    "Vietnamesisch",
+    "Weißrussisch",
+    "Sango"
+  ],
   "nav": [
     {
       "label": "Kulturorte",
@@ -58,19 +164,23 @@
       "label": "Einstellungen",
       "url": "/einstellungen",
       "roles": ["ADMIN", "USER"]
-    }, {
+    },
+    {
       "label": "Nutzer",
       "url": "/nutzer",
       "roles": ["ADMIN"]
-    }, {
+    },
+    {
       "label": "Korrekturen",
       "url": "/korrekturen",
       "roles": ["ADMIN"]
-    }, {
+    },
+    {
       "label": "Einreichungen",
       "url": "/einreichungen",
       "roles": ["ADMIN"]
-    }, {
+    },
+    {
       "label": "Datenvisualisierung",
       "url": "https://kultur-b-digital-karte.netlify.com",
       "roles": ["ADMIN", "USER", "ANONYMOUS"]
@@ -78,20 +188,24 @@
   ],
   "footer": {
     "text": "© 2019 Technologiestiftung Berlin ",
-    "nav": [{
-      "label": "Impressum",
-      "url": "https://kultur-b-digital.de/impressum"
-    }, {
-      "label": "Datenschutz",
-      "url": "https://kultur-b-digital.de/datenschutz"
-    }]
+    "nav": [
+      {
+        "label": "Impressum",
+        "url": "https://kultur-b-digital.de/impressum"
+      },
+      {
+        "label": "Datenschutz",
+        "url": "https://kultur-b-digital.de/datenschutz"
+      }
+    ]
   },
   "tables": {
     "locations": {
       "name": "kulturorte",
       "labels": ["Kulturort", "Kulturorte"],
       "table": {
-        "columns": [{
+        "columns": [
+          {
             "key": "name",
             "title": "Name",
             "dataIndex": "name",
@@ -110,14 +224,14 @@
             "dataIndex": "website",
             "sorter": true,
             "width": 400
-
           },
           {
             "key": "types",
             "title": "Typ",
             "dataIndex": "types",
             "sorter": true,
-            "filters": [{
+            "filters": [
+              {
                 "text": "Organisation",
                 "value": "organisation"
               },
@@ -128,7 +242,6 @@
             ],
             "filterMultiple": true,
             "width": 200
-
           }
         ]
       }
@@ -137,7 +250,8 @@
       "name": "korrekturen",
       "labels": ["Korrektur", "korrekturen"],
       "table": {
-        "columns": [{
+        "columns": [
+          {
             "key": "data.name",
             "title": "Name",
             "dataIndex": "name",
@@ -154,7 +268,8 @@
             "title": "Typ",
             "dataIndex": "types",
             "sorter": true,
-            "filters": [{
+            "filters": [
+              {
                 "text": "Organisation",
                 "value": "organisation"
               },
