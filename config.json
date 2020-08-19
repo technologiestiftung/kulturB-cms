@@ -5,7 +5,7 @@
     "robots": "noindex,nofollow"
   },
   "url": {
-    "base": "https://tsb-kulturb-api.herokuapp.com/api/v1",
+    "base": "https://kulturb-api-v1.herokuapp.com/api/v1",
     "locations": {
       "base": "/locations",
       "export": "/export",
