@@ -36,7 +36,13 @@ const create = async (createEntry, createSubmission, data, token) => {
   if (token) {
     res = await createEntry(data);
   } else {
-    res = await createSubmission({ data });
+    const params = { data };
+    if (data.meta) {
+      params.meta = data.meta;
+      delete data.meta;
+    }
+
+    res = await createSubmission(params);
   }
   if (!res.id) return renderErrorMessage();
 
@@ -55,8 +61,17 @@ const update = async (updateEntry, createChange, data, venueList, item, id, toke
   if (token) {
     res = await updateEntry(id, updates);
   } else {
+    const meta = {
+      organisation: item.id
+    };
+
+    if (data.meta) {
+      Object.assign(meta, data.meta);
+      delete data.meta;
+    }
+
     res = await createChange({
-      meta: { organisation: item.id },
+      meta,
       data
     });
   }
@@ -129,7 +144,7 @@ class Details extends PureComponent {
 
         const { item, meta, venueList } = this.state;
         if (type === 'changes' && role === 'ADMIN') {
-          if (meta && meta.organisation && meta.organisation.id) {
+          if (meta && meta.organisation) {
             const res = await update(
               actions.locations.update, actions.locations.create,
               values,
@@ -284,7 +299,11 @@ class Details extends PureComponent {
       const [type] = Object.keys(config);
       let item = await actions[type].getById(id);
       if (item.meta && item.data) {
-        this.setState({ meta: item.meta });
+        const diff = await actions.changes.diff(id);
+        this.setState({
+          meta: item.meta,
+          diff
+         });
         item = item.data;
       }
 
@@ -328,7 +347,8 @@ class Details extends PureComponent {
       item,
       venueList,
       venueAutoCompleteList,
-      venuesAutoCompleteValue
+      venuesAutoCompleteValue,
+      diff
     } = this.state;
 
     const [typeName] = Object.keys(tableConfig);
@@ -368,6 +388,7 @@ class Details extends PureComponent {
               token={token}
               item={entry}
               isCreateMode={isCreateMode}
+              diff={diff}
               controls={(
                 <SubmissionControls
                   label={label}

@@ -11,6 +11,18 @@ import Upload from '~/pages/Details/components/Upload';
 import formItems from '~/pages/Details/form-items-config';
 import OpeningHoursInput from '../OpeningHoursInput';
 
+const WarningWrapper = styled.div`
+  border: 1px solid #faad14;
+  padding: 5px;
+  margin: 2px;
+
+  > .ant-form-item {
+    width: 100% !important;
+  }
+`;
+
+const ConditionalWrap = ({condition, wrap, children}) => condition ? wrap(children) : children;
+
 const FormItemMultiple = styled(FormItem)`
   .ant-form-item-children {
     display: flex;
@@ -69,6 +81,24 @@ class LocationForm extends PureComponent {
     const { getFieldDecorator } = this.props.form;
     const fieldDecoratorOptions = this.getItemFieldDecoratorOptions(item);
 
+    const { diff } = this.props;
+    let hasChanged;
+    if (diff) {
+      if (item.type === 'multipleinput') {
+        item.children.map((child) => {
+          const res = child;
+          if (diff.find(d => d.path === `/${child.name.replace(/\./g, '/')}`)) {
+            child.hasChanged = 'warning';
+          }
+          return res;
+        });
+      }
+      const found = diff.find(d => d.path.includes(item.name));
+      if (found) {
+        hasChanged = 'warning';
+      }
+    }
+
     if (item.type === 'venues') {
       return (
         <VenuesInput
@@ -90,6 +120,7 @@ class LocationForm extends PureComponent {
         <FormItem
           key={item.name}
           label={item.label}
+          validateStatus={hasChanged}
           {...this.props.formItemLayout}
         >
           <OpeningHoursInput
@@ -123,11 +154,16 @@ class LocationForm extends PureComponent {
             }
 
             return (
-              <FormItem {...props}>
-                {getFieldDecorator(child.name, fieldDecoratorOpts)(
-                  this.props.getInputComponent(child.type, child.label)
-                )}
-              </FormItem>
+              <ConditionalWrap
+                condition={!!child.hasChanged}
+                wrap={children => <WarningWrapper>{children}</WarningWrapper>}
+              >
+                <FormItem {...props}>
+                  {getFieldDecorator(child.name, fieldDecoratorOpts)(
+                    this.props.getInputComponent(child.type, child.label)
+                  )}
+                </FormItem>
+              </ConditionalWrap>
             );
           })}
           <Divider />
@@ -139,6 +175,7 @@ class LocationForm extends PureComponent {
       <FormItem
         key={item.name}
         label={item.label}
+        validateStatus={hasChanged}
         {...this.props.formItemLayout}
       >
         {getFieldDecorator(item.name, fieldDecoratorOptions)(
@@ -149,35 +186,56 @@ class LocationForm extends PureComponent {
   }
 
   render() {
+    const {
+      onSubmit,
+      onUploadChange,
+      onImageRemove,
+      item,
+      token,
+      isCreateMode,
+      controls,
+    } = this.props;
+
+    const formItemsExtended = token ? formItems : [{
+      name: 'meta.email',
+      label: 'Email',
+      rules: [{
+        required: true,
+        message: 'Bitte Email angeben',
+        whitespace: true,
+        type: 'email'
+      }]
+    }, ...formItems];
+
     return (
-      <Form onSubmit={evt => this.props.onSubmit(evt)} layout="horizontal">
+      <Form onSubmit={evt => onSubmit(evt)} layout="horizontal">
         <Upload
-          token={this.props.token}
-          onUploadChange={this.props.onUploadChange}
-          onImageRemove={this.props.onImageRemove}
-          id={this.props.item.id}
-          image={this.props.item.logo}
-          isCreateMode={this.props.isCreateMode}
+          token={token}
+          onUploadChange={onUploadChange}
+          onImageRemove={onImageRemove}
+          id={item.id}
+          image={item.logo}
+          isCreateMode={isCreateMode}
           type="logo"
         />
         <Upload
-          token={this.props.token}
-          onUploadChange={this.props.onUploadChange}
-          onImageRemove={this.props.onImageRemove}
-          id={this.props.item.id}
-          image={this.props.item.teaser}
-          isCreateMode={this.props.isCreateMode}
+          token={token}
+          onUploadChange={onUploadChange}
+          onImageRemove={onImageRemove}
+          id={item.id}
+          image={item.teaser}
+          isCreateMode={isCreateMode}
           type="teaser"
         />
-        {formItems.map(item => this.renderItem(item))}
-        {this.props.item.location && (
+        {formItemsExtended.map(i => this.renderItem(i))}
+        {item.location && (
           <Map
             updatePosition={(lat, lng) => this.props.updatePosition(lat, lng)}
-            id={this.props.item.id}
-            location={this.props.item.location}
+            id={item.id}
+            location={item.location}
           />
         )}
-        {this.props.controls}
+        {controls}
       </Form>
     );
   }

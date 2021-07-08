@@ -10,7 +10,6 @@ import MetadataForm from './components/MetadataForm';
 import MetadataPreview from './components/Preview';
 import MetadataCode from './components/Code';
 import LocationSelect from './components/LocationSelect';
-import { get, getById } from '~/services/locationApi';
 import history from '~/history';
 
 
@@ -65,8 +64,10 @@ class MetadataGenerator extends PureComponent {
   }
 
   async componentWillMount() {
-    const { data: locations } = await get({ limit: 0, fields: ['_id', 'name'] });
-    this.setState({ locations });
+    if (this.props.actions) {
+      const { data: locations } = await this.props.actions.get({ limit: 0, fields: ['_id', 'name'] });
+      this.setState({ locations });
+    }
   }
 
   async selectLocation(selectedLocation) {
@@ -82,7 +83,14 @@ class MetadataGenerator extends PureComponent {
         loading: false
       });
     }
-    const location = await getById(selectedLocation.value);
+
+    let location = await this.props.actions.getById(selectedLocation.value);
+    if (location.meta && location.data) {
+      const id = location._id;
+      location = location.data;
+      location._id = id;
+    }
+
     location.tags = location.tags.map(tag => tag.name);
     this.setState({
       location,
@@ -90,7 +98,8 @@ class MetadataGenerator extends PureComponent {
       locationName: location.name,
       loading: false
     });
-    history.replace(`/metadaten/${location._id}`);
+
+    history.replace(`/${this.props.config.name}/${location._id}`);
   }
 
   onValuesChange(changedValues, location, fullLocation) {

@@ -13,14 +13,16 @@ const Overview = ({
   <Container>
     <HeaderArea>
       <h1>{labelPl} Übersicht</h1>
-      <Button
-        type="primary"
-        icon="plus"
-        style={{ marginLeft: 'auto' }}
-        onClick={() => history.push(`/${name}/neu`)}
-      >
-        <span>Neuen {labelSing} anlegen</span>
-      </Button>
+      {(name === 'kulturorte') && (
+        <Button
+          type="primary"
+          icon="plus"
+          style={{ marginLeft: 'auto' }}
+          onClick={() => history.push(`/${name}/neu`)}
+        >
+          <span>Neuen {labelSing} anlegen</span>
+        </Button>
+      )}
     </HeaderArea>
     <Table
       get={actions.get}

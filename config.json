@@ -23,7 +23,8 @@
       "base": "/files"
     },
     "changes": {
-      "base": "/changes"
+      "base": "/changes",
+      "diff": "/diff"
     }
   },
   "localStoragePrefix": "tsb",
@@ -248,7 +249,7 @@
     },
     "changes": {
       "name": "korrekturen",
-      "labels": ["Korrektur", "korrekturen"],
+      "labels": ["Korrektur", "Korrekturen"],
       "table": {
         "columns": [
           {

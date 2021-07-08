@@ -5,6 +5,7 @@ import { Table, Tag } from 'antd';
 import history from '~/history';
 import DeleteModal from '~/components/DeleteModal';
 import SearchBar from '~/components/SearchBar';
+import Button from '~/components/Button';
 
 const { Column } = Table;
 
@@ -143,7 +144,7 @@ class PaginationTable extends PureComponent {
   }
 
   render() {
-    const { columns, user } = this.props;
+    const { columns, user, itemIdentifier } = this.props;
     const isAdmin = user && user.role === 'ADMIN';
 
     return (
@@ -177,6 +178,24 @@ class PaginationTable extends PureComponent {
                     remove={this.props.remove}
                     fetch={this.fetch}
                   />
+                )}
+              />
+            )}
+            {itemIdentifier === 'korrekturen' && (
+              <Column
+                key="action"
+                title="Vorschau"
+                render={item => (
+                  <a
+                    href={`/vorschau/${item.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={evt => evt.stopPropagation()}
+                  >
+                    <Button
+                      icon="eye"
+                    />
+                  </a>
                 )}
               />
             )}
